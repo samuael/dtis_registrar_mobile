@@ -96,4 +96,28 @@ class AuthProvider {
       return null;
     }
   }
+
+  Future<MessageOnly> forgotPassword(String email) async {
+    try {
+      var response = await client.get(
+        Uri(
+            scheme: "http",
+            host: StaticDataStore.HOST,
+            port: StaticDataStore.PORT,
+            path: "/api/password/forgot/?email=$email"),
+      );
+      print("${response.statusCode}   ${response.body}");
+      if (response.statusCode == 200) {
+        var body = jsonDecode(response.body);
+        return MessageOnly.fromJson(body, true);
+      } else if (response.statusCode == 500) {
+        return MessageOnly("Internal Problem", false);
+      }
+      return MessageOnly("Sorry,problem happened, try again", false);
+    } catch (e, a) {
+      return MessageOnly(
+          "can't found the server \nplease check your internet connection",
+          false);
+    }
+  }
 }

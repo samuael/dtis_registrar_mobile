@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'libs.dart';
 
 void main() {
-  // runApp(MyApp());
-
   WidgetsFlutterBinding.ensureInitialized();
+  getDeviceType();
   runApp(
     MultiBlocProvider(
       providers: [
@@ -27,7 +26,15 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginScreen(),
+      home: AuthScreen(),
+      routes: {
+        AuthScreen.RouteName: (context) {
+          return AuthScreen();
+        },
+        HomeScreen.RouteName: (context) {
+          return HomeScreen();
+        },
+      },
     );
   }
 }

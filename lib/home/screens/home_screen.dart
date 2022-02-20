@@ -1,6 +1,9 @@
 import "../../libs.dart";
 
 class HomeScreen extends StatefulWidget {
+  // RouteName ...
+  static const String RouteName = "/homeScreenPath";
+
   HomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -14,81 +17,75 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Theme.of(context).primaryColor,
-        actions: [
-          Icon(
-            Icons.more,
-            color: Colors.blue,
-            size: 40,
-          )
-        ],
+        actions: [],
         centerTitle: true,
         title: Text(
-          "Welcome to DTIS",
+          "Home",
           style: TextStyle(
             color: Colors.white,
+            fontFamily: "Elegant TypeWriter",
           ),
         ),
       ),
-      body: Center(
-        child: Stack(children: [
+      drawer: MobileNavigations(),
+      body: Column(
+        children: [
           Container(
-              color: Theme.of(context).primaryColor,
-              height: MediaQuery.of(context).size.height * 0.9,
-              width: double.infinity,
-              child: Column(
-                children: [
-                  Container(
-                    color: Colors.white,
+            height: MediaQuery.of(context).size.height * 0.07,
+            width: MediaQuery.of(context).size.width,
+            color: Colors.blue,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                StaticDataStore.DType == DeviceType.Tablet ||
+                        StaticDataStore.DType == DeviceType.Phone
+                    ? Flexible(
+                        flex: 7,
+                        child: Container(
+                          child: null,
+                        ),
+                      )
+                    : Flexible(
+                        flex: 7,
+                        child: DesktopNavigationBar(),
+                      ),
+                // -----------------------
+                Flexible(
+                  flex: 1,
+                  child: GestureDetector(
                     child: ClipRRect(
-                      borderRadius: BorderRadius.only(
-                          bottomRight: Radius.elliptical(300, 100)),
+                      borderRadius: BorderRadius.circular(30),
                       child: Container(
-                        color: Theme.of(context).primaryColor,
-                        height: MediaQuery.of(context).size.height * 0.1,
+                        margin: EdgeInsets.only(
+                          // right: 20,
+                          top: 2,
+                        ),
+                        // width: 80,
+                        height: 60,
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          border: Border.all(
+                            color: Colors.white,
+                          ),
+                        ),
+                        child: Image.asset(
+                          "assets/icon_images/agri_net_final_temporary_logo.png",
+                        ),
                       ),
                     ),
                   ),
-                  ClipRRect(
-                    borderRadius:
-                        BorderRadius.only(topLeft: Radius.elliptical(300, 100)),
-                    child: Container(
-                      height: MediaQuery.of(context).size.height * 0.8,
-                      color: Colors.white,
-                    ),
-                  )
-                ],
-              )),
-          Center(
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.55,
-              width: MediaQuery.of(context).size.height * 0.5,
-              child: Center(
-                child: Card(
-                  elevation: 5,
-                  child: Center(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          child: Center(
-                            child: Text(
-                              " Home Screen ",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).primaryColor,
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
                 ),
-              ),
+              ],
             ),
           ),
-        ]),
+          Container(
+            height: MediaQuery.of(context).size.height * .75,
+            width: MediaQuery.of(context).size.width,
+            color: Colors.white,
+            child: CategoryLists(),
+          )
+        ],
       ),
     );
   }

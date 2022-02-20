@@ -9,4 +9,19 @@ class AuthAdminLoggedIn extends AuthBlocState {
   AuthAdminLoggedIn(this.admin);
 }
 
-class AuthAdminLoginNotSuccesful extends AuthBlocState {}
+class AuthAdminLoginNotSuccesful extends AuthBlocState {
+  String Msg;
+  AuthAdminLoginNotSuccesful(this.Msg);
+}
+
+class AuthAdminLoginOnProgress extends AuthBlocState {}
+
+// AuthForgotPasswordInProgress ....
+class AuthForgotPasswordInProgress extends AuthBlocState {}
+
+class AuthPasswordSentLoginAndChangePassword extends AuthBlocState {}
+
+class AuthForgotPasswordRequestFailed extends AuthBlocState {
+  String message;
+  AuthForgotPasswordRequestFailed(this.message);
+}

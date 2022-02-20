@@ -10,4 +10,8 @@ class AuthRepo {
   Future<Admin?> loginAdmin(String email, String password) async {
     return await this.provider!.loginAdmin(email, password);
   }
+
+  Future<MessageOnly> forgotPassword(String email) async {
+    return this.provider!.forgotPassword(email);
+  }
 }

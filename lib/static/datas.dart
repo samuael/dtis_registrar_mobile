@@ -1,5 +1,7 @@
+import '../../libs.dart';
+
 class StaticDataStore {
-  static const String HOST = "10.9.208.154";
+  static const String HOST = "10.5.202.116";
   static const int PORT = 8080;
   static const String SCHEME = "http://";
   static String get URI {
@@ -7,4 +9,11 @@ class StaticDataStore {
   }
 
   static String TOKEN = "";
+  static DeviceType DType = DeviceType.Unknown;
+
+  static bool isEmail(String email) {
+    return RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(email);
+  }
 }
