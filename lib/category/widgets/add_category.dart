@@ -1,4 +1,5 @@
 import "../../libs.dart";
+import 'package:image_picker/image_picker.dart';
 
 class AddCategoryScreen extends StatefulWidget {
   const AddCategoryScreen({Key? key}) : super(key: key);
@@ -9,6 +10,10 @@ class AddCategoryScreen extends StatefulWidget {
 
 class _AddCategoryScreenState extends State<AddCategoryScreen> {
   TextEditingController emailController = TextEditingController();
+  TextEditingController titleController = TextEditingController();
+  TextEditingController shortTitleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -34,7 +39,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
               ),
               TextField(
                 cursorColor: Theme.of(context).primaryColorLight,
-                controller: emailController,
+                controller: titleController,
                 decoration: InputDecoration(
                   labelText: " Title ",
                   fillColor: Colors.lightBlue,
@@ -49,7 +54,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
               ),
               TextField(
                 cursorColor: Theme.of(context).primaryColorLight,
-                controller: emailController,
+                controller: shortTitleController,
                 decoration: InputDecoration(
                   labelText: "Short Title",
                   fillColor: Colors.lightBlue,
@@ -64,7 +69,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
               ),
               TextField(
                 cursorColor: Theme.of(context).primaryColorLight,
-                controller: emailController,
+                controller: descriptionController,
                 decoration: InputDecoration(
                   labelText: "Description ",
                   fillColor: Colors.lightBlue,
@@ -88,10 +93,18 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      ImagePicker picker = ImagePicker();
+
+                      // final files = await picker.pickImage(source: ImageSource.gallery);
+                      picker.pickMultiImage();
+                      // if (files != null ){
+                      //   print("The Image is selected!");
+                      // }
+                    },
                     icon: Icon(
                       Icons.image,
-                      size: 55,
+                      size: 45,
                       color: Theme.of(context).primaryColor,
                     ),
                   ),

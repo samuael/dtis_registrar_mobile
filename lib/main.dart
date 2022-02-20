@@ -12,6 +12,9 @@ void main() {
           create: (context) =>
               AuthBloc(repo: AuthRepo(provider: AuthProvider())),
         ),
+        BlocProvider(
+          create:(context) => CategoriesBloc(CategoryInit()),
+        ),
       ],
       child: MyApp(),
     ),

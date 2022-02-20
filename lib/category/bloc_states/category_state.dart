@@ -15,3 +15,9 @@ class CategoriesLoadFailed extends CategoryBlocState{
   String reason;
   CategoriesLoadFailed(this.reason);
 }
+
+class CategoryCreationFailed extends CategoryBlocState{
+  int code;
+  String message;
+  CategoryCreationFailed({required this.code ,required this.message});
+}
