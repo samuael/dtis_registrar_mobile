@@ -1,8 +1,8 @@
 import 'package:drivers_dev/category/model/category.dart';
 
 final categories = [
-  Category(1, "Bajaj", "Baj", 5, ""),
-  Category(2, "Motor", "M1", 5, ""),
-  Category(3, "Derek", "D1", 5, ""),
-  Category(4, "Hizb And", "H1", 5, ""),
+  Category(id: 1, title: "Bajaj", shortTitle: "Baj", rounds: 5, imgurl: ""),
+  Category(id: 2, title: "Motor", shortTitle: "M1", rounds: 5, imgurl: ""),
+  Category(id: 3, title: "Derek", shortTitle: "D1", rounds: 5, imgurl: ""),
+  Category(id: 4, title: "Hizb And", shortTitle: "H1", rounds: 5, imgurl: ""),
 ];

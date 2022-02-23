@@ -4,17 +4,28 @@ import "../../libs.dart";
 class CategoryEvent {}
 
 // CategoriesLoad load all categories.
-class CategoriesLoad extends CategoryEvent{}
+class CategoriesLoadEvent extends CategoryEvent{}
 
-class CategoryCreateWithImage extends CategoryEvent{
+class CategoryCreateWithImageEvent extends CategoryEvent{
   final Category category;
   final XFile file;
 
-  CategoryCreateWithImage(this.category , this.file );
+  CategoryCreateWithImageEvent(this.category , this.file );
 }
 
 // CategoryCreateWithOutImage
-class CategoryCreateWithOutImage extends CategoryEvent{
+class CategoryCreateWithOutImageEvent extends CategoryEvent{
   final Category category;
-  CategoryCreateWithOutImage(this.category);
+  CategoryCreateWithOutImageEvent(this.category);
+}
+
+class CreateCategoriesLoadSuccessEvent extends CategoryEvent{
+  final List<Category> categories;
+
+  CreateCategoriesLoadSuccessEvent(this.categories);
+}
+
+class AddCategoryEvent extends CategoryEvent {
+  Category category;
+  AddCategoryEvent(this.category);
 }

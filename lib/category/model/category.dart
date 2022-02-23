@@ -5,21 +5,21 @@ class Category {
   int rounds;
   String imgurl;
 
-  Category(
-    this.id,
-    this.title,
-    this.shortTitle,
-    this.rounds,
-    this.imgurl,
-  );
+  Category({
+    this.id = 0,
+    required this.title,
+    required this.shortTitle,
+    required this.rounds,
+    this.imgurl = "",
+  });
 
   factory Category.fromJson(Map<String, dynamic> json) {
     return Category(
-      json["id"] as int,
-      json["title"],
-      json["short_title"],
-      json["rounds_count"],
-      json["imgurl"],
+      id: json["id"] as int,
+      title: json["title"],
+      shortTitle: json["short_title"],
+      rounds: json["rounds_count"],
+      imgurl: json["imgurl"],
     );
   }
 

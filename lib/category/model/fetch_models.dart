@@ -12,9 +12,9 @@ class LoadMessage {
 
 class LoadResponseMap {
   int status;
-  String error;
+  String msg;
   Map<String, dynamic>? data;
 
   LoadResponseMap(
-      {required this.status, required this.data, required this.error});
+      {required this.status, required this.data, required this.msg});
 }

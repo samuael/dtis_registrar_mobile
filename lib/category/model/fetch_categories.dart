@@ -11,6 +11,7 @@ class LoadCategories{
 class LoadCategory{
   int status;
   Category? category;
-  String? error ;
-  LoadCategory({required this.status , this.category, this.error });
+  String? msg ;
+
+  LoadCategory({required this.status , this.category , this.msg=""});
 }

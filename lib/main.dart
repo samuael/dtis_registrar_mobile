@@ -13,7 +13,7 @@ void main() {
               AuthBloc(repo: AuthRepo(provider: AuthProvider())),
         ),
         BlocProvider(
-          create:(context) => CategoriesBloc(CategoryInit()),
+          create: (context) => CategoriesBloc(CategoryInit()),
         ),
       ],
       child: MyApp(),
@@ -29,15 +29,32 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: AuthScreen(),
-      routes: {
-        AuthScreen.RouteName: (context) {
-          return AuthScreen();
-        },
-        HomeScreen.RouteName: (context) {
-          return HomeScreen();
-        },
+      onGenerateRoute: (routeSetting) {
+        switch (routeSetting.name) {
+          case CategoriesScreen.RouteName:
+            {
+              return MaterialPageRoute(builder: (context) {
+                final category = (routeSetting.arguments
+                    as Map<String, dynamic>)["category"];
+                return CategoriesScreen(category: category);
+              });
+            }
+          case HomeScreen.RouteName:
+            {
+              return MaterialPageRoute(builder: (context) {
+                return HomeScreen();
+              });
+            }
+          case AuthScreen.RouteName:
+            {
+              return MaterialPageRoute(builder: (context) {
+                return AuthScreen();
+              });
+            }
+        }
       },
+      initialRoute: AuthScreen.RouteName,
+      home: AuthScreen(),
     );
   }
 }

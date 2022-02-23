@@ -79,12 +79,14 @@ class AuthProvider {
         ),
         headers: {"Content-Type": "application/json"},
       );
-      print(response.statusCode);
-      print(response.body);
+
+      print(response.headers);
       if (response.statusCode == 200) {
         var body = jsonDecode(response.body) as Map<String, dynamic>;
-        print(response.body);
         if (body["success"] == true) {
+          StaticDataStore.HEADERS = response.headers;
+
+          // print("This is the token ${StaticDataStore.TOKEN} ");
           return Admin.fromJson(body["user"] as Map<String, dynamic>);
         }
         return null;

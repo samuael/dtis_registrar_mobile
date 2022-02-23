@@ -10,13 +10,15 @@ class CategoryLists extends StatefulWidget {
 
 class _CategoryListsState extends State<CategoryLists> {
   bool addCategory = false;
+  String createCategoryCommand = "Create ";
+  double labelOpacity = 0.5;
 
   CategoriesBloc? categoriesBloc;
   @override
   Widget build(BuildContext context) {
     categoriesBloc = BlocProvider.of<CategoriesBloc>(context);
     if (!(categoriesBloc!.state is CategoriesListSuccess)) {
-      categoriesBloc!.add(CategoriesLoad());
+      categoriesBloc!.add(CategoriesLoadEvent());
     }
     return Container(
         child: SafeArea(
@@ -52,7 +54,7 @@ class _CategoryListsState extends State<CategoryLists> {
                           ),
                           onPressed: () {
                             print("calling the load  categories");
-                            categoriesBloc!.add(CategoriesLoad());
+                            categoriesBloc!.add(CategoriesLoadEvent());
                           },
                           iconSize: 40,
                         ),
@@ -90,16 +92,59 @@ class _CategoryListsState extends State<CategoryLists> {
           Positioned(
             bottom: 10,
             right: 10,
-            child: FloatingActionButton(
-              onPressed: () {
-                setState(() {
-                  addCategory = !addCategory;
-                });
-              },
-              child: Icon(
-                addCategory ? Icons.close : Icons.add,
-                color: Colors.white,
-              ),
+            child: Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: AnimatedOpacity(
+                    duration: Duration(milliseconds: 500),
+                    opacity: labelOpacity,
+                    child: AnimatedContainer(
+                      duration: Duration(milliseconds:500),
+                      child: Container(
+                        padding: EdgeInsets.all(5),
+                        margin: EdgeInsets.only(right: 7),
+                        color: Theme.of(context).primaryColor,
+                        child: Text(createCategoryCommand,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "Elegant TypeWriter",
+                              color: Colors.white,
+                              fontSize: 25,
+                            )),
+                      ),
+                    ),
+                  ),
+                ),
+                MouseRegion(
+                  onEnter: (pointer) {
+                    setState(() {
+                      labelOpacity = 1;
+                    });
+                  },
+                  onExit: (pointer) {
+                    setState(() {
+                      labelOpacity = 0.5;
+                    });
+                  },
+                  child: FloatingActionButton(
+                    onPressed: () {
+                      setState(() {
+                        addCategory = !addCategory;
+                        if (!addCategory) {
+                          createCategoryCommand = "Create ";
+                        } else {
+                          createCategoryCommand = "Close";
+                        }
+                      });
+                    },
+                    child: Icon(
+                      addCategory ? Icons.close : Icons.add,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
