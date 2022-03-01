@@ -15,6 +15,9 @@ void main() {
         BlocProvider(
           create: (context) => CategoriesBloc(CategoryInit()),
         ),
+        BlocProvider(
+          create : (context)=> NavigationIndexBloc(1),
+        ),
       ],
       child: MyApp(),
     ),
@@ -49,6 +52,11 @@ class MyApp extends StatelessWidget {
             {
               return MaterialPageRoute(builder: (context) {
                 return AuthScreen();
+              });
+            }
+            case StudentsScreen.RouteName :{
+              return MaterialPageRoute( builder: (context){
+                return StudentsScreen();
               });
             }
         }

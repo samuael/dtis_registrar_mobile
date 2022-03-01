@@ -16,14 +16,14 @@ class Desktop_NavigationBarState extends State<DesktopNavigationBar> {
         children: [
           GestureDetector(
             onTap: () {
-              // -----------------------
+              context.read<NavigationIndexBloc>().add(1);
             },
             child: Container(
               child: Row(
                 children: [
                   Icon(Icons.category, color: Colors.white),
                   Text(
-                    "  Categories",
+                    " Categories ",
                     style: TextStyle(
                       fontFamily: "Elegant TypeWriter-Bold",
                       fontWeight: FontWeight.bold,
@@ -36,7 +36,9 @@ class Desktop_NavigationBarState extends State<DesktopNavigationBar> {
             ),
           ),
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+                context.read<NavigationIndexBloc>().add(2);
+            },
             child: Container(
               padding: EdgeInsets.symmetric(
                 vertical: 10,
@@ -59,7 +61,9 @@ class Desktop_NavigationBarState extends State<DesktopNavigationBar> {
             ),
           ),
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+                context.read<NavigationIndexBloc>().add(3);
+            },
             child: Container(
               child: Row(
                 children: [
@@ -78,13 +82,15 @@ class Desktop_NavigationBarState extends State<DesktopNavigationBar> {
             ),
           ),
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+                context.read<NavigationIndexBloc>().add(4);
+            },
             child: Container(
               child: Row(
                 children: [
                   Icon(Icons.document_scanner_sharp, color: Colors.white),
                   Text(
-                    "  Documents",
+                    "  Payments",
                     style: TextStyle(
                         fontFamily: "Elegant TypeWriter-Bold",
                         fontWeight: FontWeight.bold,
@@ -96,13 +102,15 @@ class Desktop_NavigationBarState extends State<DesktopNavigationBar> {
             ),
           ),
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+                context.read<NavigationIndexBloc>().add(5);
+            },
             child: Container(
               child: Row(
                 children: [
-                  Icon(Icons.album_rounded, color: Colors.white),
+                  Icon(Icons.payment_rounded, color: Colors.white),
                   Text(
-                    " Rounds",
+                    " Payments",
                     style: TextStyle(
                       fontFamily: "Elegant TypeWriter-Bold",
                       fontWeight: FontWeight.bold,
@@ -115,7 +123,9 @@ class Desktop_NavigationBarState extends State<DesktopNavigationBar> {
             ),
           ),
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+                context.read<NavigationIndexBloc>().add(6);
+            },
             child: Container(
               child: Row(
                 children: [

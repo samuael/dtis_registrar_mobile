@@ -41,7 +41,9 @@ class _MobileNavigationsState extends State<MobileNavigations> {
                   fontFamily: "Elegant TypeWriter",
                 ),
               ),
-              onTap: () {},
+              onTap: () {
+                context.read<NavigationIndexBloc>().add(1);
+              },
             ),
             ListTile(
               leading: Icon(
@@ -55,7 +57,9 @@ class _MobileNavigationsState extends State<MobileNavigations> {
                   fontFamily: "Elegant TypeWriter",
                 ),
               ),
-              onTap: () {},
+              onTap: () {
+                context.read<NavigationIndexBloc>().add(2);
+              },
             ),
             // "Deactivate": [Icons.settings, "/"],
             ListTile(
@@ -70,7 +74,9 @@ class _MobileNavigationsState extends State<MobileNavigations> {
                   fontFamily: "Elegant TypeWriter",
                 ),
               ),
-              onTap: () {},
+              onTap: () {
+                context.read<NavigationIndexBloc>().add(3);
+              },
             ),
             ListTile(
               leading: Icon(
@@ -84,7 +90,9 @@ class _MobileNavigationsState extends State<MobileNavigations> {
                   fontFamily: "Elegant TypeWriter",
                 ),
               ),
-              onTap: () {},
+              onTap: () {
+                context.read<NavigationIndexBloc>().add(4);
+              },
             ),
             ListTile(
               leading: Icon(
@@ -92,13 +100,15 @@ class _MobileNavigationsState extends State<MobileNavigations> {
                 color: Colors.white,
               ),
               title: Text(
-                " Documents",
+                " Payments",
                 style: TextStyle(
                   color: Colors.white,
                   fontFamily: "Elegant TypeWriter",
                 ),
               ),
-              onTap: () {},
+              onTap: () {
+                context.read<NavigationIndexBloc>().add(5);
+              },
             ),
             ListTile(
               leading: Icon(
@@ -112,7 +122,9 @@ class _MobileNavigationsState extends State<MobileNavigations> {
                   fontFamily: "Elegant TypeWriter",
                 ),
               ),
-              onTap: () {},
+              onTap: () {
+                context.read<NavigationIndexBloc>().add(6);
+              },
             )
           ],
         ),

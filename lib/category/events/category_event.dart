@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:image_picker/image_picker.dart';
 
 import "../../libs.dart";
@@ -28,4 +30,11 @@ class CreateCategoriesLoadSuccessEvent extends CategoryEvent{
 class AddCategoryEvent extends CategoryEvent {
   Category category;
   AddCategoryEvent(this.category);
+}
+
+class UploadCategoryProfilEvent extends CategoryEvent {
+  String imgurl;
+  int categoryid;
+  
+  UploadCategoryProfilEvent(this.imgurl , this.categoryid);
 }

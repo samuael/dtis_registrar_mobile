@@ -11,6 +11,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final List<Widget> navigations = [
+    CategoryLists(),
+    StudentsPage(),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +54,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         flex: 7,
                         child: DesktopNavigationBar(),
                       ),
-                // -----------------------
                 Flexible(
                   flex: 1,
                   child: GestureDetector(
@@ -70,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         child: Image.asset(
-                          "assets/icon_images/agri_net_final_temporary_logo.png",
+                          "assets/icon_images/car-middle.gif",
                         ),
                       ),
                     ),
@@ -79,12 +82,13 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          Container(
+          BlocBuilder<NavigationIndexBloc, int>( builder : (context , state ){ 
+            return Container(
             height: MediaQuery.of(context).size.height * .75,
             width: MediaQuery.of(context).size.width,
             color: Colors.white,
-            child: CategoryLists(),
-          )
+            child: navigations[state-1],
+          );})
         ],
       ),
     );

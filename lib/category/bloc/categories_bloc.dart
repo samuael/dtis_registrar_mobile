@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import '../../libs.dart';
 
 // CategoriesBloc ...
@@ -24,8 +26,23 @@ class CategoriesBloc extends Bloc<CategoryEvent, CategoryBlocState>
       yield CategoryInit();
       (categoriesState as CategoriesListSuccess).categories.add(event.category);
       yield categoriesState;
+    } else if(event is UploadCategoryProfilEvent){
+      final categoriesState = this.state;
+      yield CategoryInit();
+      for(int a =0; a< (categoriesState as CategoriesListSuccess ).categories.length; a++ ){
+        if(event.categoryid== (categoriesState).categories[a].id){
+          (categoriesState).categories[a].imgurl= event.imgurl;
+        }
+      }
+      yield categoriesState;
     }
-    // -----------------------------------------------------------------
+
+  }
+
+  Future<ImageUploadResponse> uploadCategoryPicture(File image,int categoryid)async{
+      return this
+          .repository
+          .uploadCategoryPicture(image, categoryid);
   }
 
   Future<CategoryCreationMessage> createCategoryWithOutImage(
@@ -34,11 +51,8 @@ class CategoriesBloc extends Bloc<CategoryEvent, CategoryBlocState>
         await this.repository.createCategoryWithoutImage(event.category);
     if (result.category != null) {
       if (this.state is CategoriesListSuccess) {
-        // (this.state as CategoriesListSuccess).categories.add(result.category!);
-        // final newState = (this.state as CategoriesListSuccess).categories;
-        // this.mapEventToState(CreateCategoriesLoadSuccessEvent(newState));
         return CategoryCreationMessage(
-          category : result.category,
+            category: result.category,
             code: result.status,
             message: result.msg ?? "category creation was succesful");
       }

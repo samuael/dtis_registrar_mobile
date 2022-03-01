@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:drivers_dev/category/model/fetch_models.dart';
 import "package:http/http.dart";
 import "../../libs.dart";
@@ -18,7 +20,6 @@ class CategoryDataProvider {
       );
       if (response.statusCode == 200) {
         final body = jsonDecode(response.body);
-        //  lets cast each element of the 'body' to Map<String, dynamic > from dynamic
         final modified = body.map<Map<String, dynamic>>((e) {
           return (e as Map<String, dynamic>);
         }).toList();
@@ -70,49 +71,49 @@ class CategoryDataProvider {
     }
   }
 
+  Future<ImageUploadResponse> uploadCategoryPicture(
+      File _image, int categoryID) async {
+    try {
+      var stream = ByteStream(_image.openRead());
+      var length = await _image.length();
+      var request = MultipartRequest(
+        "PUT",
+        Uri(
+            host: StaticDataStore.HOST,
+            scheme: "http",
+            port: StaticDataStore.PORT,
+            path: "/api/admin/category/image",
+            // queryParameters: {"id": categoryID},
+            query: "id=$categoryID"),
+      );
+      request.headers.addAll(
+          {"Authorization": StaticDataStore.HEADERS["authorization"] ?? ""});
+      var multipartFile =
+          MultipartFile('image', stream, length, filename: "frmMoile.jpg");
+      request.files.add(multipartFile);
+      // request.fields.addAll({"id": categoryID});
+      final response = await request.send();
 
-  // Future<SimpleMessage> addProfilePicture(XFile _image) async {
-  //   final headers = {"Authorization", "Bearer ${StaticDataStore.TOKEN}"};
-  //   // var stream = new http.ByteStream(DelegatingStream.typed(_image.openRead()));
-  //   try {
-  //     print("To Be Sent .... ");
-  //     var stream = ByteStream(_image.openRead());
-  //     var length = await _image.length();
-  //     final Map<String, String> header = {
-  //       "Authorization": "Bearer " + StaticDataStore.TOKEN
-  //     };
-  //     // var uri = Uri.parse("${HOST}api/user/img/");
-  //     var request = MultipartRequest(
-  //       "POST",
-  //       Uri(
-  //           host: StaticDataStore.HOST,
-  //           scheme: "http",
-  //           port: StaticDataStore.PORT,
-  //           path: "/api/maid/profile/add/"),
-  //     );
-
-  //     var multipartFile =
-  //         MultipartFile('image', stream, length, filename: "frmMoile.jpg");
-  //     // add file to multipart
-  //     request.files.add(multipartFile);
-  //     request.headers.addAll(header);
-  //     final response = await request.send();
-
-  //     print(response.stream.toString());
-  //     if (response.statusCode == 200 || response.statusCode == 201) {
-  //       final jsonBody = jsonDecode(await response.stream.bytesToString());
-  //       print(jsonBody);
-  //       if (jsonBody["msg"] != "") {
-  //         return SimpleMessage(msg: jsonBody["msg"] as String, success: true);
-  //       } else {
-  //         return SimpleMessage(msg: "invalid response body", success: false);
-  //       }
-  //     }
-  //     return SimpleMessage(msg: "", success: false);
-  //   } catch (e) {
-  //     print(e.toString());
-  //     return SimpleMessage(msg: "server error ", success: false);
-  //   }
-  // }
-
+      print(response.stream.toString());
+      final jsonBody = jsonDecode(await response.stream.bytesToString());
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (jsonBody["msg"] != "") {
+          return ImageUploadResponse(categoryID, jsonBody["msg"],
+              msg: STATUS_CODES[response.statusCode]);
+        } else {
+          return ImageUploadResponse(categoryID, "",
+              msg: STATUS_CODES[response.statusCode]);
+        }
+      }
+      if (jsonBody["err"] == "") {
+        return ImageUploadResponse(categoryID, "",
+            msg: STATUS_CODES[response.statusCode]);
+      }
+      return ImageUploadResponse(categoryID, "", msg: jsonBody["err"]);
+    } catch (e) {
+      print(e.toString());
+      return ImageUploadResponse(categoryID, "",
+          msg: "error while uploading an Imange");
+    }
+  }
 }

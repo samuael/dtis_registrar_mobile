@@ -1,5 +1,6 @@
-import 'package:drivers_dev/category/model/fetch_categories.dart';
-import "../../libs.dart" show Category, CategoryDataProvider, LoadCategories;
+import 'dart:io';
+
+import "../../libs.dart" show Category, CategoryDataProvider, LoadCategories, LoadCategory, ImageUploadResponse;
 
 class CategoryRepository {
   CategoryDataProvider provider = CategoryDataProvider();
@@ -35,4 +36,10 @@ class CategoryRepository {
     return LoadCategory(
         status: loadResponse.status, category: null, msg: loadResponse.msg);
   }
+
+  // uploadCategoryPicture ...
+  Future<ImageUploadResponse> uploadCategoryPicture(File file , int categoryid)async {
+    return this.provider.uploadCategoryPicture(file, categoryid );
+  }
+
 }

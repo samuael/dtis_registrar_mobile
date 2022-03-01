@@ -1,6 +1,7 @@
+import 'dart:io';
 import "dart:ui" as ui;
 import "../../libs.dart";
-import 'package:image_picker/image_picker.dart';
+import 'package:file_picker/file_picker.dart';
 
 class CategoryItem extends StatefulWidget {
   final Category category;
@@ -16,8 +17,45 @@ class CategoryItemState extends State<CategoryItem> {
   double elevation = 8;
   double _imageSelectOpacity = 0.2;
   double _paddingLeft = 200;
+
+  Future<void> uploadImage(BuildContext context) async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      File file = File(result.files.single.path!);
+      // context.read<CategoriesBloc>().add(UploadCategoryProfilEvent());
+      final response = await context
+          .read<CategoriesBloc>()
+          .uploadCategoryPicture(file, this.widget.category.id);
+
+      if ((response).imgurl != "") {
+        context
+            .read<CategoriesBloc>()
+            .add(UploadCategoryProfilEvent((response).imgurl, response.id));
+      } else {
+        final snackBar = SnackBar(
+          backgroundColor: Theme.of(context).primaryColor,
+          content: Text(response.msg!,
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              )),
+          action: SnackBarAction(
+            textColor: Colors.white,
+            label: 'Retry',
+            onPressed: () {
+              uploadImage(context);
+            },
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(StaticDataStore.SCHEME+StaticDataStore.HOST+":${StaticDataStore.PORT}/"+widget.category.imgurl);
     return MouseRegion(
       onEnter: (point) {
         setState(() {
@@ -57,9 +95,13 @@ class CategoryItemState extends State<CategoryItem> {
                                   : MediaQuery.of(context).size.width * 0.75),
                           child: widget.category.imgurl == ""
                               ? Image.asset(
-                                  "assets/images/BAJAJ-MOTORS-RE-4S-10355_3.jpg",
+                                  "assets/images/car-middle.gif",
+                                  fit: BoxFit.fill,
                                 )
-                              : Image.network(widget.category.imgurl),
+                              : Image.network(
+                                StaticDataStore.SCHEME+StaticDataStore.HOST+":${StaticDataStore.PORT}/"+widget.category.imgurl,
+                                fit: BoxFit.fill,
+                                ),
                         ),
                         Positioned(
                           bottom: 0,
@@ -80,14 +122,8 @@ class CategoryItemState extends State<CategoryItem> {
                             },
                             child: GestureDetector(
                               onTap: () {
-                                setState(() async {
-                                  ImagePicker picker = ImagePicker();
-                                  final files = await picker.pickImage(
-                                      source: ImageSource.gallery);
-                                  picker.pickMultiImage();
-                                  if (files != null) {
-                                    print("The Image is selected!");
-                                  }
+                                setState(() {
+                                  uploadImage(context);
                                 });
                               },
                               child: AnimatedOpacity(
@@ -145,19 +181,6 @@ class CategoryItemState extends State<CategoryItem> {
                             ],
                           ),
                         ),
-                        // Expanded(
-                        //   flex: 1,
-                        //   child: FlatButton.icon(
-                        //     onPressed: () {},
-                        //     icon: Icon(
-                        //       Icons.edit,
-                        //       color: Theme.of(context).primaryColor,
-                        //     ),
-                        //     label: Text(
-                        //       "Edit",
-                        //     ),
-                        //   ),
-                        // ),
                       ],
                     ),
                   ),

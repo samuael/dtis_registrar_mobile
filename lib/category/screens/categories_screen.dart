@@ -10,7 +10,7 @@ class CategoriesScreen extends StatefulWidget {
 }
 
 class _CategoriesScreenState extends State<CategoriesScreen> {
-  bool zeBoolean = false;
+  bool zeBoolean = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +27,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           ),
         ),
       ),
-      drawer: MobileNavigations(),
+      // drawer: MobileNavigations(),
       body: Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,11 +59,28 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   ),
                                   ListTile(
                                     title: Text(
-                                      "Setting One",
+                                      "Rounds",
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
                                       ),
+                                    ),
+                                    trailing: Icon(
+                                      Icons.settings,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  ListTile(
+                                    title: Text(
+                                      "Students",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    trailing: Icon(
+                                      Icons.person_search,
+                                      color: Colors.white,
                                     ),
                                   ),
                                   ListTile(
@@ -104,7 +121,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   ),
                                   ListTile(
                                     title: Text(
-                                      "Setting One",
+                                      "",
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
@@ -113,16 +130,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   ),
                                   ListTile(
                                     title: Text(
-                                      "Setting One",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                  ListTile(
-                                    title: Text(
-                                      "Setting One",
+                                      "Create Round",
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
