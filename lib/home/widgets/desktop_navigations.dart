@@ -19,15 +19,17 @@ class Desktop_NavigationBarState extends State<DesktopNavigationBar> {
               context.read<NavigationIndexBloc>().add(1);
             },
             child: Container(
+              padding : EdgeInsets.symmetric(horizontal: 10 , vertical : 3),
+              // color : Theme.of(context).primaryColorLight,
               child: Row(
                 children: [
-                  Icon(Icons.category, color: Colors.white),
+                  Icon(Icons.category, color: context.watch<NavigationIndexBloc>().state==1 ? Colors.amberAccent : Colors.white),
                   Text(
                     " Categories ",
                     style: TextStyle(
                       fontFamily: "Elegant TypeWriter-Bold",
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: context.watch<NavigationIndexBloc>().state==1 ? Colors.amberAccent : Colors.white,
                       fontSize: 17,
                     ),
                   ),
@@ -46,13 +48,13 @@ class Desktop_NavigationBarState extends State<DesktopNavigationBar> {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.people, color: Colors.white),
+                  Icon(Icons.people, color: context.watch<NavigationIndexBloc>().state==2 ? Colors.amberAccent : Colors.white),
                   Text(
                     "  Students",
                     style: TextStyle(
                       fontFamily: "Elegant TypeWriter-Bold",
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: context.watch<NavigationIndexBloc>().state==2 ? Colors.amberAccent : Colors.white,
                       fontSize: 17,
                     ),
                   ),
@@ -67,14 +69,14 @@ class Desktop_NavigationBarState extends State<DesktopNavigationBar> {
             child: Container(
               child: Row(
                 children: [
-                  Icon(Icons.app_registration, color: Colors.white),
+                  Icon(Icons.app_registration, color: context.watch<NavigationIndexBloc>().state==3 ? Colors.amberAccent : Colors.white),
                   Text(
                     "  Registration",
                     style: TextStyle(
                       fontFamily: "Elegant TypeWriter-Bold",
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      fontSize: 17,
+                      color: context.watch<NavigationIndexBloc>().state==3 ? Colors.amberAccent : Colors.white,
+                      fontSize: 17, 
                     ),
                   ),
                 ],
@@ -88,13 +90,13 @@ class Desktop_NavigationBarState extends State<DesktopNavigationBar> {
             child: Container(
               child: Row(
                 children: [
-                  Icon(Icons.document_scanner_sharp, color: Colors.white),
+                  Icon(Icons.document_scanner_sharp, color: context.watch<NavigationIndexBloc>().state==4 ? Colors.amberAccent : Colors.white),
                   Text(
                     "  Payments",
                     style: TextStyle(
                         fontFamily: "Elegant TypeWriter-Bold",
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: context.watch<NavigationIndexBloc>().state==4 ? Colors.amberAccent : Colors.white,
                         fontSize: 17),
                   ),
                 ],
@@ -108,13 +110,13 @@ class Desktop_NavigationBarState extends State<DesktopNavigationBar> {
             child: Container(
               child: Row(
                 children: [
-                  Icon(Icons.payment_rounded, color: Colors.white),
+                  Icon(Icons.payment_rounded, color: context.watch<NavigationIndexBloc>().state==5 ? Colors.amberAccent : Colors.white),
                   Text(
                     " Payments",
                     style: TextStyle(
                       fontFamily: "Elegant TypeWriter-Bold",
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: context.watch<NavigationIndexBloc>().state==5 ? Colors.amberAccent : Colors.white,
                       fontSize: 17,
                     ),
                   ),
@@ -129,13 +131,13 @@ class Desktop_NavigationBarState extends State<DesktopNavigationBar> {
             child: Container(
               child: Row(
                 children: [
-                  Icon(Icons.notifications, color: Colors.white),
+                  Icon(Icons.notifications, color: context.watch<NavigationIndexBloc>().state==6 ? Colors.amberAccent : Colors.white),
                   Text(
                     "  Notification",
                     style: TextStyle(
                       fontFamily: "Elegant TypeWriter-Bold",
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: context.watch<NavigationIndexBloc>().state==6 ? Colors.amberAccent : Colors.white,
                       fontSize: 17,
                     ),
                   ),

@@ -16,7 +16,10 @@ void main() {
           create: (context) => CategoriesBloc(CategoryInit()),
         ),
         BlocProvider(
-          create : (context)=> NavigationIndexBloc(1),
+          create: (context) => NavigationIndexBloc(1),
+        ),
+        BlocProvider(
+          create: (context) => CategoryOptionIndexBloc(),
         ),
       ],
       child: MyApp(),
@@ -39,7 +42,7 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(builder: (context) {
                 final category = (routeSetting.arguments
                     as Map<String, dynamic>)["category"];
-                return CategoriesScreen(category: category);
+                return CategoriesScreen(categoryId: (category as Category).id);
               });
             }
           case HomeScreen.RouteName:
@@ -54,8 +57,9 @@ class MyApp extends StatelessWidget {
                 return AuthScreen();
               });
             }
-            case StudentsScreen.RouteName :{
-              return MaterialPageRoute( builder: (context){
+          case StudentsScreen.RouteName:
+            {
+              return MaterialPageRoute(builder: (context) {
                 return StudentsScreen();
               });
             }

@@ -35,6 +35,15 @@ class AddCategoryEvent extends CategoryEvent {
 class UploadCategoryProfilEvent extends CategoryEvent {
   String imgurl;
   int categoryid;
-  
   UploadCategoryProfilEvent(this.imgurl , this.categoryid);
+}
+
+class LoadRoundsOfACategoryEvent extends CategoryEvent {
+  int categoryID;
+  LoadRoundsOfACategoryEvent(this.categoryID); 
+}
+
+class CategoryStudentsQuantityEvent extends CategoryEvent {
+    int categoryID;
+    CategoryStudentsQuantityEvent(this.categoryID);
 }

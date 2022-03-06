@@ -9,6 +9,16 @@ class CategoryInit extends CategoryBlocState {}
 class CategoriesListSuccess extends CategoryBlocState {
   List<Category> categories;
   CategoriesListSuccess(this.categories);
+
+
+  Category? getCategoryByID(int id ){
+    for(Category c in this.categories){
+      if (c.id == id ){
+        return c;
+      }
+    }
+    return null;
+  }
 }
 
 // CategoriesLoadFailed

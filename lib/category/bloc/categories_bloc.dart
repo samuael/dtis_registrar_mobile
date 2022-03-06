@@ -26,23 +26,54 @@ class CategoriesBloc extends Bloc<CategoryEvent, CategoryBlocState>
       yield CategoryInit();
       (categoriesState as CategoriesListSuccess).categories.add(event.category);
       yield categoriesState;
-    } else if(event is UploadCategoryProfilEvent){
+    } else if (event is UploadCategoryProfilEvent) {
       final categoriesState = this.state;
       yield CategoryInit();
-      for(int a =0; a< (categoriesState as CategoriesListSuccess ).categories.length; a++ ){
-        if(event.categoryid== (categoriesState).categories[a].id){
-          (categoriesState).categories[a].imgurl= event.imgurl;
+      for (int a = 0;
+          a < (categoriesState as CategoriesListSuccess).categories.length;
+          a++) {
+        if (event.categoryid == (categoriesState).categories[a].id) {
+          (categoriesState).categories[a].imgurl = event.imgurl;
         }
       }
       yield categoriesState;
+    } else if (event is CategoryStudentsQuantityEvent) {
+      if (!(this.state is CategoriesListSuccess)) {
+        return;
+      }
+      final result =
+          await this.repository.loadCategoryStudentsQuantity(event.categoryID);
+      final tempostate = this.state;
+      yield (CategoryInit());
+      for (Category ca in (tempostate as CategoriesListSuccess).categories) {
+        if (ca.id == result.categoryid) {
+          ca.activeStudentsQuantity = result.activeStudents;
+          ca.studentsQuantity = result.allStudents;
+        }
+      }
+      yield tempostate;
+    } else if (event is LoadRoundsOfACategoryEvent) {
+      if (!(this.state is CategoriesListSuccess)) {
+        return;
+      }
+      final rounds =
+          await this.repository.loadCategoriesOfRound(event.categoryID);
+      if (rounds.length > 0) {
+        final states = this.state;
+        yield (CategoryInit());
+        for (Category cat in (states as CategoriesListSuccess).categories) {
+          if(cat.id == event.categoryID){
+            cat.rounds = rounds;
+          }
+        }
+        yield (states);
+      }
     }
-
   }
 
-  Future<ImageUploadResponse> uploadCategoryPicture(File image,int categoryid)async{
-      return this
-          .repository
-          .uploadCategoryPicture(image, categoryid);
+  Future<ImageUploadResponse> uploadCategoryPicture(
+      File image, int categoryid) async {
+    return this.repository.uploadCategoryPicture(image, categoryid);
   }
 
   Future<CategoryCreationMessage> createCategoryWithOutImage(

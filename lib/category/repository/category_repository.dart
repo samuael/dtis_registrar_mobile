@@ -1,6 +1,14 @@
 import 'dart:io';
 
-import "../../libs.dart" show Category, CategoryDataProvider, LoadCategories, LoadCategory, ImageUploadResponse;
+import "../../libs.dart"
+    show
+        Category,
+        CategoryDataProvider,
+        ImageUploadResponse,
+        LoadCategories,
+        LoadCategory,
+        Round,
+        CategoryStudentsQuantity;
 
 class CategoryRepository {
   CategoryDataProvider provider = CategoryDataProvider();
@@ -22,9 +30,9 @@ class CategoryRepository {
   Future<LoadCategory> createCategoryWithoutImage(Category category) async {
     final loadResponse =
         await this.provider.createCategoryWithoutImage(category);
-    if ((loadResponse!.status == 201 || loadResponse!.status == 200) && loadResponse!.data != null) {
-      final category =
-          Category.fromJson(loadResponse!.data!);
+    if ((loadResponse!.status == 201 || loadResponse!.status == 200) &&
+        loadResponse!.data != null) {
+      final category = Category.fromJson(loadResponse!.data!);
       return LoadCategory(
           status: loadResponse.status,
           category: category,
@@ -38,8 +46,26 @@ class CategoryRepository {
   }
 
   // uploadCategoryPicture ...
-  Future<ImageUploadResponse> uploadCategoryPicture(File file , int categoryid)async {
-    return this.provider.uploadCategoryPicture(file, categoryid );
+  Future<ImageUploadResponse> uploadCategoryPicture(
+      File file, int categoryid) async {
+    return this.provider.uploadCategoryPicture(file, categoryid);
   }
 
+  Future<List<Round>> loadCategoriesOfRound(int categoryid) async {
+    final listofroundmaps =
+        ((await this.provider.loadCategoriesOfRound(categoryid)) ?? []);
+    for (int a = 0; a < listofroundmaps.length; a++) {
+      if (listofroundmaps[a] == null) {
+        listofroundmaps.removeAt(a);
+      }
+    }
+    final listofRounds =
+        Round.fromJsonList(listofroundmaps as List<Map<String, dynamic>>);
+    return listofRounds;
+  }
+
+  Future<CategoryStudentsQuantity> loadCategoryStudentsQuantity(
+      int categoryID) async {
+    return await this.provider.loadCategoryStudentsQuantity(categoryID);
+  }
 }

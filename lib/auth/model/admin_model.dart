@@ -4,17 +4,17 @@ class Admin {
   int id;
   String fullname;
   String email;
-  String password;
   bool superadmin;
   String imgurl;
+  Date? createdAt;
 
   Admin({
     required this.id,
     required this.fullname,
     required this.email,
-    required this.password,
     required this.superadmin,
     required this.imgurl,
+    this.createdAt,
   });
 
   factory Admin.fromJson(Map<String, dynamic> json) {
@@ -22,9 +22,9 @@ class Admin {
       id: int.parse("${json['id']}"),
       fullname: json["fullname"],
       email: json["email"],
-      password: json["password"],
       superadmin: json["superadmin"],
       imgurl: json["imgurl"],
+      createdAt: Date.fromJson(json["created_at"]),
     );
   }
 
@@ -33,9 +33,9 @@ class Admin {
       "id": this.id,
       "fullname": this.fullname,
       "email": this.email,
-      "password": this.password, //
       "superadmin": this.superadmin,
       "imgurl": this.imgurl,
+      "created_at" : this.createdAt!.toJson() , 
     };
   }
 }

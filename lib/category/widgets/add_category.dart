@@ -134,7 +134,8 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                     Category cat = Category(
                       title: title,
                       shortTitle: shortTitle,
-                      rounds: 0,
+                      numberOfRounds: 0,
+                      createdAt: Date(), 
                     );
                     if (categoryImage == null) {
                       final result =

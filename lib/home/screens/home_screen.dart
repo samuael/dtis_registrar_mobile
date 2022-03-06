@@ -33,6 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       drawer: MobileNavigations(),
       body: Column(
+        mainAxisSize: MainAxisSize.max,
         children: [
           Container(
             height: MediaQuery.of(context).size.height * 0.07,
@@ -82,13 +83,31 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          BlocBuilder<NavigationIndexBloc, int>( builder : (context , state ){ 
-            return Container(
-            height: MediaQuery.of(context).size.height * .75,
-            width: MediaQuery.of(context).size.width,
-            color: Colors.white,
-            child: navigations[state-1],
-          );})
+          BlocBuilder<NavigationIndexBloc, int>(
+            builder: (context, state) {
+              return Container(
+                height: MediaQuery.of(context).size.height * .82,
+                width: MediaQuery.of(context).size.width,
+                color: Colors.white,
+                child: navigations[state - 1],
+              );
+            },
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(
+              vertical: 3,
+            ),
+            color: Theme.of(context).primaryColor,
+            child: Center(
+              child: Text(
+                " Drivers Training Institute Registration System ",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

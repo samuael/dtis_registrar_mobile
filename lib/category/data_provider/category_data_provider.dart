@@ -62,7 +62,6 @@ class CategoryDataProvider {
         );
       }
     } catch (e, a) {
-      print(e);
       return LoadResponseMap(
         status: 500,
         data: null,
@@ -114,6 +113,60 @@ class CategoryDataProvider {
       print(e.toString());
       return ImageUploadResponse(categoryID, "",
           msg: "error while uploading an Imange");
+    }
+  }
+
+  Future<List<Map<String, dynamic>?>?> loadCategoriesOfRound(
+      int categoryid) async {
+    print(" Loading Rounds of a Category");
+    try {
+      var response = await client.get(
+        Uri(
+          scheme: "http",
+          host: StaticDataStore.HOST,
+          port: StaticDataStore.PORT,
+          path: "/api/category/rounds",
+          queryParameters: {"category_id": "$categoryid"},
+        ),
+        headers: {
+          "Authorization": StaticDataStore.HEADERS["authorization"] ?? ""
+        },
+      );
+      // -------------------------------------------------------------------
+      print(" Rounds of Category : -------------- ${response.statusCode}  ");
+      print(response.body.toString());
+      final body = ((jsonDecode(response.body)?? []) as List<dynamic>)
+          .map((e) => (e as Map<String, dynamic>))
+          .toList();
+      return body;
+    } catch (e, a) {
+      print(" Rounds of Category : -------------- ${"this is error"}  ");
+      print(e.toString());
+      return [];
+    }
+  }
+
+  Future<CategoryStudentsQuantity> loadCategoryStudentsQuantity(
+      int categoryID) async {
+    try {
+      var response = await client.get(
+        Uri(
+            scheme: "http",
+            host: StaticDataStore.HOST,
+            port: StaticDataStore.PORT,
+            path: "/api/category/students/quantity",
+            queryParameters: {"category_id": "$categoryID"}),
+        headers: {
+          "Authorization": StaticDataStore.HEADERS["authorization"] ?? ""
+        },
+      );
+      if (response.statusCode == 200) {
+        final body = jsonDecode(response.body);
+        return CategoryStudentsQuantity.fromJson(body, categoryID);
+      }
+      return CategoryStudentsQuantity.fromJson(null, categoryID);
+    } catch (e, a) {
+      return CategoryStudentsQuantity.fromJson(null, categoryID);
     }
   }
 }
