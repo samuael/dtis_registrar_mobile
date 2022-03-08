@@ -132,15 +132,13 @@ class CategoryDataProvider {
           "Authorization": StaticDataStore.HEADERS["authorization"] ?? ""
         },
       );
-      // -------------------------------------------------------------------
       print(" Rounds of Category : -------------- ${response.statusCode}  ");
       print(response.body.toString());
-      final body = ((jsonDecode(response.body)?? []) as List<dynamic>)
+      final body = ((jsonDecode(response.body) ?? []) as List<dynamic>)
           .map((e) => (e as Map<String, dynamic>))
           .toList();
       return body;
     } catch (e, a) {
-      print(" Rounds of Category : -------------- ${"this is error"}  ");
       print(e.toString());
       return [];
     }
@@ -167,6 +165,92 @@ class CategoryDataProvider {
       return CategoryStudentsQuantity.fromJson(null, categoryID);
     } catch (e, a) {
       return CategoryStudentsQuantity.fromJson(null, categoryID);
+    }
+  }
+
+  Future<CategoryUpdateResponse> updateCategory(Category category) async {
+    try {
+      var response = await client.put(
+        Uri(
+          scheme: "http",
+          host: StaticDataStore.HOST,
+          port: StaticDataStore.PORT,
+          path: "/api/admin/category/",
+        ),
+        body: jsonEncode(category.toJson()),
+        headers: {
+          "Authorization": StaticDataStore.HEADERS["authorization"] ?? ""
+        },
+      );
+
+      if (response.statusCode == 200 ||
+          response.statusCode == 409 ||
+          response.statusCode == 404) {
+        print(response.body.toString());
+        final body = jsonDecode(response.body.toString());
+        if (response.statusCode == 200) {
+          return CategoryUpdateResponse(
+              response.statusCode, "category updated succesfuly",
+              category: Category.fromJson(body as Map<String, dynamic>));
+        }
+        return CategoryUpdateResponse(
+            response.statusCode, (body as Map<String, dynamic>)["msg"]);
+      } else if (response.statusCode == 304) {
+        return CategoryUpdateResponse(
+          response.statusCode,
+          "Category not modified",
+        );
+      }
+      return CategoryUpdateResponse(
+          response.statusCode, (STATUS_CODES[response.statusCode]!));
+    } catch (e, a) {
+      print(e.toString());
+      return CategoryUpdateResponse(999, (STATUS_CODES[999]!));
+    }
+  }
+
+  Future<CategoryUpdateResponse> updateCategoryFee(
+      int categoryID, double amount) async {
+    print("Category ID : $categoryID  and         Price : $amount");
+    try {
+      var response = await client.put(
+        Uri(
+          scheme: "http",
+          host: StaticDataStore.HOST,
+          port: StaticDataStore.PORT,
+          path: "/api/admin/category/fee/",
+        ),
+        body: jsonEncode({
+          "id": categoryID,
+          "amount": amount,
+        }),
+        headers: {
+          "Authorization": StaticDataStore.HEADERS["authorization"] ?? ""
+        },
+      );
+
+      if (response.statusCode == 200 ||
+          response.statusCode == 409 ||
+          response.statusCode == 404) {
+        final body = jsonDecode(response.body.toString());
+        if (response.statusCode == 200) {
+          return CategoryUpdateResponse(
+              response.statusCode, "category training price updated succesfuly",
+              category: Category.fromJson(body as Map<String, dynamic>));
+        }
+        return CategoryUpdateResponse(
+            response.statusCode, (body as Map<String, dynamic>)["err"]);
+      } else if (response.statusCode == 304) {
+        return CategoryUpdateResponse(
+          response.statusCode,
+          "category price not modified",
+        );
+      }
+      return CategoryUpdateResponse(
+          response.statusCode, (STATUS_CODES[response.statusCode]!));
+    } catch (e, a) {
+      print(e.toString());
+      return CategoryUpdateResponse(999, (STATUS_CODES[999]!));
     }
   }
 }

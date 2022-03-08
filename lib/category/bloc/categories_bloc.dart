@@ -62,12 +62,28 @@ class CategoriesBloc extends Bloc<CategoryEvent, CategoryBlocState>
         final states = this.state;
         yield (CategoryInit());
         for (Category cat in (states as CategoriesListSuccess).categories) {
-          if(cat.id == event.categoryID){
+          if (cat.id == event.categoryID) {
             cat.rounds = rounds;
           }
         }
         yield (states);
       }
+    } else if (event is CategoryUpdateEvent) {
+      if (!(this.state is CategoriesListSuccess)) {
+        return;
+      }
+      final thestate = this.state;
+      yield thestate;
+      for (Category cat in (thestate as CategoriesListSuccess).categories) {
+        if (cat.id == event.category.id) {
+          cat.title = event.category.title;
+          cat.shortTitle = event.category.shortTitle;
+          cat.fee = event.category.fee;
+          cat.imgurl= event.category.imgurl;
+          cat.numberOfRounds = event.category.numberOfRounds;
+        }
+      }
+      yield thestate;
     }
   }
 
@@ -90,4 +106,14 @@ class CategoriesBloc extends Bloc<CategoryEvent, CategoryBlocState>
     }
     return CategoryCreationMessage(code: result.status, message: result.msg!);
   }
+
+  Future<CategoryUpdateResponse> updateCategory(Category category ) async {
+    return await this.repository.updateCategory(category);
+  }
+
+  Future<CategoryUpdateResponse>  updateCategoryFee(int categoryID, double amount) async {
+    return await this.repository.updateCategoryFee(categoryID,amount);
+  }
+
+
 }

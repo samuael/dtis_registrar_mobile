@@ -86,35 +86,63 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                               .add(1);
                                         });
                                       },
-                                      child: Container(
-                                        color: context.watch<CategoryOptionIndexBloc>().state == 1
-                                            ? Colors.white
-                                            : Theme.of(context).primaryColor,
-                                        padding:
-                                            EdgeInsets.symmetric(vertical: 5),
-                                        child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              Text(
-                                                "Home",
-                                                style: TextStyle(
-                                                  color: context.watch<CategoryOptionIndexBloc>().state == 1
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Container(
+                                          color: context
+                                                      .watch<
+                                                          CategoryOptionIndexBloc>()
+                                                      .state ==
+                                                  1
+                                              ? Colors.white
+                                              : Theme.of(context).primaryColor,
+                                          padding:
+                                              EdgeInsets.symmetric(vertical: 5),
+                                          child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Icon(
+                                                  Icons.arrow_left,
+                                                  color: context
+                                                              .watch<
+                                                                  CategoryOptionIndexBloc>()
+                                                              .state ==
+                                                          1
                                                       ? Theme.of(context)
                                                           .primaryColor
                                                       : Colors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 13,
                                                 ),
-                                              ),
-                                              Icon(
-                                                Icons.home,
-                                                color: context.watch<CategoryOptionIndexBloc>().state == 1
-                                                    ? Theme.of(context)
-                                                        .primaryColor
-                                                    : Colors.white,
-                                              ),
-                                            ]),
+                                                Text(
+                                                  "Home",
+                                                  style: TextStyle(
+                                                    color: context
+                                                                .watch<
+                                                                    CategoryOptionIndexBloc>()
+                                                                .state ==
+                                                            1
+                                                        ? Theme.of(context)
+                                                            .primaryColor
+                                                        : Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 13,
+                                                  ),
+                                                ),
+                                                Icon(
+                                                  Icons.home,
+                                                  color: context
+                                                              .watch<
+                                                                  CategoryOptionIndexBloc>()
+                                                              .state ==
+                                                          1
+                                                      ? Theme.of(context)
+                                                          .primaryColor
+                                                      : Colors.white,
+                                                ),
+                                              ]),
+                                        ),
                                       ),
                                     ),
                                     GestureDetector(
@@ -126,7 +154,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                         });
                                       },
                                       child: Container(
-                                        color: context.watch<CategoryOptionIndexBloc>().state == 2
+                                        color: context
+                                                    .watch<
+                                                        CategoryOptionIndexBloc>()
+                                                    .state ==
+                                                2
                                             ? Colors.white
                                             : Theme.of(context).primaryColor,
                                         padding:
@@ -138,7 +170,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                             Text(
                                               "Rounds",
                                               style: TextStyle(
-                                                color: context.watch<CategoryOptionIndexBloc>().state == 2
+                                                color: context
+                                                            .watch<
+                                                                CategoryOptionIndexBloc>()
+                                                            .state ==
+                                                        2
                                                     ? Theme.of(context)
                                                         .primaryColor
                                                     : Colors.white,
@@ -148,7 +184,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                             ),
                                             Icon(
                                               Icons.batch_prediction,
-                                              color: context.watch<CategoryOptionIndexBloc>().state == 2
+                                              color: context
+                                                          .watch<
+                                                              CategoryOptionIndexBloc>()
+                                                          .state ==
+                                                      2
                                                   ? Theme.of(context)
                                                       .primaryColor
                                                   : Colors.white,
@@ -166,7 +206,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                         });
                                       },
                                       child: Container(
-                                        color: context.watch<CategoryOptionIndexBloc>().state == 3
+                                        color: context
+                                                    .watch<
+                                                        CategoryOptionIndexBloc>()
+                                                    .state ==
+                                                3
                                             ? Colors.white
                                             : Theme.of(context).primaryColor,
                                         padding:
@@ -178,7 +222,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                             Text(
                                               "Edit",
                                               style: TextStyle(
-                                                color: context.watch<CategoryOptionIndexBloc>().state == 3
+                                                color: context
+                                                            .watch<
+                                                                CategoryOptionIndexBloc>()
+                                                            .state ==
+                                                        3
                                                     ? Theme.of(context)
                                                         .primaryColor
                                                     : Colors.white,
@@ -188,7 +236,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                             ),
                                             Icon(
                                               Icons.edit_rounded,
-                                              color: context.watch<CategoryOptionIndexBloc>().state == 3
+                                              color: context
+                                                          .watch<
+                                                              CategoryOptionIndexBloc>()
+                                                          .state ==
+                                                      3
                                                   ? Theme.of(context)
                                                       .primaryColor
                                                   : Colors.white,
@@ -199,14 +251,20 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                     ),
                                     GestureDetector(
                                       onTap: () {
-                                        setState(() {
-                                          context
-                                              .read<CategoryOptionIndexBloc>()
-                                              .add(4);
-                                        });
+                                        setState(
+                                          () {
+                                            context
+                                                .read<CategoryOptionIndexBloc>()
+                                                .add(4);
+                                          },
+                                        );
                                       },
                                       child: Container(
-                                        color: context.watch<CategoryOptionIndexBloc>().state == 4
+                                        color: context
+                                                    .watch<
+                                                        CategoryOptionIndexBloc>()
+                                                    .state ==
+                                                4
                                             ? Colors.white
                                             : Theme.of(context).primaryColor,
                                         padding:
@@ -218,7 +276,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                               Text(
                                                 "Students",
                                                 style: TextStyle(
-                                                  color: context.watch<CategoryOptionIndexBloc>().state == 4
+                                                  color: context
+                                                              .watch<
+                                                                  CategoryOptionIndexBloc>()
+                                                              .state ==
+                                                          4
                                                       ? Theme.of(context)
                                                           .primaryColor
                                                       : Colors.white,
@@ -228,7 +290,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                               ),
                                               Icon(
                                                 Icons.person_search_outlined,
-                                                color: context.watch<CategoryOptionIndexBloc>().state == 4
+                                                color: context
+                                                            .watch<
+                                                                CategoryOptionIndexBloc>()
+                                                            .state ==
+                                                        4
                                                     ? Theme.of(context)
                                                         .primaryColor
                                                     : Colors.white,
@@ -247,7 +313,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                       child: Container(
                                         padding:
                                             EdgeInsets.symmetric(vertical: 5),
-                                        color: context.watch<CategoryOptionIndexBloc>().state == 5
+                                        color: context
+                                                    .watch<
+                                                        CategoryOptionIndexBloc>()
+                                                    .state ==
+                                                5
                                             ? Colors.white
                                             : Theme.of(context).primaryColor,
                                         child: Row(
@@ -257,7 +327,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                             Text(
                                               "New Round",
                                               style: TextStyle(
-                                                color: context.watch<CategoryOptionIndexBloc>().state == 5
+                                                color: context
+                                                            .watch<
+                                                                CategoryOptionIndexBloc>()
+                                                            .state ==
+                                                        5
                                                     ? Theme.of(context)
                                                         .primaryColor
                                                     : Colors.white,
@@ -267,7 +341,10 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                             ),
                                             Icon(
                                               Icons.add,
-                                              color: context.watch<CategoryOptionIndexBloc>().state ==
+                                              color: context
+                                                          .watch<
+                                                              CategoryOptionIndexBloc>()
+                                                          .state ==
                                                       5
                                                   ? Theme.of(context)
                                                       .primaryColor

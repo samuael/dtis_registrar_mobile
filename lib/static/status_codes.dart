@@ -60,5 +60,8 @@ final STATUS_CODES = {
 	    507 : "Status Insufficient Storage"          , // RFC 4918, 11.5
 	    508 : "Status Loop Detected"                 , // RFC 5842, 7.2
 	    510 : "Status Not Extended"                  , // RFC 2774, 7
-	    511 : "Status Network Authentication Required" // RFC 6585, 6 
+	    511 : "Status Network Authentication Required", // RFC 6585, 6 
+
+      // this one is added intentionally to represent network conn problem.
+      999 : "Network Connection Problem" 
 };

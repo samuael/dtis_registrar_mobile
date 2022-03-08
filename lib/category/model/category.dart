@@ -10,7 +10,7 @@ class Category {
   Date? createdAt;
   int? studentsQuantity;
   int? activeStudentsQuantity;
-  List<Round>? rounds;  
+  List<Round>? rounds;
 
   Category({
     this.id = 0,
@@ -40,7 +40,7 @@ class Category {
       imgurl: json["imgurl"],
       fee: double.parse("${json['fee']}"),
       createdAt: Date.fromJson(json["created_at"]),
-      // rounds: 
+      // rounds:
     );
   }
 
@@ -51,7 +51,17 @@ class Category {
       "short_title": this.shortTitle,
       "rounds_count": this.rounds,
       "imgurl": this.imgurl,
+      "fee": this.fee,
       "created_at": this.createdAt!.toJson(),
+    };
+  }
+
+  Map<String, dynamic> toJsonForUpdate() {
+    return {
+      "id": this.id,
+      "title": this.title,
+      "short_title": this.shortTitle,
+      "fee": this.fee,
     };
   }
 }

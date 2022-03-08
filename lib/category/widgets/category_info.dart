@@ -1,3 +1,4 @@
+// import 'package:flutter/foundation.dart';
 import "../../libs.dart";
 
 class CategoryInfo extends StatefulWidget {
@@ -6,7 +7,7 @@ class CategoryInfo extends StatefulWidget {
 
   @override
   _CategoryInfoState createState() =>
-      _CategoryInfoState(category.title, category.shortTitle , category.fee);
+      _CategoryInfoState(category.title, category.shortTitle, category.fee);
 }
 
 class _CategoryInfoState extends State<CategoryInfo> {
@@ -24,8 +25,28 @@ class _CategoryInfoState extends State<CategoryInfo> {
         TextEditingController(text: "${this.trainingCost}");
   }
 
+  showCategoryUpdateResult(CategoryUpdateResponse resu, BuildContext context,
+      Category category, CategoriesBloc categoryBlocProvider) {
+    if (resu.status == 200) {
+      categoryBlocProvider.add(
+        CategoryUpdateEvent(resu.category!),
+      );
+    }
+    final snackBar = SnackBar(
+      backgroundColor: resu.status == 200 ? Colors.green : Colors.red,
+      content: Text(
+        resu.msg,
+        style: TextStyle(
+          color: Colors.white,
+        ),
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final categoryBlocProvider = BlocProvider.of<CategoriesBloc>(context);
     return ClipRRect(
       borderRadius: BorderRadius.only(
         topLeft: Radius.circular(20),
@@ -64,13 +85,14 @@ class _CategoryInfoState extends State<CategoryInfo> {
                                   3
                               ? [
                                   Container(
-                                      width: 80,
-                                      height: 20,
-                                      child: TextField(
-                                        controller: categoryTitleController,
-                                        enabled: true,
-                                        autofocus: true,
-                                      )),
+                                    width: 80,
+                                    height: 20,
+                                    child: TextField(
+                                      controller: categoryTitleController,
+                                      enabled: true,
+                                      autofocus: true,
+                                    ),
+                                  ),
                                   Text(
                                     "Short Title :",
                                     style: TextStyle(
@@ -87,14 +109,59 @@ class _CategoryInfoState extends State<CategoryInfo> {
                                     ),
                                   ),
                                   TextButton.icon(
-                                      onPressed: () {},
-                                      icon: Icon(
-                                        Icons.next_plan_outlined,
-                                      ),
-                                      label: Text(
-                                        "Update",
-                                      ),
-                                    )
+                                    onPressed: () async {
+                                      if (categoryTitleController!.text != "" ||
+                                          categoryShortTitleController!.text !=
+                                              "") {
+                                        Category input = Category(
+                                          id: this.widget.category.id,
+                                          title: categoryTitleController!
+                                                      .text !=
+                                                  ""
+                                              ? categoryTitleController!.text
+                                              : this.widget.category.title,
+                                          shortTitle:
+                                              categoryShortTitleController!
+                                                          .text !=
+                                                      ""
+                                                  ? categoryShortTitleController!
+                                                      .text
+                                                  : this
+                                                      .widget
+                                                      .category
+                                                      .shortTitle,
+                                          fee: widget.category.fee,
+                                          createdAt: widget.category.createdAt,
+                                          numberOfRounds:
+                                              widget.category.numberOfRounds,
+                                          activeStudentsQuantity: widget
+                                              .category.activeStudentsQuantity,
+                                          imgurl: widget.category.imgurl,
+                                        );
+                                        this.widget.category.title =
+                                            categoryTitleController!.text;
+                                      }
+                                      if (categoryShortTitleController!.text !=
+                                          "") {
+                                        this.widget.category.shortTitle =
+                                            categoryShortTitleController!.text;
+                                      }
+                                      final resu = await categoryBlocProvider
+                                          .updateCategory(this.widget.category);
+
+                                      showCategoryUpdateResult(
+                                          resu,
+                                          context,
+                                          widget.category,
+                                          categoryBlocProvider);
+                                    },
+                                    icon: Icon(
+                                      Icons.next_plan_outlined,
+                                    ),
+                                    label: Text(
+                                      "Update",
+                                    ),
+                                  )
                                 ]
                               : [
                                   Text(
@@ -145,12 +212,46 @@ class _CategoryInfoState extends State<CategoryInfo> {
                                       width: 70,
                                       height: 20,
                                       child: TextField(
-                                        controller:
-                                            trainingCostController,
+                                        controller: trainingCostController,
+                                        keyboardType: TextInputType.number,
                                       ),
                                     ),
                                     TextButton.icon(
-                                      onPressed: () {},
+                                      onPressed: () async {
+                                        try {
+                                          if (trainingCostController!.text !=
+                                                  "" &&
+                                              double.parse(
+                                                      trainingCostController!
+                                                          .text) >
+                                                  0.0) {
+                                            final resu = await categoryBlocProvider
+                                                .updateCategoryFee(
+                                                    this.widget.category.id,
+                                                    double.parse(
+                                                        trainingCostController!
+                                                            .text));
+
+                                            showCategoryUpdateResult(
+                                                resu,
+                                                context,
+                                                widget.category,
+                                                categoryBlocProvider);
+                                          }
+                                        } catch (e) {
+                                          final snackBar = SnackBar(
+                                            backgroundColor: Colors.red,
+                                            content: Text(
+                                              "Invalid Cost amount [[ ONLY NUMBER VALUES ARE ALLOWED ]]",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          );
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(snackBar);
+                                        }
+                                      },
                                       icon: Icon(
                                         Icons.next_plan_outlined,
                                       ),

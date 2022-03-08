@@ -17,42 +17,12 @@ class _CategoriesDetailState extends State<CategoriesDetail> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      // color: Theme.of(context).primaryColor,
       child: Stack(
         children: [
-          Container(
-            // height: 200,
-            width: double.infinity,
-            color: Colors.black,
-            child: widget.category.imgurl == ""
-                ? Image.asset(
-                    "assets/images/car-middle.gif",
-                    fit: BoxFit.cover,
-                    height: 200,
-                    width: double.infinity,
-                  )
-                : Image.network(
-                    StaticDataStore.SCHEME +
-                        StaticDataStore.HOST +
-                        ":${StaticDataStore.PORT}/" +
-                        widget.category.imgurl,
-                    fit: BoxFit.fill,
-                    height: 200,
-                    width: double.infinity,
-                  ),
-          ),
-          // Positioned(
-          //   right: 0,
-          //   child: Container(
-          //     color : Colors.white,
-          //     child: Icon(
-          //       Icons.edit_rounded,
-          //       color: Theme.of(context).primaryColor,
-          //     ),
-          //   ),
-          // ),
           ListView(
             children: [
-              SizedBox(height: 150),
+              // SizedBox(height: 150),
               CategoryInfo(
                 category: widget.category,
               ),
@@ -80,7 +50,9 @@ class _CategoriesDetailState extends State<CategoriesDetail> {
                               onTap: () {
                                 setState(() {
                                   this.index = 0;
-                                  context.read<CategoryOptionIndexBloc>().add(2);
+                                  context
+                                      .read<CategoryOptionIndexBloc>()
+                                      .add(2);
                                 });
                               },
                               child: Container(
@@ -91,7 +63,7 @@ class _CategoriesDetailState extends State<CategoriesDetail> {
                                 child: Row(
                                   children: [
                                     Icon(
-                                      Icons.star_border_purple500,
+                                      Icons.batch_prediction,
                                       color: this.index == 0
                                           ? Colors.white
                                           : Colors.white60,
@@ -124,7 +96,9 @@ class _CategoriesDetailState extends State<CategoriesDetail> {
                               onTap: () {
                                 setState(() {
                                   this.index = 1;
-                                  context.read<CategoryOptionIndexBloc>().add(4);
+                                  context
+                                      .read<CategoryOptionIndexBloc>()
+                                      .add(4);
                                 });
                               },
                               child: Container(
@@ -172,19 +146,16 @@ class _CategoriesDetailState extends State<CategoriesDetail> {
                           ),
                         ),
                       )
-                    : (this.index == 0
-                        ? CategoryRounds(
-                            category: this.widget.category,
-                          )
-                        : CategoryRounds(
-                            category: this.widget.category,
-                          )),
+                    : CategoryRounds(
+                        category: this.widget.category,
+                      ),
               ),
               // CategoryRounds(
               //   category: this.widget.category,
               // ),
             ],
           ),
+          CreateRoundScreen(this.widget.category.id),
         ],
       ),
     );

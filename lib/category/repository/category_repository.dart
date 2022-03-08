@@ -8,7 +8,9 @@ import "../../libs.dart"
         LoadCategories,
         LoadCategory,
         Round,
-        CategoryStudentsQuantity;
+        CategoryStudentsQuantity,
+        CategoryUpdateResponse
+        ;
 
 class CategoryRepository {
   CategoryDataProvider provider = CategoryDataProvider();
@@ -67,5 +69,14 @@ class CategoryRepository {
   Future<CategoryStudentsQuantity> loadCategoryStudentsQuantity(
       int categoryID) async {
     return await this.provider.loadCategoryStudentsQuantity(categoryID);
+  }
+
+
+  Future<CategoryUpdateResponse> updateCategory(Category category ) async {
+    return await this.provider.updateCategory(category);
+  }
+
+  Future<CategoryUpdateResponse>  updateCategoryFee(int categoryID, double amount) async {
+    return await this.provider.updateCategoryFee(categoryID, amount);
   }
 }

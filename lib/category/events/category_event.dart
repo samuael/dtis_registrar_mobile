@@ -3,25 +3,26 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
 import "../../libs.dart";
+
 class CategoryEvent {}
 
 // CategoriesLoad load all categories.
-class CategoriesLoadEvent extends CategoryEvent{}
+class CategoriesLoadEvent extends CategoryEvent {}
 
-class CategoryCreateWithImageEvent extends CategoryEvent{
+class CategoryCreateWithImageEvent extends CategoryEvent {
   final Category category;
   final XFile file;
 
-  CategoryCreateWithImageEvent(this.category , this.file );
+  CategoryCreateWithImageEvent(this.category, this.file);
 }
 
 // CategoryCreateWithOutImage
-class CategoryCreateWithOutImageEvent extends CategoryEvent{
+class CategoryCreateWithOutImageEvent extends CategoryEvent {
   final Category category;
   CategoryCreateWithOutImageEvent(this.category);
 }
 
-class CreateCategoriesLoadSuccessEvent extends CategoryEvent{
+class CreateCategoriesLoadSuccessEvent extends CategoryEvent {
   final List<Category> categories;
 
   CreateCategoriesLoadSuccessEvent(this.categories);
@@ -35,15 +36,20 @@ class AddCategoryEvent extends CategoryEvent {
 class UploadCategoryProfilEvent extends CategoryEvent {
   String imgurl;
   int categoryid;
-  UploadCategoryProfilEvent(this.imgurl , this.categoryid);
+  UploadCategoryProfilEvent(this.imgurl, this.categoryid);
 }
 
 class LoadRoundsOfACategoryEvent extends CategoryEvent {
   int categoryID;
-  LoadRoundsOfACategoryEvent(this.categoryID); 
+  LoadRoundsOfACategoryEvent(this.categoryID);
 }
 
 class CategoryStudentsQuantityEvent extends CategoryEvent {
-    int categoryID;
-    CategoryStudentsQuantityEvent(this.categoryID);
+  int categoryID;
+  CategoryStudentsQuantityEvent(this.categoryID);
+}
+
+class CategoryUpdateEvent extends CategoryEvent {
+  Category category;
+  CategoryUpdateEvent(this.category);
 }

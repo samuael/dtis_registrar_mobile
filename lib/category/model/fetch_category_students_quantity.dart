@@ -1,3 +1,4 @@
+import "../../libs.dart"  show Category;
 class CategoryStudentsQuantity {
   int categoryid;
   int activeStudents;
@@ -28,4 +29,12 @@ class CategoryStudentsQuantity {
       "active_students": this.activeStudents,
     };
   }
+}
+// ----------------------------------------------
+class CategoryUpdateResponse{
+  int status;
+  String msg;
+  Category?  category;
+
+  CategoryUpdateResponse(this.status , this.msg , {this.category});
 }

@@ -167,6 +167,7 @@ class CategoryItemState extends State<CategoryItem> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontFamily: "Moms TypeWriter",
+                                  fontSize : 23,
                                 ),
                               ),
                               Text(
@@ -176,6 +177,7 @@ class CategoryItemState extends State<CategoryItem> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontFamily: "Elegant TypeWriter",
+                                  fontSize : 22,
                                 ),
                               ),
                             ],
