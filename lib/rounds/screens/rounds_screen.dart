@@ -107,7 +107,7 @@ class RoundsScreenState extends State<RoundsScreen> {
                                                         : Colors.white,
                                                   ),
                                                   Text(
-                                                    "Category",
+                                                    "Back",
                                                     style: TextStyle(
                                                       color: context
                                                                   .watch<
@@ -122,17 +122,17 @@ class RoundsScreenState extends State<RoundsScreen> {
                                                       fontSize: 13,
                                                     ),
                                                   ),
-                                                  Icon(
-                                                    Icons.category_outlined,
-                                                    color: context
-                                                                .watch<
-                                                                    RoundOptionsIndexBloc>()
-                                                                .state ==
-                                                            1
-                                                        ? Theme.of(context)
-                                                            .primaryColor
-                                                        : Colors.white,
-                                                  ),
+                                                  // Icon(
+                                                  //   Icons.category_outlined,
+                                                  //   color: context
+                                                  //               .watch<
+                                                  //                   RoundOptionsIndexBloc>()
+                                                  //               .state ==
+                                                  //           1
+                                                  //       ? Theme.of(context)
+                                                  //           .primaryColor
+                                                  //       : Colors.white,
+                                                  // ),
                                                 ]),
                                           ),
                                         ),

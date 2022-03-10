@@ -7,5 +7,9 @@ class RoundRepository {
   Future<RoundResponse> createRound(RoundInput roundInputs) async {
     return await this.provider.createRound(roundInputs);
   }
+
+  Future<RoundResponse>  updateRound(RoundUpdateModel  update) async {
+    return await this.provider.updateRound(update);
+  }
   
 }

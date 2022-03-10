@@ -58,34 +58,6 @@ class _CreateState extends State<CreateRoundScreen> {
     "invalid end date value", // 34
   ];
 
-  bool isValidDateString(String date) {
-    List<String> vals = date.split("-");
-    if (vals.length != 3) {
-      vals = date.split("/");
-      if (vals.length != 3) {
-        vals = date.split(".");
-        if (vals.length != 3) {
-          vals = date.split(",");
-          if (vals.length != 3) {
-            return false;
-          }
-        }
-      }
-    }
-    try {
-      if ((int.parse(vals[0]) < 30) &&
-          (int.parse(vals[0]) > 0) &&
-          (int.parse(vals[1]) <= 13) &&
-          (int.parse(vals[1]) > 0) &&
-          (int.parse(vals[2]) > 1991) &&
-          (int.parse(vals[2])) < 3000) {
-        return true;
-      }
-      return false;
-    } catch (e) {
-      return false;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -394,21 +366,12 @@ class _CreateState extends State<CreateRoundScreen> {
                               cursorColor: Theme.of(context).cursorColor,
                               autofocus: true,
                               controller: trainingPriceController,
-                              // maxLength: 2000,
-                              // maxLines: 3,
                               decoration: InputDecoration(
-                                // icon: Icon(Icons.message),
                                 labelText: ' Training Price ',
                                 labelStyle: TextStyle(
                                   color: Color(0xFF006699),
                                 ),
                                 helperText: "training price  eg. 7000",
-                                // suffixIcon: Icon(
-                                //   Icons.check_circle,
-                                // ),
-                                // enabledBorder: OutlineInputBorder(
-                                //   borderSide: BorderSide(color: Colors.red),
-                                // ),
                               ),
                             ),
                           ),

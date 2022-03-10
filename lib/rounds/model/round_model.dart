@@ -61,8 +61,10 @@ class Round {
       "created_at": this.createdAt.toJson(),
     };
   }
-  // fromJsonList ... 
+
+  // fromJsonList ...
   static List<Round> fromJsonList(List<Map<String, dynamic>> theJson) {
     return theJson.map((e) => Round.fromJson(e)).toList();
   }
 }
+

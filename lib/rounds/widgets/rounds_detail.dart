@@ -19,15 +19,14 @@ class _RoundsDetailState extends State<RoundsDetail> {
             children: [
               // SizedBox(height: 150),
               RoundInfo(
-                      this.widget.round,
-                    ),
+                this.widget.round,
+              ),
               GestureDetector(
                 onTap: () {
-                  context
-                      .read<RoundInfoVisibility>().changeState();
+                  context.read<RoundInfoVisibility>().changeState();
                 },
-                onVerticalDragStart: (vals){
-                  // 
+                onVerticalDragStart: (vals) {
+                  //
                 },
                 child: Container(
                   child: Image.asset(
@@ -41,7 +40,7 @@ class _RoundsDetailState extends State<RoundsDetail> {
               ),
               AnimatedContainer(
                 duration: Duration(
-                  milliseconds: 500,
+                  milliseconds: 400,
                 ),
                 color: Colors.white,
                 child: ClipRRect(
