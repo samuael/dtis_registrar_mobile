@@ -7,6 +7,7 @@ class CategoriesBloc extends Bloc<CategoryEvent, CategoryBlocState>
     implements Cubit<CategoryBlocState> {
   CategoriesBloc(CategoryInit initialState) : super(initialState);
   CategoryRepository repository = CategoryRepository();
+  RoundRepository roundRepository = RoundRepository(RoundDataProvider());
 
   @override
   Stream<CategoryBlocState> mapEventToState(CategoryEvent event) async* {
@@ -84,6 +85,18 @@ class CategoriesBloc extends Bloc<CategoryEvent, CategoryBlocState>
         }
       }
       yield thestate;
+    }else if ( event is AddNewRoundEvent){
+      if (!(this.state is CategoriesListSuccess)) {
+        return;
+      }
+      final thestate = this.state;
+      for (Category cat in (thestate as CategoriesListSuccess).categories){
+        if (cat.id == (event as AddNewRoundEvent).round.categoryID){
+          cat.rounds = cat.rounds??[];
+          cat.rounds!.add((event as AddNewRoundEvent).round);
+        }
+      }
+      yield thestate;
     }
   }
 
@@ -114,6 +127,4 @@ class CategoriesBloc extends Bloc<CategoryEvent, CategoryBlocState>
   Future<CategoryUpdateResponse>  updateCategoryFee(int categoryID, double amount) async {
     return await this.repository.updateCategoryFee(categoryID,amount);
   }
-
-
 }

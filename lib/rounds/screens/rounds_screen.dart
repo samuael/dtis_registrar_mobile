@@ -1,34 +1,22 @@
 import "../../libs.dart";
 
-class CategoriesScreen extends StatefulWidget {
-  final int categoryId;
-  static const String RouteName = "/categories_screen";
-  const CategoriesScreen({required this.categoryId, Key? key})
-      : super(key: key);
+class RoundsScreen extends StatefulWidget {
+  static const String RouteName = "/round_screen";
+
+  final Round round;
+  RoundsScreen(this.round);
 
   @override
-  _CategoriesScreenState createState() => _CategoriesScreenState();
+  State<RoundsScreen> createState() {
+    return RoundsScreenState();
+  }
 }
 
-class _CategoriesScreenState extends State<CategoriesScreen> {
-  bool zeBoolean = true;
-  // int activatedSelection = 0;
+class RoundsScreenState extends State<RoundsScreen> {
+  bool zeboolean = true;
 
   @override
   Widget build(BuildContext context) {
-    final categoriesBloc = BlocProvider.of<CategoriesBloc>(context);
-    if (!(categoriesBloc.state is CategoriesListSuccess)) {
-      Navigator.of(context)
-          .pushNamedAndRemoveUntil(HomeScreen.RouteName, (route) => false);
-    }
-    categoriesBloc.add(CategoryStudentsQuantityEvent(
-        (categoriesBloc.state as CategoriesListSuccess)
-            .getCategoryByID(widget.categoryId)!
-            .id));
-    categoriesBloc.add(LoadRoundsOfACategoryEvent(
-        (categoriesBloc.state as CategoriesListSuccess)
-            .getCategoryByID(widget.categoryId)!
-            .id));
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -36,7 +24,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         actions: [],
         centerTitle: true,
         title: Text(
-          "Category | ${ (categoriesBloc.state as CategoriesListSuccess).getCategoryByID(widget.categoryId)!.title}",
+          "Rounds",
           style: TextStyle(
             color: Colors.white,
             fontFamily: "Elegant TypeWriter",
@@ -68,11 +56,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                               milliseconds: 300,
                             ),
                             width: MediaQuery.of(context).size.width *
-                                (zeBoolean ? 0.1 : 0.03),
+                                (zeboolean ? 0.13 : 0.03),
                             height: MediaQuery.of(context).size.height * 0.88,
                             color: Colors.blue,
                             child: Column(
-                              children: zeBoolean
+                              children: zeboolean
                                   ? [
                                       SizedBox(
                                         height:
@@ -83,7 +71,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                         onTap: () {
                                           setState(() {
                                             context
-                                                .read<CategoryOptionIndexBloc>()
+                                                .read<RoundOptionsIndexBloc>()
                                                 .add(1);
                                           });
                                         },
@@ -94,7 +82,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                           child: Container(
                                             color: context
                                                         .watch<
-                                                            CategoryOptionIndexBloc>()
+                                                            RoundOptionsIndexBloc>()
                                                         .state ==
                                                     1
                                                 ? Colors.white
@@ -111,7 +99,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                                     Icons.arrow_left,
                                                     color: context
                                                                 .watch<
-                                                                    CategoryOptionIndexBloc>()
+                                                                    RoundOptionsIndexBloc>()
                                                                 .state ==
                                                             1
                                                         ? Theme.of(context)
@@ -119,11 +107,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                                         : Colors.white,
                                                   ),
                                                   Text(
-                                                    "Home",
+                                                    "Category",
                                                     style: TextStyle(
                                                       color: context
                                                                   .watch<
-                                                                      CategoryOptionIndexBloc>()
+                                                                      RoundOptionsIndexBloc>()
                                                                   .state ==
                                                               1
                                                           ? Theme.of(context)
@@ -135,10 +123,10 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                                     ),
                                                   ),
                                                   Icon(
-                                                    Icons.home,
+                                                    Icons.category_outlined,
                                                     color: context
                                                                 .watch<
-                                                                    CategoryOptionIndexBloc>()
+                                                                    RoundOptionsIndexBloc>()
                                                                 .state ==
                                                             1
                                                         ? Theme.of(context)
@@ -153,14 +141,14 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                         onTap: () {
                                           setState(() {
                                             context
-                                                .read<CategoryOptionIndexBloc>()
+                                                .read<RoundOptionsIndexBloc>()
                                                 .add(2);
                                           });
                                         },
                                         child: Container(
                                           color: context
                                                       .watch<
-                                                          CategoryOptionIndexBloc>()
+                                                          RoundOptionsIndexBloc>()
                                                       .state ==
                                                   2
                                               ? Colors.white
@@ -172,11 +160,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                                 MainAxisAlignment.spaceEvenly,
                                             children: [
                                               Text(
-                                                "Rounds",
+                                                "Payments",
                                                 style: TextStyle(
                                                   color: context
                                                               .watch<
-                                                                  CategoryOptionIndexBloc>()
+                                                                  RoundOptionsIndexBloc>()
                                                               .state ==
                                                           2
                                                       ? Theme.of(context)
@@ -186,11 +174,13 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                                   fontSize: 13,
                                                 ),
                                               ),
-                                              Icon(
-                                                Icons.batch_prediction,
+                                              Image.asset(
+                                                "assets/icon_images/moneys.png",
+                                                height: 30,
+                                                width: 30,
                                                 color: context
                                                             .watch<
-                                                                CategoryOptionIndexBloc>()
+                                                                RoundOptionsIndexBloc>()
                                                             .state ==
                                                         2
                                                     ? Theme.of(context)
@@ -205,14 +195,14 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                         onTap: () {
                                           setState(() {
                                             context
-                                                .read<CategoryOptionIndexBloc>()
+                                                .read<RoundOptionsIndexBloc>()
                                                 .add(3);
                                           });
                                         },
                                         child: Container(
                                           color: context
                                                       .watch<
-                                                          CategoryOptionIndexBloc>()
+                                                          RoundOptionsIndexBloc>()
                                                       .state ==
                                                   3
                                               ? Colors.white
@@ -228,7 +218,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                                 style: TextStyle(
                                                   color: context
                                                               .watch<
-                                                                  CategoryOptionIndexBloc>()
+                                                                  RoundOptionsIndexBloc>()
                                                               .state ==
                                                           3
                                                       ? Theme.of(context)
@@ -242,7 +232,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                                 Icons.edit_rounded,
                                                 color: context
                                                             .watch<
-                                                                CategoryOptionIndexBloc>()
+                                                                RoundOptionsIndexBloc>()
                                                             .state ==
                                                         3
                                                     ? Theme.of(context)
@@ -258,8 +248,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                           setState(
                                             () {
                                               context
-                                                  .read<
-                                                      CategoryOptionIndexBloc>()
+                                                  .read<RoundOptionsIndexBloc>()
                                                   .add(4);
                                             },
                                           );
@@ -267,7 +256,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                         child: Container(
                                           color: context
                                                       .watch<
-                                                          CategoryOptionIndexBloc>()
+                                                          RoundOptionsIndexBloc>()
                                                       .state ==
                                                   4
                                               ? Colors.white
@@ -283,7 +272,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                                   style: TextStyle(
                                                     color: context
                                                                 .watch<
-                                                                    CategoryOptionIndexBloc>()
+                                                                    RoundOptionsIndexBloc>()
                                                                 .state ==
                                                             4
                                                         ? Theme.of(context)
@@ -297,7 +286,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                                   Icons.person_search_outlined,
                                                   color: context
                                                               .watch<
-                                                                  CategoryOptionIndexBloc>()
+                                                                  RoundOptionsIndexBloc>()
                                                               .state ==
                                                           4
                                                       ? Theme.of(context)
@@ -311,7 +300,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                         onTap: () {
                                           setState(() {
                                             context
-                                                .read<CategoryOptionIndexBloc>()
+                                                .read<RoundOptionsIndexBloc>()
                                                 .add(5);
                                           });
                                         },
@@ -320,7 +309,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                               EdgeInsets.symmetric(vertical: 5),
                                           color: context
                                                       .watch<
-                                                          CategoryOptionIndexBloc>()
+                                                          RoundOptionsIndexBloc>()
                                                       .state ==
                                                   5
                                               ? Colors.white
@@ -330,11 +319,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                                 MainAxisAlignment.spaceEvenly,
                                             children: [
                                               Text(
-                                                "New Round",
+                                                "Register Student",
                                                 style: TextStyle(
                                                   color: context
                                                               .watch<
-                                                                  CategoryOptionIndexBloc>()
+                                                                  RoundOptionsIndexBloc>()
                                                               .state ==
                                                           5
                                                       ? Theme.of(context)
@@ -345,10 +334,10 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                                 ),
                                               ),
                                               Icon(
-                                                Icons.add,
+                                                Icons.create,
                                                 color: context
                                                             .watch<
-                                                                CategoryOptionIndexBloc>()
+                                                                RoundOptionsIndexBloc>()
                                                             .state ==
                                                         5
                                                     ? Theme.of(context)
@@ -356,6 +345,113 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                                     : Colors.white,
                                               ),
                                             ],
+                                          ),
+                                        ),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            context
+                                                .read<RoundOptionsIndexBloc>()
+                                                .add(6);
+                                          });
+                                        },
+                                        child: Container(
+                                          padding:
+                                              EdgeInsets.symmetric(vertical: 5),
+                                          color: context
+                                                      .watch<
+                                                          RoundOptionsIndexBloc>()
+                                                      .state ==
+                                                  6
+                                              ? Colors.white
+                                              : Theme.of(context).primaryColor,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Text(
+                                                "Documents",
+                                                style: TextStyle(
+                                                  color: context
+                                                              .watch<
+                                                                  RoundOptionsIndexBloc>()
+                                                              .state ==
+                                                          6
+                                                      ? Theme.of(context)
+                                                          .primaryColor
+                                                      : Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 13,
+                                                ),
+                                              ),
+                                              Icon(
+                                                Icons.document_scanner_outlined,
+                                                color: context
+                                                            .watch<
+                                                                RoundOptionsIndexBloc>()
+                                                            .state ==
+                                                        6
+                                                    ? Theme.of(context)
+                                                        .primaryColor
+                                                    : Colors.white,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            context
+                                                .read<RoundOptionsIndexBloc>()
+                                                .add(7);
+                                          });
+                                        },
+                                        child: Container(
+                                          padding:
+                                              EdgeInsets.symmetric(vertical: 5),
+                                          color: context
+                                                      .watch<
+                                                          RoundOptionsIndexBloc>()
+                                                      .state ==
+                                                  7
+                                              ? Colors.white
+                                              : Theme.of(context).primaryColor,
+                                          child: ListTile(
+                                            // mainAxisAlignment:
+                                            //     MainAxisAlignment.spaceBetween,
+                                            // children: [
+                                            title: Text(
+                                              "Reports",
+                                              style: TextStyle(
+                                                color: context
+                                                            .watch<
+                                                                RoundOptionsIndexBloc>()
+                                                            .state ==
+                                                        7
+                                                    ? Theme.of(context)
+                                                        .primaryColor
+                                                    : Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 13,
+                                              ),
+                                            ),
+                                            trailing: Image.asset(
+                                              // Icons.
+                                              "assets/icon_images/icons8-report-64.png",
+                                              width: 30,
+                                              height: 30,
+                                              color: context
+                                                          .watch<
+                                                              RoundOptionsIndexBloc>()
+                                                          .state ==
+                                                      7
+                                                  ? Theme.of(context)
+                                                      .primaryColor
+                                                  : Colors.white,
+                                            ),
+                                            // ],
                                           ),
                                         ),
                                       ),
@@ -369,11 +465,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             child: GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  this.zeBoolean = !this.zeBoolean;
+                                  this.zeboolean = !this.zeboolean;
                                 });
                               },
                               child: Icon(
-                                this.zeBoolean
+                                this.zeboolean
                                     ? Icons.arrow_back_ios_outlined
                                     : Icons.arrow_forward_ios_outlined,
                                 color: Colors.white,
@@ -387,26 +483,21 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   ),
                 ),
                 BlocBuilder<CategoriesBloc, CategoryBlocState>(
-                    builder: (contex, state) {
-                  return AnimatedContainer(
-                    duration: Duration(
-                      milliseconds: 300,
-                    ),
-                    color: Colors.white,
-                    width: MediaQuery.of(context).size.width *
-                        (zeBoolean ? 0.89 : 0.96),
-                    height: MediaQuery.of(context).size.height * 0.90,
-                    child: (state is CategoriesListSuccess)
-                        ? CategoriesDetail(
-                            category:
-                                (categoriesBloc.state as CategoriesListSuccess)
-                                    .getCategoryByID(widget.categoryId)!,
-                          )
-                        : Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                  );
-                }),
+                  builder: (contex, state) {
+                    return AnimatedContainer(
+                      duration: Duration(
+                        milliseconds: 300,
+                      ),
+                      color: Colors.white,
+                      width: MediaQuery.of(context).size.width *
+                          (zeboolean ? 0.86 : 0.93),
+                      height: MediaQuery.of(context).size.height * 0.90,
+                      child: (state is CategoriesListSuccess)
+                          ? RoundsDetail(this.widget.round)
+                          : Center(child: CircularProgressIndicator()),
+                    );
+                  },
+                ),
               ],
             ),
           ],

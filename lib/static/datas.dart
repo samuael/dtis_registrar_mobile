@@ -10,7 +10,7 @@ class StaticDataStore {
   }
 
   static String TOKEN = "";
-  static Map<String , String> HEADERS={};
+  static Map<String, String> HEADERS = {};
   static DeviceType DType = DeviceType.Unknown;
 
   static bool isEmail(String email) {
@@ -18,4 +18,13 @@ class StaticDataStore {
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(email);
   }
+
+  static final Map<String, String> LanguageMap = {
+    "eng": "English",
+    "english": "English",
+    "en": "English",
+    "am": "Amharic",
+    "amh": "Amharic",
+    "amharic": "Amharic",
+  };
 }

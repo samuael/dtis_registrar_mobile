@@ -21,6 +21,15 @@ void main() {
         BlocProvider(
           create: (context) => CategoryOptionIndexBloc(),
         ),
+        BlocProvider(
+          create: (context) => RoundsBloc(RoundInit()),
+        ),
+        BlocProvider(
+          create: (context) => RoundOptionsIndexBloc(),
+        ),
+        BlocProvider(
+          create: (context) => RoundInfoVisibility(),
+        ),
       ],
       child: MyApp(),
     ),
@@ -31,7 +40,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'DTIS Registration System',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -71,10 +80,17 @@ class MyApp extends StatelessWidget {
                 return CreateRoundScreen(categoryid);
               });
             }
+          case RoundsScreen.RouteName:
+            {
+              final round = (routeSetting.arguments
+                  as Map<String, dynamic>)["round"] as Round;
+              return MaterialPageRoute(builder: (context) {
+                return RoundsScreen(round);
+              });
+            }
         }
       },
       initialRoute: AuthScreen.RouteName,
-      home: AuthScreen(),
     );
   }
 }

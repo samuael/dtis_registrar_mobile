@@ -132,7 +132,7 @@ class CategoryDataProvider {
           "Authorization": StaticDataStore.HEADERS["authorization"] ?? ""
         },
       );
-      print(" Rounds of Category : -------------- ${response.statusCode}  ");
+      print(" Rounds of Category : --------------  ${response.statusCode}  ");
       print(response.body.toString());
       final body = ((jsonDecode(response.body) ?? []) as List<dynamic>)
           .map((e) => (e as Map<String, dynamic>))

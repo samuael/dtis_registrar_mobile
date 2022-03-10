@@ -1,19 +1,14 @@
 import "../../libs.dart";
 
-class CategoriesDetail extends StatefulWidget {
-  final Category category;
-  // ranges from 0 - to-  5
-  // 0= nothing is selected.
-  // 5 = 5 item is selected,
-  // final int selectionIndex ;
-  const CategoriesDetail({required this.category, Key? key}) : super(key: key);
+class RoundsDetail extends StatefulWidget {
+  final Round round;
+  const RoundsDetail(this.round, {Key? key}) : super(key: key);
 
   @override
-  _CategoriesDetailState createState() => _CategoriesDetailState();
+  State<RoundsDetail> createState() => _RoundsDetailState();
 }
 
-class _CategoriesDetailState extends State<CategoriesDetail> {
-  int index = 0;
+class _RoundsDetailState extends State<RoundsDetail> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,10 +18,31 @@ class _CategoriesDetailState extends State<CategoriesDetail> {
           ListView(
             children: [
               // SizedBox(height: 150),
-              CategoryInfo(
-                category: widget.category,
+              RoundInfo(
+                      this.widget.round,
+                    ),
+              GestureDetector(
+                onTap: () {
+                  context
+                      .read<RoundInfoVisibility>().changeState();
+                },
+                onVerticalDragStart: (vals){
+                  // 
+                },
+                child: Container(
+                  child: Image.asset(
+                      context.watch<RoundInfoVisibility>().state
+                          ? "assets/icon_images/drag-down.png"
+                          : "assets/icon_images/drag-up.png",
+                      width: 50,
+                      height: 50,
+                      color: Theme.of(context).primaryColor),
+                ),
               ),
-              Container(
+              AnimatedContainer(
+                duration: Duration(
+                  milliseconds: 500,
+                ),
                 color: Colors.white,
                 child: ClipRRect(
                   borderRadius: BorderRadius.only(
@@ -35,11 +51,6 @@ class _CategoriesDetailState extends State<CategoriesDetail> {
                   ),
                   child: BlocBuilder<CategoryOptionIndexBloc, int>(
                       builder: (context, state) {
-                    if (state == 2) {
-                      index = 0;
-                    } else if (state == 4) {
-                      index = 1;
-                    }
                     return Container(
                       width: double.infinity,
                       color: Theme.of(context).primaryColor,
@@ -49,7 +60,6 @@ class _CategoriesDetailState extends State<CategoriesDetail> {
                             GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  this.index = 0;
                                   context
                                       .read<CategoryOptionIndexBloc>()
                                       .add(2);
@@ -64,9 +74,7 @@ class _CategoriesDetailState extends State<CategoriesDetail> {
                                   children: [
                                     Icon(
                                       Icons.batch_prediction,
-                                      color: this.index == 0
-                                          ? Colors.white
-                                          : Colors.white60,
+                                      color: Colors.white60,
                                     ),
                                     SizedBox(
                                       width: 10,
@@ -75,9 +83,7 @@ class _CategoriesDetailState extends State<CategoriesDetail> {
                                       "Rounds",
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        color: this.index == 0
-                                            ? Colors.white
-                                            : Colors.white60,
+                                        color: Colors.white60,
                                       ),
                                     ),
                                   ],
@@ -95,7 +101,6 @@ class _CategoriesDetailState extends State<CategoriesDetail> {
                             GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  this.index = 1;
                                   context
                                       .read<CategoryOptionIndexBloc>()
                                       .add(4);
@@ -108,10 +113,10 @@ class _CategoriesDetailState extends State<CategoriesDetail> {
                                 ),
                                 child: Row(
                                   children: [
-                                    Icon(Icons.people_sharp,
-                                        color: this.index == 1
-                                            ? Colors.white
-                                            : Colors.white60),
+                                    Icon(
+                                      Icons.people_sharp,
+                                      color: Colors.white60,
+                                    ),
                                     SizedBox(
                                       width: 10,
                                     ),
@@ -119,9 +124,7 @@ class _CategoriesDetailState extends State<CategoriesDetail> {
                                       "Students",
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        color: this.index == 1
-                                            ? Colors.white
-                                            : Colors.white60,
+                                        color: Colors.white,
                                       ),
                                     ),
                                   ],
@@ -134,30 +137,22 @@ class _CategoriesDetailState extends State<CategoriesDetail> {
                 ),
               ),
               AnimatedContainer(
-                duration: Duration(
-                  seconds: 1,
-                ),
-                child: this.index == 1
-                    ? Center(
-                        child: Text(
-                          "Ethiopia",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      )
-                    : CategoryRounds(
-                        category: this.widget.category,
+                  duration: Duration(
+                    seconds: 1,
+                  ),
+                  child: Center(
+                    child: Text(
+                      "Ethiopia",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
                       ),
-              ),
+                    ),
+                  )),
               // CategoryRounds(
               //   category: this.widget.category,
               // ),
             ],
           ),
-          // context.watch<CategoryOptionIndexBloc>().state == 5 ? 
-          CreateRoundScreen(this.widget.category.id)
-          //  : SizedBox(),
         ],
       ),
     );
