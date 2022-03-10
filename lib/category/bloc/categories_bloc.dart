@@ -80,20 +80,43 @@ class CategoriesBloc extends Bloc<CategoryEvent, CategoryBlocState>
           cat.title = event.category.title;
           cat.shortTitle = event.category.shortTitle;
           cat.fee = event.category.fee;
-          cat.imgurl= event.category.imgurl;
+          cat.imgurl = event.category.imgurl;
           cat.numberOfRounds = event.category.numberOfRounds;
         }
       }
       yield thestate;
-    }else if ( event is AddNewRoundEvent){
+    } else if (event is AddNewRoundEvent) {
       if (!(this.state is CategoriesListSuccess)) {
         return;
       }
       final thestate = this.state;
-      for (Category cat in (thestate as CategoriesListSuccess).categories){
-        if (cat.id == (event as AddNewRoundEvent).round.categoryID){
-          cat.rounds = cat.rounds??[];
+      for (Category cat in (thestate as CategoriesListSuccess).categories) {
+        if (cat.id == (event as AddNewRoundEvent).round.categoryID) {
+          cat.rounds = cat.rounds ?? [];
           cat.rounds!.add((event as AddNewRoundEvent).round);
+        }
+      }
+      yield thestate;
+    } else if (event is UpdateExistingCategoryEvent) {
+      if (!(this.state is CategoriesListSuccess)) {
+        return;
+      }
+      final thestate = this.state;
+      for (Category cat in (thestate as CategoriesListSuccess).categories) {
+        if (cat.id == event.round.categoryID) {
+          for (Round rnd in cat.rounds ?? []) {
+            if (rnd.id == event.round.id) {
+              rnd.trainingHours = event.round.trainingHours;
+              rnd.roundNumber = event.round.roundNumber;
+              rnd.students = event.round.students;
+              rnd.activeAmount = event.round.activeAmount;
+              rnd.active = event.round.active;
+              rnd.startDate = event.round.startDate;
+              rnd.endDate = event.round.endDate;
+              rnd.lang = event.round.lang;
+              rnd.fee = event.round.fee;
+            }
+          }
         }
       }
       yield thestate;
@@ -120,11 +143,12 @@ class CategoriesBloc extends Bloc<CategoryEvent, CategoryBlocState>
     return CategoryCreationMessage(code: result.status, message: result.msg!);
   }
 
-  Future<CategoryUpdateResponse> updateCategory(Category category ) async {
+  Future<CategoryUpdateResponse> updateCategory(Category category) async {
     return await this.repository.updateCategory(category);
   }
 
-  Future<CategoryUpdateResponse>  updateCategoryFee(int categoryID, double amount) async {
-    return await this.repository.updateCategoryFee(categoryID,amount);
+  Future<CategoryUpdateResponse> updateCategoryFee(
+      int categoryID, double amount) async {
+    return await this.repository.updateCategoryFee(categoryID, amount);
   }
 }

@@ -334,7 +334,7 @@ class RoundsScreenState extends State<RoundsScreen> {
                                                 ),
                                               ),
                                               Icon(
-                                                Icons.create,
+                                                Icons.person_add,
                                                 color: context
                                                             .watch<
                                                                 RoundOptionsIndexBloc>()

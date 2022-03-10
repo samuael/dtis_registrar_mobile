@@ -17,4 +17,13 @@ class RoundsBloc extends Bloc<RoundEvents, RoundBlocState>
   Future<RoundResponse>  updateRound(RoundUpdateModel  update) async {
     return await this.repository.updateRound(update);
   }
+
+  Future<RoundResponse>  activateRound(int roundID)async {
+    return await this.repository.activateRound(roundID);
+  }
+
+  Future<RoundResponse> deactivateRound(int roundID) async {
+    return await this.repository.deactivateRound(roundID);
+  }
+  
 }

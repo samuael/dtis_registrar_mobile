@@ -61,6 +61,7 @@ class RoundDataProvider {
         },
       );
       print(response.statusCode);
+      print(response.body.toString());
       print(STATUS_CODES[response.statusCode]!);
       if (response.statusCode == 200 ||
           response.statusCode == 404 ||
@@ -69,22 +70,32 @@ class RoundDataProvider {
           response.statusCode == 409) {
         final body = jsonDecode(response.body) as Map<String, dynamic>;
         if (response.statusCode == 200) {
+          print(body);
           return RoundResponse(
             response.statusCode,
             "${body["msg"]}",
-            round: Round.fromJson(body["round"]),
+            round: Round.fromJson(body["round"] as Map<String, dynamic>),
           );
         }
-        print("Round created succesfuly");
         return RoundResponse(response.statusCode, body["msg"]);
-      } else {
-        print("Round Not created");
+      } else if( response.statusCode==304){
+        return RoundResponse(
+            response.statusCode, "category not modified!");
+      }else{
         return RoundResponse(
             response.statusCode, STATUS_CODES[response.statusCode]!);
       }
     } catch (e) {
-      print("Round Creation Error: ${e.toString()}");
+      print("Round Updating Error: ${e.toString()}");
       return RoundResponse(999, STATUS_CODES[999]!);
     }
   }
+
+  Future<RoundResponse>  activateRound(int roundID) async {
+    return RoundResponse(999, " sd ");
+  }
+  Future<RoundResponse>  deactivateRound(int roundID) async {
+    return RoundResponse(999, "dds ");
+  }
+
 }

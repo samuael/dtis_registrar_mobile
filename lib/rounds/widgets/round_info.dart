@@ -23,8 +23,7 @@ class _RoundInfoState extends State<RoundInfo> {
   String reditMessage = "";
   Color reditColor = Colors.green;
 
-
- List<String> result = [
+  List<String> result = [
     "",
     "please enter valid training hour", //  1
     "please enter valid round number", //  2
@@ -62,12 +61,27 @@ class _RoundInfoState extends State<RoundInfo> {
     "invalid end date value", // 34
   ];
 
+  showRoundUpdateResult(
+    RoundResponse resu,
+    BuildContext context,
+  ) {
+    final snackBar = SnackBar(
+      backgroundColor: resu.statusCode == 200 ? Colors.green : Colors.red,
+      content: Text(
+        resu.msg,
+        style: TextStyle(
+          color: Colors.white,
+        ),
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   @override
   Widget build(BuildContext context) {
-
-    // roundBloc 
+    // roundBloc
     final roundBloc = BlocProvider.of<RoundsBloc>(context);
-    
+
     trainingHourController.text = "${widget.round.trainingHours}";
     roundNumberController.text = "${widget.round.roundNumber}";
     startingDateController.text = "${widget.round.startDate}";
@@ -112,8 +126,7 @@ class _RoundInfoState extends State<RoundInfo> {
                   Text(
                     "${widget.round.startDate}",
                   )
-                ]
-                ),
+                ]),
         ],
       ),
       Row(
@@ -245,97 +258,83 @@ class _RoundInfoState extends State<RoundInfo> {
       context.watch<RoundOptionsIndexBloc>().state == 3
           ? ElevatedButton.icon(
               onPressed: () async {
-                int val =0;
+                int val = 0;
                 try {
-                      if ((int.tryParse(trainingHourController.text) ??
-                                        0) >
-                                    0 &&
-                                (int.tryParse(roundNumberController.text) ??
-                                        0) >
-                                    0 &&
-                                startingDateController.text.length >= 8 &&
-                                endDateController.text.length >= 8 &&
-                                (double.tryParse(
-                                            feeController.text) ??
-                                        -1) >=
-                                    0.0) {
-                              if ((!isValidDateString(
-                                      startingDateController.text)) &&
-                                  !isValidDateString(endDateController.text)) {
-                                val = 32;
-                              } else if (!isValidDateString(
-                                  startingDateController.text)) {
-                                val = 33;
-                              } else if (!isValidDateString(
-                                  endDateController.text)) {
-                                val = 34;
-                              }
-                              final response = await roundBloc.updateRound(
-                                RoundUpdateModel(
-                                  id: this.widget.round.id,
-                                  trainingHours:
-                                      int.parse(trainingHourController.text),
-                                  roundNumber:
-                                      int.parse(roundNumberController.text),
-                                  endDate: endDateController.text,
-                                  startDate: startingDateController.text,
-                                  fee: double.parse(
-                                      feeController.text),
-                                  lang: "amh",
-                                ),
-                              );
-                              if (response.statusCode == 200) {
-                                context
-                                    .read<CategoriesBloc>()
-                                    .add(AddNewRoundEvent(response.round!));
-                                setState(() {
-                                  this.reditMessage = "round created succesfuly";
-                                  this.reditColor = Colors.green;
-                                });
-                                return;
-                              } else {
-                                print(this.reditMessage = response.msg);
-                                setState(() {
-                                  this.reditMessage = response.msg;
-                                  this.reditColor = Colors.red;
-                                });
-                                return;
-                              }
-                            }
-                            if (!((int.tryParse(trainingHourController.text) ??
-                                    0) >
-                                0)) {
-                              val = val | 1;
-                            }
-                            if (!((int.tryParse(roundNumberController.text) ??
-                                    0) >
-                                0)) {
-                              val = val | 2;
-                            }
-                            if (!(startingDateController.text.length >= 8)) {
-                              val = val | 4;
-                            }
-                            if (!(endDateController.text.length >= 8)) {
-                              val = val | 8;
-                            }
-                            if (!((double.tryParse(
-                                        feeController.text) ??
-                                    -1) >=
-                                0.0)) {
-                              val = val | 16;
-                            }
-                            setState(() {
-                              this.reditMessage = "";
-                            });
-                            
-                            setState(() {
-                              this.reditMessage = result[val];
-                              this.reditColor = Colors.red;
-                            });
+                  if ((int.tryParse(trainingHourController.text) ?? 0) > 0 &&
+                      (int.tryParse(roundNumberController.text) ?? 0) > 0 &&
+                      startingDateController.text.length >= 8 &&
+                      endDateController.text.length >= 8 &&
+                      (double.tryParse(feeController.text) ?? -1) >= 0.0) {
+                    if ((!isValidDateString(startingDateController.text)) &&
+                        !isValidDateString(endDateController.text)) {
+                      val = 32;
+                    } else if (!isValidDateString(
+                        startingDateController.text)) {
+                      val = 33;
+                    } else if (!isValidDateString(endDateController.text)) {
+                      val = 34;
+                    }
+                    final response = await roundBloc.updateRound(
+                      RoundUpdateModel(
+                        id: this.widget.round.id,
+                        trainingHours: int.parse(trainingHourController.text),
+                        roundNumber: int.parse(roundNumberController.text),
+                        endDate: endDateController.text,
+                        startDate: startingDateController.text,
+                        fee: double.parse(feeController.text),
+                        lang: "amh",
+                      ),
+                    );
+                    showRoundUpdateResult(
+                      response,
+                      context,
+                    );
+                    if (response.statusCode == 200) {
+                      context
+                          .read<CategoriesBloc>()
+                          .add(UpdateExistingCategoryEvent(response.round!));
+
+                      // setState(() {
+                      //   this.reditMessage = "round updated succesfuly";
+                      //   this.reditColor = Colors.green;
+                      // });
+                      return;
+                    } else {
+                      // print(this.reditMessage = response.msg);
+                      // setState(() {
+                      //   this.reditMessage = response.msg;
+                      //   this.reditColor = Colors.red;
+                      // });
+                      return;
+                    }
+                  }
+                  if (!((int.tryParse(trainingHourController.text) ?? 0) > 0)) {
+                    val = val | 1;
+                  }
+                  if (!((int.tryParse(roundNumberController.text) ?? 0) > 0)) {
+                    val = val | 2;
+                  }
+                  if (!(startingDateController.text.length >= 8)) {
+                    val = val | 4;
+                  }
+                  if (!(endDateController.text.length >= 8)) {
+                    val = val | 8;
+                  }
+                  if (!((double.tryParse(feeController.text) ?? -1) >= 0.0)) {
+                    val = val | 16;
+                  }
+                  setState(() {
+                    this.reditMessage = "";
+                  });
+
+                  setState(() {
+                    this.reditMessage = result[val];
+                    this.reditColor = Colors.red;
+                  });
                 } catch (e) {
-                  setState((){
-                    this.reditColor= Colors.red;
-                    this.reditMessage= "please fill the fields appropriately";
+                  setState(() {
+                    this.reditColor = Colors.red;
+                    this.reditMessage = "please fill the fields appropriately";
                   });
                 }
               },
@@ -365,8 +364,8 @@ class _RoundInfoState extends State<RoundInfo> {
               : (getDeviceType() == DeviceType.Phone
                   ? (MediaQuery.of(context).size.height * 0.36)
                   : (context.watch<RoundOptionsIndexBloc>().state == 3
-                      ? MediaQuery.of(context).size.height * 0.4
-                      : MediaQuery.of(context).size.height * 0.3)),
+                      ? MediaQuery.of(context).size.height * 0.38
+                      : MediaQuery.of(context).size.height * 0.25)),
           color: Colors.white,
           width: double.infinity,
           child: context.watch<RoundInfoVisibility>().state
@@ -386,19 +385,6 @@ class _RoundInfoState extends State<RoundInfo> {
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               SizedBox(height: 20),
-                              Center(
-                                child: Container(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        reditMessage,
-                                        style: TextStyle(color: reditColor),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
@@ -416,7 +402,12 @@ class _RoundInfoState extends State<RoundInfo> {
                                   ),
                                   Text(
                                     "${(context.read<CategoriesBloc>().state as CategoriesListSuccess).getCategoryByID(widget.round.categoryID)!.title}",
-                                  )
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      // fontStyle:FontStyle.italic,
+                                      fontSize: 18,
+                                    ),
+                                  ),
                                 ],
                               ),
                               Row(
