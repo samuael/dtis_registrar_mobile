@@ -19,6 +19,16 @@ class CategoriesListSuccess extends CategoryBlocState {
     }
     return null;
   }
+  Round? getRoundByID(int id) {
+    for (Category c in this.categories){
+      for (Round r in c.rounds??[]){
+        if (r.id == id){
+          return r;
+        }
+      }
+    }
+    return null;
+  }
 }
 
 // CategoriesLoadFailed

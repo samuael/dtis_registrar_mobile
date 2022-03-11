@@ -76,10 +76,10 @@ class _RoundInfoState extends State<RoundInfo> {
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
-
+  bool activeRound = false;
   @override
   Widget build(BuildContext context) {
-    // roundBloc
+    activeRound = widget.round.active;
     final roundBloc = BlocProvider.of<RoundsBloc>(context);
 
     trainingHourController.text = "${widget.round.trainingHours}";
@@ -212,9 +212,9 @@ class _RoundInfoState extends State<RoundInfo> {
           child: Container(
             decoration: BoxDecoration(
               border: Border.all(
-                color: widget.round.active ? Colors.green : Colors.red,
+                color: activeRound ? Colors.green : Colors.red,
               ),
-              color: widget.round.active ? Colors.green : Colors.red,
+              color: activeRound ? Colors.green : Colors.red,
             ),
             margin: EdgeInsets.all(1),
             child: Row(
@@ -241,7 +241,43 @@ class _RoundInfoState extends State<RoundInfo> {
         ),
         context.watch<RoundOptionsIndexBloc>().state == 3
             ? FlatButton(
-                onPressed: () {},
+                onPressed: () async {
+                  if (this.widget.round.active) {
+                    final result =
+                        await roundBloc.deactivateRound(widget.round.id);
+                    if (result.statusCode == 200) {
+                      setState(() {
+                        widget.round.active = true;
+                        this.activeRound = widget.round.active;
+                      });
+                      context
+                          .read<CategoriesBloc>()
+                          .add(UpdateExistingRoundEvent(widget.round));
+                    }
+                    showRoundUpdateResult(
+                      result,
+                      context,
+                    );
+                    return;
+                  } else {
+                    final result =
+                        await roundBloc.activateRound(widget.round.id);
+                    if (result.statusCode == 200) {
+                      setState(() {
+                        widget.round.active = false;
+                        this.activeRound = widget.round.active;
+                      });
+                      context
+                          .read<CategoriesBloc>()
+                          .add(UpdateExistingRoundEvent(widget.round));
+                    }
+                    showRoundUpdateResult(
+                      result,
+                      context,
+                    );
+                    return;
+                  }
+                },
                 color: widget.round.active ? Colors.red : Colors.green,
                 child: Text(
                   "${widget.round.active ? "Deactivate" : "Activate"}",
@@ -292,21 +328,10 @@ class _RoundInfoState extends State<RoundInfo> {
                     if (response.statusCode == 200) {
                       context
                           .read<CategoriesBloc>()
-                          .add(UpdateExistingCategoryEvent(response.round!));
-
-                      // setState(() {
-                      //   this.reditMessage = "round updated succesfuly";
-                      //   this.reditColor = Colors.green;
-                      // });
-                      return;
-                    } else {
-                      // print(this.reditMessage = response.msg);
-                      // setState(() {
-                      //   this.reditMessage = response.msg;
-                      //   this.reditColor = Colors.red;
-                      // });
+                          .add(UpdateExistingRoundEvent(response.round!));
                       return;
                     }
+                    return;
                   }
                   if (!((int.tryParse(trainingHourController.text) ?? 0) > 0)) {
                     val = val | 1;

@@ -85,7 +85,7 @@ class MyApp extends StatelessWidget {
               final round = (routeSetting.arguments
                   as Map<String, dynamic>)["round"] as Round;
               return MaterialPageRoute(builder: (context) {
-                return RoundsScreen(round);
+                return RoundsScreen(round.id);
               });
             }
         }

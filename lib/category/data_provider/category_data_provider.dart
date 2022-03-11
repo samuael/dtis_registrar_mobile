@@ -182,7 +182,6 @@ class CategoryDataProvider {
           "Authorization": StaticDataStore.HEADERS["authorization"] ?? ""
         },
       );
-
       if (response.statusCode == 200 ||
           response.statusCode == 409 ||
           response.statusCode == 404) {

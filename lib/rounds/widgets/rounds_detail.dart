@@ -1,8 +1,8 @@
 import "../../libs.dart";
 
 class RoundsDetail extends StatefulWidget {
-  final Round round;
-  const RoundsDetail(this.round, {Key? key}) : super(key: key);
+  final int roundID;
+  const RoundsDetail(this.roundID, {Key? key}) : super(key: key);
 
   @override
   State<RoundsDetail> createState() => _RoundsDetailState();
@@ -17,9 +17,17 @@ class _RoundsDetailState extends State<RoundsDetail> {
         children: [
           ListView(
             children: [
-              // SizedBox(height: 150),
-              RoundInfo(
-                this.widget.round,
+              BlocBuilder<CategoriesBloc, CategoryBlocState>(
+                builder: (context, state) {
+                  if (!(state is CategoriesListSuccess)) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  return RoundInfo(
+                    (state).getRoundByID(this.widget.roundID)!,
+                  );
+                },
               ),
               GestureDetector(
                 onTap: () {

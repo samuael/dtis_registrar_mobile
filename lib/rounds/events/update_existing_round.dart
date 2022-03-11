@@ -1,6 +1,6 @@
 import "../../libs.dart";
 
-class UpdateExistingCategoryEvent extends CategoryEvent {
+class UpdateExistingRoundEvent extends CategoryEvent {
   final Round round;
-  UpdateExistingCategoryEvent(this.round);
+  UpdateExistingRoundEvent(this.round);
 }

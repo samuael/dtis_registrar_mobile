@@ -78,10 +78,9 @@ class RoundDataProvider {
           );
         }
         return RoundResponse(response.statusCode, body["msg"]);
-      } else if( response.statusCode==304){
-        return RoundResponse(
-            response.statusCode, "category not modified!");
-      }else{
+      } else if (response.statusCode == 304) {
+        return RoundResponse(response.statusCode, "category not modified!");
+      } else {
         return RoundResponse(
             response.statusCode, STATUS_CODES[response.statusCode]!);
       }
@@ -91,11 +90,80 @@ class RoundDataProvider {
     }
   }
 
-  Future<RoundResponse>  activateRound(int roundID) async {
-    return RoundResponse(999, " sd ");
-  }
-  Future<RoundResponse>  deactivateRound(int roundID) async {
-    return RoundResponse(999, "dds ");
+  Future<RoundResponse> activateRound(int roundID) async {
+    try {
+      var response = await client.get(
+        Uri(
+          scheme: "http",
+          host: StaticDataStore.HOST,
+          port: StaticDataStore.PORT,
+          path: "/api/round/activation",
+          queryParameters: {
+            "id": "$roundID",
+          },
+        ),
+        headers: {
+          "Authorization": StaticDataStore.HEADERS["authorization"] ?? ""
+        },
+      );
+      if (response.statusCode == 200 ||
+          response.statusCode == 409 ||
+          response.statusCode == 404) {
+        final body = jsonDecode(response.body.toString());
+        if (response.statusCode == 200) {
+          final body = jsonDecode(response.body);
+          return RoundResponse(response.statusCode, body["msg"]);
+        } else {
+          return RoundResponse(response.statusCode, body["err"]);
+        }
+      } else if (response.statusCode == 304) {
+        return RoundResponse(response.statusCode, "round status not modified");
+      } else {
+        return RoundResponse(
+            response.statusCode, "failed to activate a round");
+      }
+    } catch (e) {
+      print(e.toString());
+      return RoundResponse(999, STATUS_CODES[999]!);
+    }
   }
 
+  Future<RoundResponse> deactivateRound(int roundID) async {
+    try {
+      var response = await client.get(
+        Uri(
+          scheme: "http",
+          host: StaticDataStore.HOST,
+          port: StaticDataStore.PORT,
+          path: "/api/round/deactivation",
+          queryParameters: {
+            "id": "$roundID",
+          },
+        ),
+        headers: {
+          "Authorization": StaticDataStore.HEADERS["authorization"] ?? ""
+        },
+      );
+      print(response.statusCode);
+      if (response.statusCode == 200 ||
+          response.statusCode == 409 ||
+          response.statusCode == 404) {
+        final body = jsonDecode(response.body.toString());
+        if (response.statusCode == 200) {
+          final body = jsonDecode(response.body);
+          return RoundResponse(response.statusCode, body["msg"]);
+        } else {
+          return RoundResponse(response.statusCode, body["err"]);
+        }
+      } else if (response.statusCode == 304) {
+        return RoundResponse(response.statusCode, "round status not modified");
+      } else {
+        return RoundResponse(
+            response.statusCode, "failed to deactivate the round");
+      }
+    } catch (e) {
+      print(e.toString());
+      return RoundResponse(999, STATUS_CODES[999]!);
+    }
+  }
 }

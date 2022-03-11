@@ -97,11 +97,12 @@ class CategoriesBloc extends Bloc<CategoryEvent, CategoryBlocState>
         }
       }
       yield thestate;
-    } else if (event is UpdateExistingCategoryEvent) {
+    } else if (event is UpdateExistingRoundEvent) {
       if (!(this.state is CategoriesListSuccess)) {
         return;
       }
       final thestate = this.state;
+      yield CategoryInit();
       for (Category cat in (thestate as CategoriesListSuccess).categories) {
         if (cat.id == event.round.categoryID) {
           for (Round rnd in cat.rounds ?? []) {
