@@ -88,6 +88,14 @@ class MyApp extends StatelessWidget {
                 return RoundsScreen(round.id);
               });
             }
+          case StudentRegistrationScreen.RouteName:
+            {
+              final roundID = (routeSetting.arguments
+                  as Map<String, dynamic>)["round_id"] as int;
+              return MaterialPageRoute(builder: (context) {
+                return StudentRegistrationScreen(roundID: roundID);
+              });
+            }
         }
       },
       initialRoute: AuthScreen.RouteName,

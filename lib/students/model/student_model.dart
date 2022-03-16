@@ -1,54 +1,79 @@
 import "../../libs.dart";
 
 class Student {
-  int id;
+  int? id;
   String fullname;
   String sex;
-  int age;
+  int? age;
   Date birthDate;
   String accademicStatus;
   Address address;
-}
+  String phone;
+  double paidAmount;
+  int status;
+  int? registeredBy;
+  int roundID;
+  String imgurl;
+  SpecialCase? marked;
+  Date? registeredAt;
 
-class Address {
-  int? id;
-  String city;
-  String region;
-  String zone;
-  String woreda;
-  String kebele;
-  String? uniqueAddress;
-  Address({
+  Student({
     this.id,
-    required this.city,
-    required this.region,
-    required this.zone,
-    required this.woreda,
-    required this.kebele,
-    this.uniqueAddress,
+    required this.fullname,
+    required this.sex,
+    required this.age,
+    required this.birthDate,
+    required this.accademicStatus,
+    required this.address,
+    required this.phone,
+    required this.paidAmount,
+    required this.status,
+    this.registeredBy,
+    required this.roundID,
+    required this.imgurl,
+    this.marked,
+    this.registeredAt,
   });
 
-  factory Address.fromJson(Map<String, dynamic> json) {
-    return Address(
+  factory Student.fromJson(Map<String, dynamic> json) {
+    return Student(
       id: int.parse("${json["id"] ?? 0}"),
-      city: "${json["city"]}",
-      region: "${json["region"]}",
-      zone: "${json["zone"]}",
-      woreda: "${json["woreda"]}",
-      kebele: "${json["kebele"]}",
-      uniqueAddress: "${json["unique_address_name"]}",
+      fullname: "${json["fullname"]}",
+      sex: "${json["sex"]}",
+      age: int.parse("${json["age"] ?? 0}"),
+      birthDate: Date.fromJson(json["birth_date"] as Map<String, dynamic>),
+      accademicStatus: "${json["acc_status"]}",
+      address: Address.fromJson(json["address"] as Map<String, dynamic>),
+      phone: "${json["phone"]}",
+      paidAmount: double.parse("${json["paid_amount"] ?? 0}"),
+      status: int.parse("${json["status"] ?? 0}"),
+      registeredBy: int.parse("${json["registered_by"] ?? 0}"),
+      roundID: int.parse("${json["round_id"] ?? 0}"),
+      imgurl: "${json["imgurl"]}",
+      marked:
+          SpecialCase.fromJson(json["special_case"] as Map<String, dynamic>),
+      registeredAt:
+          Date.fromJson(json["registered_at"] as Map<String, dynamic>),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       "id": this.id,
-      "city": this.city,
-      "region": this.region,
-      "zone": this.zone,
-      "woreda": this.woreda,
-      "kebele": this.kebele,
-      "unique_address_name": this.uniqueAddress,
+      "fullname": this.fullname,
+      "sex": this.sex,
+      "age": this.age,
+      "birth_date": this.birthDate,
+      "acc_status": this.accademicStatus,
+      "address": this.address,
+      "phone": this.phone,
+      "paid_amount": this.paidAmount,
+      "status": this.status,
+      "registered_by": this.registeredBy,
+      "round_id": this.roundID,
+      "imgurl": this.imgurl,
+      "special_case": this.marked,
+      "registered_at": this.registeredBy,
     };
   }
 }

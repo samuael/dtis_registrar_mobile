@@ -313,6 +313,14 @@ class RoundsScreenState extends State<RoundsScreen> {
                                                   .read<RoundOptionsIndexBloc>()
                                                   .add(5);
                                             });
+
+                                            Navigator.of(context).pushNamed(
+                                              StudentRegistrationScreen
+                                                  .RouteName,
+                                              arguments: {
+                                                "round_id": widget.roundID
+                                              },
+                                            );
                                           },
                                           child: Container(
                                             padding: EdgeInsets.symmetric(
