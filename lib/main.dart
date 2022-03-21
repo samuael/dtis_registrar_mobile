@@ -30,6 +30,9 @@ void main() {
         BlocProvider(
           create: (context) => RoundInfoVisibility(),
         ),
+        BlocProvider(
+          create: (context) => RoundStudentsBloc(),
+        ),
       ],
       child: MyApp(),
     ),

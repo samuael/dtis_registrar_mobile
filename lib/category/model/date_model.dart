@@ -39,9 +39,9 @@ class Date {
       return Date();
     }
     return Date(
-      seconds: int.parse("${json["seconds"]}"),
-      minutes: int.parse("${json["minutes"]}"),
-      hours: int.parse("${json["hours"]}"),
+      seconds: int.parse("${json["seconds"] ?? 0}"),
+      minutes: int.parse("${json["minutes"] ?? 0}"),
+      hours: int.parse("${json["hours"] ?? 0}"),
       day: int.parse("${json["day"]}"),
       month: int.parse("${json["month"]}"),
       year: int.parse("${json["month"]}"),

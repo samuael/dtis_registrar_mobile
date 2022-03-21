@@ -67,9 +67,7 @@ class _RoundsDetailState extends State<RoundsDetail> {
                             GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  context
-                                      .read<CategoryOptionIndexBloc>()
-                                      .add(2);
+                                  context.read<RoundOptionsIndexBloc>().add(2);
                                 });
                               },
                               child: Container(
@@ -79,18 +77,32 @@ class _RoundsDetailState extends State<RoundsDetail> {
                                 ),
                                 child: Row(
                                   children: [
-                                    Icon(
-                                      Icons.batch_prediction,
-                                      color: Colors.white60,
+                                    Image.asset(
+                                      "assets/icon_images/moneys.png",
+                                      height: 30,
+                                      width: 30,
+                                      color: context
+                                                  .watch<
+                                                      RoundOptionsIndexBloc>()
+                                                  .state ==
+                                              2
+                                          ? Colors.white
+                                          : Colors.white60,
                                     ),
                                     SizedBox(
                                       width: 10,
                                     ),
                                     Text(
-                                      "Rounds",
+                                      "Payment Transactions",
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        color: Colors.white60,
+                                        color: context
+                                                    .watch<
+                                                        RoundOptionsIndexBloc>()
+                                                    .state ==
+                                                2
+                                            ? Colors.white
+                                            : Colors.white60,
                                       ),
                                     ),
                                   ],
@@ -108,9 +120,7 @@ class _RoundsDetailState extends State<RoundsDetail> {
                             GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  context
-                                      .read<CategoryOptionIndexBloc>()
-                                      .add(4);
+                                  context.read<RoundOptionsIndexBloc>().add(4);
                                 });
                               },
                               child: Container(
@@ -122,7 +132,13 @@ class _RoundsDetailState extends State<RoundsDetail> {
                                   children: [
                                     Icon(
                                       Icons.people_sharp,
-                                      color: Colors.white60,
+                                      color: context
+                                                  .watch<
+                                                      RoundOptionsIndexBloc>()
+                                                  .state ==
+                                              4
+                                          ? Colors.white
+                                          : Colors.white60,
                                     ),
                                     SizedBox(
                                       width: 10,
@@ -131,7 +147,118 @@ class _RoundsDetailState extends State<RoundsDetail> {
                                       "Students",
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        color: Colors.white,
+                                        color: context
+                                                    .watch<
+                                                        RoundOptionsIndexBloc>()
+                                                    .state ==
+                                                4
+                                            ? Colors.white
+                                            : Colors.white60,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Container(
+                              color: Colors.white,
+                              width: 1,
+                              height: 30,
+                              child: SizedBox(
+                                width: 1,
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  context.read<RoundOptionsIndexBloc>().add(6);
+                                });
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 20,
+                                  horizontal: 30,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.document_scanner_outlined,
+                                      color: context
+                                                  .watch<
+                                                      RoundOptionsIndexBloc>()
+                                                  .state ==
+                                              6
+                                          ? Colors.white
+                                          : Colors.white60,
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      "Documents Generation",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: context
+                                                    .watch<
+                                                        RoundOptionsIndexBloc>()
+                                                    .state ==
+                                                6
+                                            ? Colors.white
+                                            : Colors.white60,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Container(
+                              color: Colors.white,
+                              width: 1,
+                              height: 30,
+                              child: SizedBox(
+                                width: 1,
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  context.read<RoundOptionsIndexBloc>().add(7);
+                                });
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 20,
+                                  horizontal: 30,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Image.asset(
+                                      // Icons.
+                                      "assets/icon_images/icons8-report-64.png",
+                                      width: 30,
+                                      height: 30,
+                                      color: context
+                                                  .watch<
+                                                      RoundOptionsIndexBloc>()
+                                                  .state ==
+                                              7
+                                          ? Colors.white
+                                          : Colors.white60,
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      "Reports Generation",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: context
+                                                    .watch<
+                                                        RoundOptionsIndexBloc>()
+                                                    .state ==
+                                                7
+                                            ? Colors.white
+                                            : Colors.white60,
                                       ),
                                     ),
                                   ],
@@ -144,17 +271,24 @@ class _RoundsDetailState extends State<RoundsDetail> {
                 ),
               ),
               AnimatedContainer(
-                  duration: Duration(
-                    seconds: 1,
-                  ),
-                  child: Center(
-                    child: Text(
-                      "Ethiopia",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  )),
+                duration: Duration(
+                  seconds: 1,
+                ),
+                child: context.watch<RoundOptionsIndexBloc>().state == 4
+                    ? RoundStudents(
+                        roundID: widget.roundID,
+                      )
+                    : (context.watch<RoundOptionsIndexBloc>().state == 5
+                        ? StudentRegistrationPage(roundID: widget.roundID)
+                        : Center(
+                            child: Text(
+                              "Ethiopia",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          )),
+              ),
               // CategoryRounds(
               //   category: this.widget.category,
               // ),

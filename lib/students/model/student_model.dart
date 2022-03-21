@@ -36,6 +36,7 @@ class Student {
   });
 
   factory Student.fromJson(Map<String, dynamic> json) {
+    // try {
     return Student(
       id: int.parse("${json["id"] ?? 0}"),
       fullname: "${json["fullname"]}",
@@ -49,12 +50,38 @@ class Student {
       status: int.parse("${json["status"] ?? 0}"),
       registeredBy: int.parse("${json["registered_by"] ?? 0}"),
       roundID: int.parse("${json["round_id"] ?? 0}"),
-      imgurl: "${json["imgurl"]}",
-      marked:
-          SpecialCase.fromJson(json["special_case"] as Map<String, dynamic>),
+      imgurl: "${json["imgurl"] ?? ''}",
+      marked: json["special_case"] != null
+          ? SpecialCase.fromJson(json["special_case"] as Map<String, dynamic>)
+          : SpecialCase(),
       registeredAt:
           Date.fromJson(json["registered_at"] as Map<String, dynamic>),
     );
+    // } catch (e, a) {
+    //   print(e.toString());
+    //   return Student(
+    //     id: 0,
+    //     fullname: "samu adnew",
+    //     sex: "M",
+    //     age: 56,
+    //     birthDate: Date(),
+    //     accademicStatus: "Nothing",
+    //     address: Address(
+    //         city: "Sheger ",
+    //         region: "Begu",
+    //         zone: "Assosa",
+    //         woreda: "05",
+    //         kebele: "09"),
+    //     phone: "+251992078204",
+    //     paidAmount: 0,
+    //     status: 1,
+    //     registeredBy: 5,
+    //     roundID: 6,
+    //     imgurl: "",
+    //     marked: null,
+    //     registeredAt: Date(),
+    //   );
+    // }
   }
 
   Map<String, dynamic> toJson() {

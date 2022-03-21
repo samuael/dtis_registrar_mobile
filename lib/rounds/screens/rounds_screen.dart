@@ -308,19 +308,23 @@ class RoundsScreenState extends State<RoundsScreen> {
                                         ),
                                         GestureDetector(
                                           onTap: () {
-                                            setState(() {
                                               context
                                                   .read<RoundOptionsIndexBloc>()
                                                   .add(5);
-                                            });
+                                            if(!(context.watch<RoundInfoVisibility>().state)){
+                                              context.read<RoundInfoVisibility>().changeState();
+                                            }
 
-                                            Navigator.of(context).pushNamed(
-                                              StudentRegistrationScreen
-                                                  .RouteName,
-                                              arguments: {
-                                                "round_id": widget.roundID
-                                              },
-                                            );
+                                            if (getDeviceType() ==
+                                                DeviceType.Phone) {
+                                              Navigator.of(context).pushNamed(
+                                                StudentRegistrationScreen
+                                                    .RouteName,
+                                                arguments: {
+                                                  "round_id": widget.roundID
+                                                },
+                                              );
+                                            }
                                           },
                                           child: Container(
                                             padding: EdgeInsets.symmetric(

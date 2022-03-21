@@ -2,19 +2,17 @@ import 'package:flutter/services.dart';
 
 import "../../libs.dart";
 
-class StudentRegistrationScreen extends StatefulWidget {
-  final int roundID;
-  static const String RouteName = "/students_registration";
+class StudentRegistrationPage extends StatefulWidget {
+  StudentRegistrationPage({Key? key, required this.roundID}) : super(key: key);
 
-  const StudentRegistrationScreen({required this.roundID, Key? key})
-      : super(key: key);
+  final int roundID;
 
   @override
-  State<StudentRegistrationScreen> createState() =>
-      _StudentRegistrationScreenState();
+  State<StudentRegistrationPage> createState() =>
+      _StudentRegistrationPageState();
 }
 
-class _StudentRegistrationScreenState extends State<StudentRegistrationScreen> {
+class _StudentRegistrationPageState extends State<StudentRegistrationPage> {
   String messageText = "Please Provide Student Information Correctly";
   Color messageColor = Colors.black87;
   FontStyle messageStyle = FontStyle.italic;
@@ -404,123 +402,105 @@ class _StudentRegistrationScreenState extends State<StudentRegistrationScreen> {
         height: 20,
       ),
       ElevatedButton.icon(
-          onPressed: () => handleInputProcessing(context),
-          icon: Icon(Icons.app_registration_outlined),
-          label: Text(
-            "Register",
-          ),
-          style: ButtonStyle(
-              animationDuration: Duration(
-                seconds: 1,
-              ),
-              padding: MaterialStateProperty.all(
-                EdgeInsets.symmetric(
-                  vertical: 20,
-                  horizontal: 30,
-                ),
-              )))
-    ];
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        elevation: 0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.app_registration,
-              color: Colors.white,
-            ),
-            Text(
-              "Students Registration",
-              style: TextStyle(
-                // fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-          ],
+        onPressed: () => handleInputProcessing(context),
+        icon: Icon(Icons.app_registration_outlined),
+        label: Text(
+          "Register",
         ),
-      ),
-      body: Container(
-        // width : MediaQuery.of(context).size.width,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(30),
-              child: AnimatedContainer(
-                padding: EdgeInsets.all(5),
-                duration: Duration(
-                  milliseconds: 500,
-                ),
-                width: MediaQuery.of(context).size.width * 0.7,
-                height: 50,
-                // color: Colors.lightBlue[400],
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Student Registration for ",
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
-                    ),
-                    Text(
-                      "Category :",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        // color: Colors.white,
-                        fontSize: 18,
-                      ),
-                    ),
-                    Text(
-                      "   Bajaj",
-                      style: TextStyle(
-                        // color: Colors.white,
-                        fontStyle: FontStyle.italic,
-                        fontSize: 18,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 30,
-                    ),
-                    Text(
-                      "Round Number :",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        // color: Colors.white,
-                        fontSize: 18,
-                      ),
-                    ),
-                    Text(
-                      "   5",
-                      style: TextStyle(
-                        // color: Colors.white,
-                        fontStyle: FontStyle.italic,
-                        fontSize: 18,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+        style: ButtonStyle(
+          animationDuration: Duration(
+            seconds: 1,
+          ),
+          padding: MaterialStateProperty.all(
+            EdgeInsets.symmetric(
+              vertical: 20,
+              horizontal: 30,
             ),
-            Center(
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                  vertical: 10,
-                ),
-                child: Text(
-                  messageText,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: messageColor,
-                    fontStyle: messageStyle,
-                    fontSize: 15,
+          ),
+        ),
+      )
+    ];
+    return Container(
+      // width : MediaQuery.of(context).size.width,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(30),
+            child: AnimatedContainer(
+              padding: EdgeInsets.all(5),
+              duration: Duration(
+                milliseconds: 500,
+              ),
+              width: MediaQuery.of(context).size.width * 0.7,
+              height: 50,
+              // color: Colors.lightBlue[400],
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Student Registration for ",
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
                   ),
+                  Text(
+                    "Category :",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      // color: Colors.white,
+                      fontSize: 18,
+                    ),
+                  ),
+                  Text(
+                    "   Bajaj",
+                    style: TextStyle(
+                      // color: Colors.white,
+                      fontStyle: FontStyle.italic,
+                      fontSize: 18,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  Text(
+                    "Round Number :",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      // color: Colors.white,
+                      fontSize: 18,
+                    ),
+                  ),
+                  Text(
+                    "   5",
+                    style: TextStyle(
+                      // color: Colors.white,
+                      fontStyle: FontStyle.italic,
+                      fontSize: 18,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Center(
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                vertical: 10,
+              ),
+              child: Text(
+                messageText,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: messageColor,
+                  fontStyle: messageStyle,
+                  fontSize: 15,
                 ),
               ),
             ),
-            Row(children: [
+          ),
+          Row(
+            children: [
               Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -938,9 +918,9 @@ class _StudentRegistrationScreenState extends State<StudentRegistrationScreen> {
                       children: extraFields,
                     )
                   : SizedBox()
-            ]),
-          ],
-        ),
+            ],
+          ),
+        ],
       ),
     );
   }

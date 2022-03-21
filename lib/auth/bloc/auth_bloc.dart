@@ -30,14 +30,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthBlocState>
     this.mapEventToState(AdminLoginInProgressEvent());
     final thestate = await repo.loginAdmin(event.email, event.password);
     this.mapEventToState(AuthStateInitEvent());
-    if (thestate != null) {
-      // print(
-      //     "Succesfuly Logged In with the email ${event.email} and password ${event.password}");
-      final val = AuthAdminLoggedIn(thestate);
+    if (thestate.user != null) {
+      final val = AuthAdminLoggedIn(thestate.user!);
       this.mapEventToState(AuthAdminLoggedInEvent(val.admin));
-      return (AuthAdminLoggedIn(thestate));
+      return (AuthAdminLoggedIn(thestate.user!));
     }
-    final val = AuthAdminLoginNotSuccesful(" invalid username or password! ");
+    final val = AuthAdminLoginNotSuccesful(thestate.msg);
     this.mapEventToState(AuthAdminLoginNotSuccesfulEvent(val.Msg));
     return val;
   }

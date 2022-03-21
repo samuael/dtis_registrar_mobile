@@ -7,7 +7,7 @@ class AuthRepo {
 
   AuthRepo({@required this.provider});
 
-  Future<Admin?> loginAdmin(String email, String password) async {
+  Future<UsersLoginResponse> loginAdmin(String email, String password) async {
     return await this.provider!.loginAdmin(email, password);
   }
 

@@ -14,8 +14,10 @@ class RoundItemState extends State<RoundItem> {
   bool isHovering = false;
   @override
   Widget build(BuildContext context) {
+    final studentsOfRoundBloc = BlocProvider.of<RoundStudentsBloc>(context);
     return GestureDetector(
       onTap: () {
+        studentsOfRoundBloc.add(RoundStudentsLoadEvent(widget.round.id));
         Navigator.of(context).pushNamed(
           RoundsScreen.RouteName,
           arguments: {"round": widget.round},

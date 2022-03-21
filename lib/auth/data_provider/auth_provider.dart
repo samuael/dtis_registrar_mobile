@@ -61,7 +61,7 @@ class AuthProvider {
     }
   }
 
-  Future<Admin?> loginAdmin(String email, String password) async {
+  Future<UsersLoginResponse> loginAdmin(String email, String password) async {
     try {
       print("$email   $password");
       var response = await client.post(
@@ -85,17 +85,34 @@ class AuthProvider {
         var body = jsonDecode(response.body) as Map<String, dynamic>;
         if (body["success"] == true) {
           StaticDataStore.HEADERS = response.headers;
-
-          // print("This is the token ${StaticDataStore.TOKEN} ");
-          return Admin.fromJson(body["user"] as Map<String, dynamic>);
+          return UsersLoginResponse(
+              statusCode: response.statusCode,
+              msg: "${body["message"]}",
+              user: Admin.fromJson(body["user"] as Map<String, dynamic>));
         }
-        return null;
+        return UsersLoginResponse(
+          statusCode: response.statusCode,
+          msg: "${body["message"]}",
+        );
+      } else if (response.statusCode == 401 ||
+          response.statusCode == 500 ||
+          response.statusCode == 404) {
+        var body = jsonDecode(response.body) as Map<String, dynamic>;
+        return UsersLoginResponse(
+          statusCode: response.statusCode,
+          msg: "${body["message"]}",
+        );
       } else {
-        return null;
+        return UsersLoginResponse(
+          statusCode: response.statusCode,
+          msg: STATUS_CODES[999]!,
+        );
       }
     } catch (e, a) {
-      print("Exception ${e.toString()}   ${a.toString()}");
-      return null;
+      return UsersLoginResponse(
+        statusCode: 999,
+        msg: STATUS_CODES[999]!,
+      );
     }
   }
 
