@@ -22,9 +22,10 @@ class _StudentItemState extends State<StudentItem> {
                 fit: BoxFit.fill,
               )
             : Image.asset(
-                "assets/icon_images/avex.jpeg",
+                widget.student.sex == "F"
+                    ? "assets/icon_images/wonam.png"
+                    : "assets/icon_images/manam.png",
                 fit: BoxFit.fill,
-                
               ),
         title: Text(widget.student.fullname),
         subtitle:

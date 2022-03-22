@@ -21,8 +21,9 @@ class _RoundStudentsState extends State<RoundStudents> {
                   .map<StudentItem>((stu) {
                 return StudentItem(student: stu);
               }).toList(),
-              ElevatedButton(
-                  child: Text(
+              FlatButton.icon(
+                  icon: Icon(Icons.model_training_rounded),
+                  label: Text(
                     "See More",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -32,7 +33,11 @@ class _RoundStudentsState extends State<RoundStudents> {
                     context
                         .read<RoundStudentsBloc>()
                         .add(RoundStudentsLoadEvent(widget.roundID));
-                  })
+                  } , 
+                   minWidth: 50,
+                   height: 40,
+                  focusColor: Theme.of(context).primaryColorLight,
+                  )
             ]);
           } else {
             return Center(

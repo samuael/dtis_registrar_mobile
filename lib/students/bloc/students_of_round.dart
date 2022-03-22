@@ -1,7 +1,7 @@
 import "../../libs.dart";
 
-class RoundStudentsBloc extends Bloc<RoundStudentsEvent,
-    RoundStudentsState> /*  implements Cubit<RoundStudentsState> */ {
+class RoundStudentsBloc extends Bloc<RoundStudentsEvent, RoundStudentsState>
+    implements Cubit<RoundStudentsState> {
   StudentRepository repo = StudentRepository();
 
   RoundStudentsBloc() : super(RoundStudentsInit());
@@ -21,11 +21,7 @@ class RoundStudentsBloc extends Bloc<RoundStudentsEvent,
           event.roundID, roundStudents, roundStudents + 10);
 
       if (result.statusCode == 200) {
-        print(
-            "\n\n\n\n\n\n\n The Number of Students Found : ${result.students!.length}\n\n\n\n\n");
         if (this.state is RoundStudentsLoaded) {
-          print("Printing the IF");
-
           final states = this.state;
           if ((states as RoundStudentsLoaded).roundStudents[result.roundid] ==
               null) {
@@ -61,6 +57,34 @@ class RoundStudentsBloc extends Bloc<RoundStudentsEvent,
               roundStudents: {result.roundid: result.students ?? []});
         }
       }
+    } else if (event is StudentRegisteredEvent) {
+      if (this.state is RoundStudentsLoaded) {
+        final states = this.state;
+        if ((states as RoundStudentsLoaded).roundStudents[event.roundID] ==
+            null) {
+          (states).roundStudents[event.roundID] = [];
+        }
+        ((states).roundStudents[event.roundID]!).add(event.student);
+        // final stids = Map<int, bool>();
+        // (states).roundStudents[event.roundID]!.removeWhere((element) {
+        //   if (stids[element.id ?? 0] != null &&
+        //       stids[element.id ?? 0] == true) {
+        //     return true;
+        //   }
+        //   stids[element.id ?? 0] = true;
+        //   return false;
+        // });
+        yield RoundStudentsInit();
+        yield states;
+      } else {
+        yield RoundStudentsLoaded(roundStudents: {
+          event.roundID: [event.student]
+        });
+      }
     }
+  }
+
+  Future<StudentRegistrationResponse> registerStudent(Student student) async {
+    return await this.repo.registerStudent(student);
   }
 }

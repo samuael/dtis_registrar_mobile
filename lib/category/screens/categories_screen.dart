@@ -187,7 +187,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                                 ),
                                               ),
                                               Icon(
-                                                Icons.batch_prediction,
+                                                Icons.model_training_rounded,
                                                 color: context
                                                             .watch<
                                                                 CategoryOptionIndexBloc>()

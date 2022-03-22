@@ -21,7 +21,7 @@ class Student {
     this.id,
     required this.fullname,
     required this.sex,
-    required this.age,
+    this.age,
     required this.birthDate,
     required this.accademicStatus,
     required this.address,
@@ -57,31 +57,6 @@ class Student {
       registeredAt:
           Date.fromJson(json["registered_at"] as Map<String, dynamic>),
     );
-    // } catch (e, a) {
-    //   print(e.toString());
-    //   return Student(
-    //     id: 0,
-    //     fullname: "samu adnew",
-    //     sex: "M",
-    //     age: 56,
-    //     birthDate: Date(),
-    //     accademicStatus: "Nothing",
-    //     address: Address(
-    //         city: "Sheger ",
-    //         region: "Begu",
-    //         zone: "Assosa",
-    //         woreda: "05",
-    //         kebele: "09"),
-    //     phone: "+251992078204",
-    //     paidAmount: 0,
-    //     status: 1,
-    //     registeredBy: 5,
-    //     roundID: 6,
-    //     imgurl: "",
-    //     marked: null,
-    //     registeredAt: Date(),
-    //   );
-    // }
   }
 
   Map<String, dynamic> toJson() {
@@ -90,16 +65,16 @@ class Student {
       "fullname": this.fullname,
       "sex": this.sex,
       "age": this.age,
-      "birth_date": this.birthDate,
+      "birth_date": this.birthDate.toJson(),
       "acc_status": this.accademicStatus,
-      "address": this.address,
+      "address": this.address.toJson(),
       "phone": this.phone,
       "paid_amount": this.paidAmount,
       "status": this.status,
       "registered_by": this.registeredBy,
       "round_id": this.roundID,
       "imgurl": this.imgurl,
-      "special_case": this.marked,
+      "special_case": (this.marked==null)?  null : marked!.toJson(),
       "registered_at": this.registeredBy,
     };
   }

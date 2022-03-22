@@ -62,4 +62,57 @@ class StudentDataProvider {
       );
     }
   }
+
+  Future<StudentRegistrationResponse> registerStudent(Student student) async {
+    try {
+      final response = await this.client.post(
+            Uri(
+              scheme: "http",
+              host: StaticDataStore.HOST,
+              port: StaticDataStore.PORT,
+              path: "/api/student/new/",
+            ),
+            headers: {
+              "Authorization": StaticDataStore.HEADERS["authorization"] ?? ""
+            },
+            body: jsonEncode(student.toJson()),
+          );
+      print(response.body);
+      if (response.statusCode == 400 ||
+          response.statusCode == 409 ||
+          response.statusCode == 500 ||
+          response.statusCode == 200) {
+        final body = jsonDecode(response.body) as Map<String, dynamic>;
+        if (response.statusCode == 200) {
+          final resp = StudentRegistrationResponse(
+            msg: STATUS_CODES[response.statusCode]!,
+            errors: {},
+            statusCode: response.statusCode,
+            student: Student.fromJson(body),
+          );
+          return resp;
+        } else {
+          final rsp = StudentRegistrationResponse(
+            errors: body["errs"] as Map<String, dynamic>,
+            msg: "${body["msg"] ?? ''}",
+            statusCode: response.statusCode,
+          );
+          return rsp;
+        }
+      } else {
+        return StudentRegistrationResponse(
+          statusCode: response.statusCode,
+          msg: STATUS_CODES[response.statusCode]!,
+          errors: {},
+        );
+      }
+    } catch (e) {
+      print(e.toString());
+      return StudentRegistrationResponse(
+        errors: {},
+        msg: STATUS_CODES[999]!,
+        statusCode: 999,
+      );
+    }
+  }
 }

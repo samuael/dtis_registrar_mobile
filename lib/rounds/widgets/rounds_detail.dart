@@ -265,6 +265,57 @@ class _RoundsDetailState extends State<RoundsDetail> {
                                 ),
                               ),
                             ),
+                            Container(
+                              color: Colors.white,
+                              width: 1,
+                              height: 30,
+                              child: SizedBox(
+                                width: 1,
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  context.read<RoundOptionsIndexBloc>().add(5);
+                                });
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 20,
+                                  horizontal: 30,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.person_add,
+                                      color: context
+                                                  .watch<
+                                                      RoundOptionsIndexBloc>()
+                                                  .state ==
+                                              5
+                                          ? Colors.white
+                                          : Colors.white60,
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      "Register Student",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: context
+                                                    .watch<
+                                                        RoundOptionsIndexBloc>()
+                                                    .state ==
+                                                5
+                                            ? Colors.white
+                                            : Colors.white60,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ]),
                     );
                   }),
@@ -289,9 +340,6 @@ class _RoundsDetailState extends State<RoundsDetail> {
                             ),
                           )),
               ),
-              // CategoryRounds(
-              //   category: this.widget.category,
-              // ),
             ],
           ),
         ],

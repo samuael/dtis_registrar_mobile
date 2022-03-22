@@ -63,7 +63,7 @@ class _CategoriesDetailState extends State<CategoriesDetail> {
                                 child: Row(
                                   children: [
                                     Icon(
-                                      Icons.batch_prediction,
+                                      Icons.model_training_rounded,
                                       color: this.index == 0
                                           ? Colors.white
                                           : Colors.white60,

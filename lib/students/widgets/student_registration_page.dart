@@ -19,7 +19,7 @@ class _StudentRegistrationPageState extends State<StudentRegistrationPage> {
   final List<String> sexs = ['Male', 'Female'];
   String selectedValue = "Male";
 
-  String mainInfo = "This is samuael";
+  String mainInfo = "";
   Color infosColor = Colors.green;
 
   TextEditingController firstnameController = TextEditingController();
@@ -65,29 +65,51 @@ class _StudentRegistrationPageState extends State<StudentRegistrationPage> {
       errorMessages["First name"] =
           ("first name must have a length of 3 or more characters");
       firstnameError = true;
+    } else if (firstnameController.text.trim().split(" ").length > 1) {
+      errorMessages["First name"] = ("Space between characters is not allowed");
+      firstnameError = true;
+    } else {
+      firstnameError = false;
     }
     if (lastnameController.text.length < 3) {
       errorMessages["Last name"] =
           ("last name must have a length of 3 or more characters");
       lastnameError = true;
+    } else if (lastnameController.text.trim().split(" ").length > 1) {
+      errorMessages["Last name"] = ("Space between characters is not allowed");
+      lastnameError = true;
+    } else {
+      lastnameError = false;
     }
     if (grandnameController.text != "" && grandnameController.text.length < 3) {
       errorMessages["Grand name"] =
           ("grand father name must have a length of 3 or more characters");
       grandnameError = true;
+    } else if (grandnameController.text != "" &&
+        grandnameController.text.trim().split(" ").length > 1) {
+      errorMessages["Grand name"] = "space between charcters is not allowed";
+      grandnameError = true;
+    } else {
+      grandnameError = false;
     }
     if (academicStatusController.text == "") {
       errorMessages["Academic Status"] = ("academic status must be specified.");
       academicStatusError = true;
+    } else {
+      academicStatusError = false;
     }
     if (!validatePhoneNumber(phoneNumberController.text)) {
       errorMessages["Phone"] = ("invalid Phone Number");
       phoneError = true;
+    } else {
+      phoneError = false;
     }
     try {
       day = int.parse(birthDayController.text);
       if (day == null || day! <= 0 || day! > 30) {
         throw Exception("x");
+      } else {
+        dayError = false;
       }
     } catch (e) {
       if (e.toString() == "x") {
@@ -100,17 +122,20 @@ class _StudentRegistrationPageState extends State<StudentRegistrationPage> {
 
     try {
       month = int.parse(birthMonthController.text);
-      if (month == null ||
-          month! <= 0 ||
-          month! > 13 ||
-          (month! == 13 && month! > 6)) {
+      if ((month == null) ||
+          (month! <= 0) ||
+          (month! > 13) ||
+          (month! == 13 && day! > 6)) {
         throw Exception("x");
+      } else {
+        monthError = false;
       }
     } catch (e) {
       if (e.toString() == "x") {
-        errorMessages["Birth Month"] = "month value must between 1- to- 13";
+        errorMessages["Birth Month"] =
+            "Month value must between 1(September)-to-13(Puagume)";
       } else {
-        errorMessages["Birth Month"] = "invalid month value";
+        errorMessages["Birth Month"] = "Invalid month value";
       }
       monthError = true;
     }
@@ -120,33 +145,45 @@ class _StudentRegistrationPageState extends State<StudentRegistrationPage> {
           year! <= 1900 ||
           year! > (DateTime.now().year - 7 - 17)) {
         throw Exception("x");
+      } else {
+        yearError = false;
       }
     } catch (e) {
-      if (e.toString() == "x") {
+      print(e.toString());
+      print("e.toString()");
+      if (e.toString().compareTo("Exception: x") == 0) {
         errorMessages["Birth Year"] =
-            "year value must between 1900 to- ${DateTime.now().year - 8 - 17}";
+            "Student Birth Year must be in between 1900 - to - ${DateTime.now().year - 8 - 17}";
       } else {
         errorMessages["Birth Year"] =
-            "invalid year value, only integer values are allowed";
+            "Invalid year value, only integer values are allowed";
       }
       yearError = true;
     }
 
     if (regionController.text.length < 3) {
-      errorMessages["Region"] = "invalid region value";
+      errorMessages["Region"] = "Invalid region value";
       regionError = true;
+    } else {
+      regionError = false;
     }
     if (zoneController.text.length < 3) {
-      errorMessages["Zone"] = "invalid zone value";
+      errorMessages["Zone"] = "Invalid zone value";
       zoneError = true;
+    } else {
+      zoneError = false;
     }
     if (woredaController.text.length < 3) {
-      errorMessages["Woreda"] = "invalid woreda value";
+      errorMessages["Woreda"] = "Invalid woreda value";
       woredaError = true;
+    } else {
+      woredaError = false;
     }
     if (cityController.text.length < 3) {
-      errorMessages["City"] = "invalid city name or value";
+      errorMessages["City"] = "Invalid city name or value";
       cityError = true;
+    } else {
+      cityError = false;
     }
 
     if (errorMessages.length > 0) {
@@ -154,11 +191,95 @@ class _StudentRegistrationPageState extends State<StudentRegistrationPage> {
         this.errorMessages = this.errorMessages;
       });
     } else {
-      errorMessages.clear();
       setState(() {
         this.errorMessages = this.errorMessages;
       });
-      print("The Input has Passed succesfuly.");
+      Date birthDate = Date(
+        year: year!,
+        month: month!,
+        day: day!,
+      );
+
+      Address addressinfo = Address(
+        region: regionController.text,
+        zone: zoneController.text,
+        woreda: woredaController.text,
+        kebele: kebeleController.text,
+        city: cityController.text,
+        uniqueAddress: uniqueAddressController.text,
+      );
+
+      print(firstnameController.text +
+          ' ' +
+          lastnameController.text +
+          (grandnameController.text == ""
+              ? ''
+              : ' ' + grandnameController.text));
+      Student student = Student(
+        fullname: firstnameController.text +
+            ' ' +
+            lastnameController.text +
+            (grandnameController.text == ""
+                ? ''
+                : ' ' + grandnameController.text),
+        // sex :
+        accademicStatus: academicStatusController.text,
+        phone: phoneNumberController.text,
+        birthDate: birthDate,
+        address: addressinfo,
+        sex: (selectedValue == "Male") ? "M" : "F",
+        roundID: widget.roundID, //
+        paidAmount: 0.0,
+        imgurl: '',
+        status: 0,
+      );
+      // ---------------------------------------------------
+      // final response = await
+      final registrationResult =
+          await context.read<RoundStudentsBloc>().registerStudent(student);
+      if (registrationResult.statusCode == 200) {
+        // Future.delayed(
+        //     Duration(
+        //       seconds: 3,
+        //     ), () {
+        //   context.read<RoundOptionsIndexBloc>().add(4);
+        context.read<RoundStudentsBloc>().add(StudentRegisteredEvent(
+            registrationResult.student!, widget.roundID));
+        // });
+
+        setState(() {
+          this.mainInfo =
+              "Student ${registrationResult.student!.fullname}, is registered succesfuly!";
+          this.infosColor = Colors.green;
+        });
+      } else {
+        if (registrationResult.errors["Full name"] != null) {
+          this.firstnameError = true;
+          this.lastnameError = true;
+        }
+        if (registrationResult.errors["First name"] != null) {
+          this.firstnameError = true;
+        }
+        if (registrationResult.errors["Last name"] != null) {
+          this.lastnameError = true;
+        }
+        if (registrationResult.errors["Phone"] != null) {
+          this.phoneError = true;
+        }
+        if (registrationResult.errors["Address"] != null) {
+          this.addressError = true;
+        }
+        if (registrationResult.errors["Birth Date"] != null) {
+          this.yearError = true;
+        }
+        setState(() {
+          errorMessages = registrationResult.errors;
+          setState(() {
+            this.mainInfo = "Can't Register student!";
+            this.infosColor = Colors.red;
+          });
+        });
+      }
     }
   }
 
@@ -169,6 +290,7 @@ class _StudentRegistrationPageState extends State<StudentRegistrationPage> {
         margin: EdgeInsets.only(
           top: 20,
         ),
+        width: MediaQuery.of(context).size.width * 0.5,
         child: Stack(children: [
           Container(
             margin: EdgeInsets.only(
@@ -194,7 +316,7 @@ class _StudentRegistrationPageState extends State<StudentRegistrationPage> {
                           labelText: ' Region',
                           labelStyle: TextStyle(
                             fontSize: 12,
-                            color: Color(0xFF006699),
+                            color: regionError ? Colors.red : Color(0xFF006699),
                           ),
                         ),
                       ),
@@ -217,7 +339,7 @@ class _StudentRegistrationPageState extends State<StudentRegistrationPage> {
                           labelText: ' Zone ',
                           labelStyle: TextStyle(
                             fontSize: 12,
-                            color: Color(0xFF006699),
+                            color: zoneError ? Colors.red : Color(0xFF006699),
                           ),
                         ),
                       ),
@@ -242,7 +364,7 @@ class _StudentRegistrationPageState extends State<StudentRegistrationPage> {
                           labelText: ' Woreda ',
                           labelStyle: TextStyle(
                             fontSize: 12,
-                            color: Color(0xFF006699),
+                            color: woredaError ? Colors.red : Color(0xFF006699),
                           ),
                         ),
                       ),
@@ -264,7 +386,7 @@ class _StudentRegistrationPageState extends State<StudentRegistrationPage> {
                           labelText: ' city',
                           labelStyle: TextStyle(
                             fontSize: 12,
-                            color: Color(0xFF006699),
+                            color: cityError ? Colors.red : Color(0xFF006699),
                           ),
                         ),
                       ),
@@ -283,12 +405,12 @@ class _StudentRegistrationPageState extends State<StudentRegistrationPage> {
                         autofocus: true,
                         controller: kebeleController,
                         decoration: InputDecoration(
-                            labelText: ' Kebele: ',
-                            labelStyle: TextStyle(
-                              fontSize: 12,
-                              color: Color(0xFF006699),
-                            ),
-                            helperText: "( Optional )"),
+                          labelText: ' Kebele: ',
+                          labelStyle: TextStyle(
+                            fontSize: 12,
+                            color: Color(0xFF006699),
+                          ),
+                        ),
                       ),
                     ),
                     Text("/"),
@@ -345,24 +467,6 @@ class _StudentRegistrationPageState extends State<StudentRegistrationPage> {
           ),
         ]),
       ),
-      // ClipRRect(
-      //   borderRadius: BorderRadius.circular(10),
-      //   child: Opacity(
-      //     opacity: 0.9,
-      //     child: Container(
-      //       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      //       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      //       color: Colors.green,
-      //       child: Text(
-      //         "NOTICE: Any Operation on this Student Information will be associated with your action!\n If additional operation is needed to perform  On this use instance Admin can be In charge of.",
-      //         style: TextStyle(
-      //           fontWeight: FontWeight.bold,
-      //           color: Colors.white,
-      //         ),
-      //       ),
-      //     ),
-      //   ),
-      // ),
       SizedBox(
         height: 20,
       ),
@@ -559,14 +663,19 @@ class _StudentRegistrationPageState extends State<StudentRegistrationPage> {
                                 controller: firstnameController,
                                 decoration: InputDecoration(
                                   border: new UnderlineInputBorder(
-                                      borderSide: new BorderSide(
-                                          width: 1,
-                                          color: firstnameError
-                                              ? Colors.red
-                                              : Colors.teal)),
+                                    borderSide: new BorderSide(
+                                      width: 1,
+                                      color: firstnameError
+                                          ? Colors.red
+                                          : Colors.teal,
+                                      style: BorderStyle.solid,
+                                    ),
+                                  ),
                                   labelText: ' Name',
                                   labelStyle: TextStyle(
-                                    color: Color(0xFF006699),
+                                    color: firstnameError
+                                        ? Colors.red
+                                        : Color(0xFF006699),
                                     fontSize: 12,
                                   ),
                                   // helperText: "First Name",
@@ -603,7 +712,9 @@ class _StudentRegistrationPageState extends State<StudentRegistrationPage> {
 
                                   labelText: ' Father Name',
                                   labelStyle: TextStyle(
-                                    color: Color(0xFF006699),
+                                    color: lastnameError
+                                        ? Colors.red
+                                        : Color(0xFF006699),
                                     fontSize: 12,
                                   ),
                                   // helperText: "First Name",
@@ -642,7 +753,9 @@ class _StudentRegistrationPageState extends State<StudentRegistrationPage> {
                                   labelText: ' Grand Father Name',
                                   labelStyle: TextStyle(
                                     fontSize: 12,
-                                    color: Color(0xFF006699),
+                                    color: grandnameError
+                                        ? Colors.red
+                                        : Color(0xFF006699),
                                   ),
                                   helperText: "( Optional )",
                                 ),
@@ -727,7 +840,9 @@ class _StudentRegistrationPageState extends State<StudentRegistrationPage> {
                                   labelText: ' Acadamic Status',
                                   labelStyle: TextStyle(
                                     fontSize: 12,
-                                    color: Color(0xFF006699),
+                                    color: academicStatusError
+                                        ? Colors.red
+                                        : Color(0xFF006699),
                                   ),
                                 ),
                               ),
@@ -763,7 +878,9 @@ class _StudentRegistrationPageState extends State<StudentRegistrationPage> {
                                   labelText: ' Phone number',
                                   labelStyle: TextStyle(
                                     fontSize: 12,
-                                    color: Color(0xFF006699),
+                                    color: phoneError
+                                        ? Colors.red
+                                        : Color(0xFF006699),
                                   ),
                                   helperText: "eg. +251912345678",
                                 ),
@@ -814,7 +931,9 @@ class _StudentRegistrationPageState extends State<StudentRegistrationPage> {
                                       ),
                                       labelText: 'Day:',
                                       labelStyle: TextStyle(
-                                        color: Color(0xFF006699),
+                                        color: dayError
+                                            ? Colors.red
+                                            : Color(0xFF006699),
                                         fontSize: 12,
                                       ),
                                     ),
@@ -841,7 +960,9 @@ class _StudentRegistrationPageState extends State<StudentRegistrationPage> {
                                       ),
                                       labelText: ' month',
                                       labelStyle: TextStyle(
-                                        color: Color(0xFF006699),
+                                        color: monthError
+                                            ? Colors.red
+                                            : Color(0xFF006699),
                                         fontSize: 12,
                                       ),
                                     ),
@@ -866,7 +987,9 @@ class _StudentRegistrationPageState extends State<StudentRegistrationPage> {
                                                   : Colors.teal)),
                                       labelText: ' Year',
                                       labelStyle: TextStyle(
-                                        color: Color(0xFF006699),
+                                        color: yearError
+                                            ? Colors.red
+                                            : Color(0xFF006699),
                                         fontSize: 12,
                                       ),
                                     ),
@@ -913,9 +1036,12 @@ class _StudentRegistrationPageState extends State<StudentRegistrationPage> {
                 ],
               ),
               getDeviceType() == DeviceType.Desktop
-                  ? Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: extraFields,
+                  ? Positioned(
+                      top: 0,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: extraFields,
+                      ),
                     )
                   : SizedBox()
             ],

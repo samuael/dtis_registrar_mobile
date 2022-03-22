@@ -15,4 +15,9 @@ class StudentRepository {
     return result;
   }
   
+  
+  Future<StudentRegistrationResponse>  registerStudent(Student student) async {
+    return await this.provider.registerStudent(student);
+  } 
+  
 }

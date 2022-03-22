@@ -13,7 +13,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> navigations = [
     CategoryLists(),
-    StudentsPage(),
+    StudentDetailWidget(),
   ];
   @override
   Widget build(BuildContext context) {
