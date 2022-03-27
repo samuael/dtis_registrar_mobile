@@ -39,4 +39,8 @@ class Address {
       "unique_address_name": this.uniqueAddress,
     };
   }
+
+  String toString() {
+    return "${this.region}/${this.zone}/${this.woreda}\n ${this.city} / Kebele :${this.kebele}";
+  }
 }

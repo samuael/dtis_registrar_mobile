@@ -17,6 +17,11 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
   @override
   Widget build(BuildContext context) {
+
+    if (!(context.watch<AdminsListBloc>().state is AdminsListLoadSuccess)){
+      context.read<AdminsListBloc>().add(AdminsListLoadEvent());
+    }
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,

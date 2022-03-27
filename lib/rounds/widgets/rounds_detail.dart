@@ -33,9 +33,7 @@ class _RoundsDetailState extends State<RoundsDetail> {
                 onTap: () {
                   context.read<RoundInfoVisibility>().changeState();
                 },
-                onVerticalDragStart: (vals) {
-                  //
-                },
+                onVerticalDragDown: (vals){},
                 child: Container(
                   child: Image.asset(
                       context.watch<RoundInfoVisibility>().state

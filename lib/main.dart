@@ -33,6 +33,12 @@ void main() {
         BlocProvider(
           create: (context) => RoundStudentsBloc(),
         ),
+        BlocProvider(
+          create: (context) => DragShowInfoBloc(),
+        ),
+        BlocProvider(
+          create: (context) => AdminsListBloc(),
+        ),
       ],
       child: MyApp(),
     ),
