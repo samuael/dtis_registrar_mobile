@@ -24,7 +24,7 @@ class Address {
       zone: "${json["zone"]}",
       woreda: "${json["woreda"]}",
       kebele: "${json["kebele"]}",
-      uniqueAddress: "${json["unique_address_name"]}",
+      uniqueAddress: "${json["unique_address_name"]??''}",
     );
   }
 

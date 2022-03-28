@@ -79,7 +79,7 @@ class RoundSmallView extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  width: 80,
+                  width: 100,
                   color: round.active ? Colors.green : Colors.red,
                   child: Row(
                     children: [
