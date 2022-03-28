@@ -1,0 +1,7 @@
+
+enum AdminActionType{
+  registration,
+  approval,
+}
+
+

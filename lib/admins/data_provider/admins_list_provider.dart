@@ -6,7 +6,7 @@ class AdminListProvider {
   Client client = Client();
 
   Future<AdminsListResponse> getAdminsOfSystem() async {
-    try {
+    // try {
       var response = await client.get(
         Uri(
           scheme: "http",
@@ -26,12 +26,12 @@ class AdminListProvider {
         print(" \n\n\n\n\n\n\n ADMINS \n\n\n\n");
         print(modified);
         print("\n\n\n\n\n\n");
-        return AdminsListResponse(response.statusCode, modified , modified);
+        return AdminsListResponse(response.statusCode, STATUS_CODES[response.statusCode]! , modified);
       }
       return AdminsListResponse(response.statusCode, STATUS_CODES[response.statusCode]!,  []);
-    } catch (e, a) {
-      print(e.toString());
-      return AdminsListResponse(999, STATUS_CODES[999]!, []);
-    }
+    // } catch (e, a) {
+    //   print(e.toString());
+    //   return AdminsListResponse(999, STATUS_CODES[999]!, []);
+    // }
   }
 }

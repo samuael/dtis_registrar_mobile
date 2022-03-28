@@ -155,12 +155,23 @@ class _StudentViewState extends State<StudentView> {
               )
             ],
           ),
-          Card(child :Container(
-            child : Text(
-              (context.watch<AdminsListBloc>().state is AdminsListLoadSuccess) ? 
-              ( ((context.watch<AdminsListBloc>().state as AdminsListLoadSuccess).getAdminByID(widget.student.registeredBy!) != null) ? 
-              ((context.watch<AdminsListBloc>().state as AdminsListLoadSuccess).getAdminByID(widget.student.registeredBy!)!.fullname) : "Unknown")  : "Unknown")
-          ),), 
+          (context.watch<AdminsListBloc>().state
+                  is AdminsListLoadSuccess)
+              ? (((context.watch<AdminsListBloc>().state
+                              as AdminsListLoadSuccess)
+                          .getAdminByID(widget.student.registeredBy!) !=
+                      null)
+                  ? AdminSmallView(
+                      (context.watch<AdminsListBloc>().state
+                              as AdminsListLoadSuccess)
+                          .getAdminByID(widget.student.registeredBy!)!,
+                      AdminActionType.registration)
+                  : CircularProgressIndicator())
+              : CircularProgressIndicator(),
+
+              // ----------Round Information
+              ((context.watch<CategoriesBloc>().state is CategoriesListSuccess) && (context.watch<CategoriesBloc>().state as CategoriesListSuccess).getRoundByID(widget.student.roundID)!= null)  ?
+              RoundSmallView((context.watch<CategoriesBloc>().state as CategoriesListSuccess).getRoundByID(widget.student.roundID)!) : CircularProgressIndicator(),
         ],
       ),
     );

@@ -11,7 +11,6 @@ bool validatePhoneNumber(String value) {
     return true;
 }
 
-
 // String capitalizeName(String name ) {
 //   final names = name.split(" ");
 //   if (names.length >1 ){
