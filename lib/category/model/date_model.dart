@@ -23,6 +23,10 @@ class Date {
     return "${this.year}/${this.month}/${this.day} ${this.hours}:${this.minutes}:${this.seconds}";
   }
 
+  String toLimitedString() {
+    return "${this.year}/${this.month}/${this.day}";
+  }
+
   Map<String, dynamic> toJson() {
     return {
       "year": this.year,

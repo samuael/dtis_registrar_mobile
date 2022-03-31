@@ -20,6 +20,9 @@ class _StudentItemState extends State<StudentItem> {
       onTap: () {
         widget.setStudentPreview(widget.student);
       },
+      onDoubleTap: (){
+        Navigator.of(context).pushNamed(StudentDetailScreen.RouteName, arguments : {"student":  widget.student});
+      },
       child: MouseRegion(
         onEnter: (ptr) {
           setState(() {

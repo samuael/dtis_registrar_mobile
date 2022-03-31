@@ -1,4 +1,6 @@
-import '../../../libs.dart';
+import '../../../libs.dart' show Address;
+import "package:flutter/material.dart";
+import 'dart:core';
 
 class AddressSmallView extends StatelessWidget {
   final Address address;

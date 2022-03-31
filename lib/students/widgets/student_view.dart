@@ -80,6 +80,7 @@ class _StudentViewState extends State<StudentView> {
                         child: Text(widget.student.fullname),
                       ),
                     ]),
+                    SizedBox(height:10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -104,6 +105,7 @@ class _StudentViewState extends State<StudentView> {
                         ),
                       ],
                     ),
+                    SizedBox(height:10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -128,14 +130,15 @@ class _StudentViewState extends State<StudentView> {
                         ),
                       ],
                     ),
+                    SizedBox(height:10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Expanded(
-                          flex: 2,
+                          flex: 3,
                           child: Container(
                             child: Text(
-                              "Academic \nStatus",
+                              "Academic\nStatus",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -147,11 +150,12 @@ class _StudentViewState extends State<StudentView> {
                           child: Text(":  "),
                         ),
                         Expanded(
-                          flex: 5,
+                          flex: 6,
                           child: Text("${widget.student.accademicStatus}"),
                         ),
                       ],
                     ),
+                    SizedBox(height:10),
                     Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                       Expanded(
                         flex: 2,
@@ -171,10 +175,12 @@ class _StudentViewState extends State<StudentView> {
                       Expanded(
                         flex: 5,
                         child: Text(
-                          widget.student.birthDate.toString(),
+                          widget.student.birthDate.toLimitedString(),
                         ),
                       ),
+                      
                     ]),
+                    SizedBox(height:10),
                     Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
