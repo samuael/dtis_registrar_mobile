@@ -8,3 +8,4 @@ export "students/students.dart";
 export "rounds/rounds.dart";
 export "helper_function.dart";
 export "admins/admins.dart";
+export "payment/payment.dart";

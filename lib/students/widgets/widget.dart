@@ -6,3 +6,5 @@ export "student_detail_widget.dart";
 export "student_view.dart";
 export "address_small_view.dart";
 export "student_navbar.dart";
+export "payments_of_student.dart";
+export "payment_item.dart";

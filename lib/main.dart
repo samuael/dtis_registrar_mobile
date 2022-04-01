@@ -39,6 +39,9 @@ void main() {
         BlocProvider(
           create: (context) => AdminsListBloc(),
         ),
+        BlocProvider(
+          create: (context) => StudentPaymentsBloc(),
+        ),
       ],
       child: MyApp(),
     ),
