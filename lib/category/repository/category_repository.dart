@@ -61,8 +61,10 @@ class CategoryRepository {
         listofroundmaps.removeAt(a);
       }
     }
+    (listofroundmaps as List<Map<String, dynamic>?>).removeWhere( (e){ return (e==null);});
+    final maps = listofroundmaps.map<Map<String, dynamic>>((e){  return (e as Map<String, dynamic>); }).toList();
     final listofRounds =
-        Round.fromJsonList(listofroundmaps as List<Map<String, dynamic>>);
+        Round.fromJsonList(maps);
     return listofRounds;
   }
 

@@ -62,6 +62,7 @@ class RoundsScreenState extends State<RoundsScreen> {
                               height: MediaQuery.of(context).size.height * 0.88,
                               color: Colors.blue,
                               child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: zeboolean
                                     ? [
                                         SizedBox(
@@ -308,27 +309,42 @@ class RoundsScreenState extends State<RoundsScreen> {
                                         ),
                                         GestureDetector(
                                           onTap: () {
-                                              context
-                                                  .read<RoundOptionsIndexBloc>()
-                                                  .add(5);
-                                            if(!(context.watch<RoundInfoVisibility>().state)){
-                                              context.read<RoundInfoVisibility>().changeState();
-                                            }
-
-                                            if (getDeviceType() ==
-                                                DeviceType.Phone) {
-                                              Navigator.of(context).pushNamed(
-                                                StudentRegistrationScreen
-                                                    .RouteName,
-                                                arguments: {
-                                                  "round_id": widget.roundID
-                                                },
-                                              );
-                                            }
+                                            // context
+                                            //     .read<RoundOptionsIndexBloc>()
+                                            //     .add(5);
+                                            // if (!(context
+                                            //     .watch<RoundInfoVisibility>()
+                                            //     .state)) {
+                                            //   context
+                                            //       .read<RoundInfoVisibility>()
+                                            //       .changeState();
+                                            // }
+                                            setState(
+                                              () {
+                                                context
+                                                    .read<
+                                                        RoundOptionsIndexBloc>()
+                                                    .add(4);
+                                              },
+                                            );
+                                            try {
+                                              if (getDeviceType() ==
+                                                  DeviceType.Phone) {
+                                                Navigator.of(context).pushNamed(
+                                                  StudentRegistrationScreen
+                                                      .RouteName,
+                                                  arguments: {
+                                                    "round_id": widget.roundID
+                                                  },
+                                                );
+                                              }
+                                            } catch (e) {}
                                           },
                                           child: Container(
                                             padding: EdgeInsets.symmetric(
-                                                vertical: 5),
+                                              vertical: 10,
+                                              horizontal: 20,
+                                            ),
                                             color: context
                                                         .watch<
                                                             RoundOptionsIndexBloc>()

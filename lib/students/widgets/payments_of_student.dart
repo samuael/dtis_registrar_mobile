@@ -13,9 +13,14 @@ class PaymentsOfStudent extends StatefulWidget {
 class _PaymentsOfStudentState extends State<PaymentsOfStudent> {
   TextEditingController paymentAmountController = TextEditingController();
 
+  String paymentMessage = "";
+  Color paymentMessageColor = Colors.green;
+
   @override
   Widget build(BuildContext context) {
-    // ----------------------------------
+    // ----------------------------------------------------------------------
+    final studentPaymentBloc = BlocProvider.of<StudentPaymentsBloc>(context);
+    final pendingPaymensBloc = BlocProvider.of<PendingPaymentsBloc>(context);
 
     final netRemaining =
         (context.watch<CategoriesBloc>().state as CategoriesListSuccess)
@@ -27,11 +32,19 @@ class _PaymentsOfStudentState extends State<PaymentsOfStudent> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          Text(
+            ''' $paymentMessage ''',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontStyle: FontStyle.italic,
+              color: paymentMessageColor,
+            ),
+          ),
           Positioned(
             left: 10,
             child: Container(
               padding: EdgeInsets.symmetric(
-                vertical: 15,
+                vertical: 5,
                 horizontal: 40,
               ),
               child: ((context.watch<CategoriesBloc>().state
@@ -83,31 +96,49 @@ class _PaymentsOfStudentState extends State<PaymentsOfStudent> {
                 ),
               ),
               SizedBox(width: 20),
-              ElevatedButton(
-                onPressed: () {
-                  if (((context.watch<CategoriesBloc>().state
-                                  as CategoriesListSuccess)
-                              .getRoundByID(widget.student.roundID)!
-                              .fee -
-                          widget.student.paidAmount) >
-                      0) {
+              GestureDetector(
+                onTap: () {
+                  if (netRemaining > 0) {
                     try {
+                      // -------------------------------------------------------
                       final amount = double.parse(paymentAmountController.text);
-                      
-                    } catch (e) {}
+                      paymentAmountController.text = "";
+                      int unix = (DateTime.now().millisecondsSinceEpoch / 1000)
+                          .round();
+                      String uniqueChars = getRandomString(2);
+                      final payment = PayInInput(amount, widget.student.id!,
+                          unix, this.widget.student.roundID, uniqueChars);
+                      final paymentResult =
+                          studentPaymentBloc.makePayment(payment);
+                      // -----------------------------------------
+                      paymentResult.then((paymentResult) {
+                        print(paymentResult.statusCode);
+                        if (paymentResult.statusCode == 201) {
+                          studentPaymentBloc.add(
+                            StudentPaymentAddEvent(paymentResult.payment!),
+                          );
+                          widget.student.paidAmount += payment.amount;
+                        } else if (!(paymentResult.statusCode == 409)) {
+                          pendingPaymensBloc
+                              .add(PendingPaymentsAddEvent(payment));
+                        }
+                      });
+                    } catch (e) {
+                      paymentMessage = "invalid payment value";
+                      paymentMessageColor = Colors.red;
+                    }
                   }
                 },
-                child: Text(
-                  "Pay",
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-                style: ButtonStyle(
-                  padding: MaterialStateProperty.all<EdgeInsets>(
-                    EdgeInsets.symmetric(
-                      horizontal: 30,
-                      vertical: 20,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Container(
+                    color: Theme.of(context).primaryColor,
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    child: Text(
+                      "Pay",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
@@ -120,7 +151,7 @@ class _PaymentsOfStudentState extends State<PaymentsOfStudent> {
 
     final studentPaymentsBloc = BlocProvider.of<StudentPaymentsBloc>(context);
     if (!(studentPaymentsBloc.state is StudentPaymentsLoaded)) {
-      studentPaymentsBloc.add(StudentPaymentsLoad(widget.student.id!));
+      studentPaymentsBloc.add(StudentPaymentsLoadEvent(widget.student.id!));
     }
 
     bool progressIndication = false;
@@ -137,34 +168,37 @@ class _PaymentsOfStudentState extends State<PaymentsOfStudent> {
                   top: 100,
                 ),
                 child: Center(
-                  child: Column(children: [
-                    Text(
-                      "No Payment Transaction was found",
-                      style: TextStyle(
-                        fontStyle: FontStyle.italic,
+                  child: Column(
+                    children: [
+                      Text(
+                        "No Payment Transaction was found",
+                        style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                        ),
                       ),
-                    ),
-                    !(getDeviceType() == DeviceType.Desktop)
-                        ? SizedBox()
-                        : (progressIndication
-                            ? CircularProgressIndicator()
-                            : IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    progressIndication = !progressIndication;
-                                  });
-                                  if (!(studentPaymentsBloc.state
-                                      is StudentPaymentsLoaded)) {
-                                    studentPaymentsBloc.add(StudentPaymentsLoad(
-                                        widget.student.id!));
-                                  }
-                                },
-                                icon: Icon(
-                                  Icons.refresh_sharp,
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                              )),
-                  ]),
+                      !(getDeviceType() == DeviceType.Desktop)
+                          ? SizedBox()
+                          : (progressIndication
+                              ? CircularProgressIndicator()
+                              : IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      progressIndication = true;
+                                    });
+                                    if (!(studentPaymentsBloc.state
+                                        is StudentPaymentsLoaded)) {
+                                      studentPaymentsBloc.add(
+                                          StudentPaymentsLoadEvent(
+                                              widget.student.id!));
+                                    }
+                                  },
+                                  icon: Icon(
+                                    Icons.refresh_sharp,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                )),
+                    ],
+                  ),
                 ),
               );
             } else {
@@ -176,11 +210,6 @@ class _PaymentsOfStudentState extends State<PaymentsOfStudent> {
                           .map<PayinItem>((e) {
                         return PayinItem(e);
                       }).toList(),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: Icon(Icons.add),
                     ),
                   ],
                 ),

@@ -27,6 +27,38 @@ class RoundStudentsLoaded extends RoundStudentsState {
       this.roundStudents[roundID]!.add(student);
     }
   }
+
+  Student getStudent(int roundID , int studentID) {
+    for (Student stu in this.roundStudents[roundID]! ){
+      if (stu.id == studentID){
+        return stu;
+      }
+    }
+    return Student(
+      id :  0,
+      fullname : "Unknown --" ,
+      sex :  "U",
+      age :  18,
+      birthDate : Date(),
+      accademicStatus   : "Unknown" ,
+      address :  Address(
+        id : 5,
+        city : "Unknown",
+        region :"Unknown" ,
+        zone : "--",
+        woreda : "--",
+        kebele : "--",
+      ),
+      phone :  "+2519--------",
+      paidAmount :  0.0,
+      status :  0,
+      registeredBy : 0 ,
+      roundID :  0,
+      imgurl :  '',
+      marked :  null,
+      registeredAt  :null,
+    );
+  }
 }
 
 class RoundStudentsLoading extends RoundStudentsState {}

@@ -16,4 +16,8 @@ class StudentPaymentsRepo {
     }
     return response;
   }
+
+  Future<StudentPaymentResponse> makePayment(PayInInput payment) async {
+    return await this.provider.createPayment(payment);
+  }
 }

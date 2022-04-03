@@ -41,16 +41,17 @@ class StudentPaymentsProvider {
     }
   }
 
-  Future<StudentPaymentResponse> createPayment(PayIn payin) async {
+  Future<StudentPaymentResponse> createPayment(PayInInput payin) async {
     try {
+      print(" ----------------- Endegena Creating Statement --------------------------- ");
       final response = await client.post(
         Uri(
           scheme: "http",
           host: StaticDataStore.HOST,
           port: StaticDataStore.PORT,
           path: "/api/payment/new",
-          queryParameters: payin.toJson(),
         ),
+        body: jsonEncode(payin.toJson()),
         headers: {
           "Authorization": StaticDataStore.HEADERS["authorization"] ?? ""
         },
@@ -59,7 +60,6 @@ class StudentPaymentsProvider {
       print(response.statusCode);
       print(response.body);
 
-      // -------------------------------
       if (response.statusCode == 201) {
         final body = jsonDecode(response.body);
         return StudentPaymentResponse(

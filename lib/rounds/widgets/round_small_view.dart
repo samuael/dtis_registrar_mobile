@@ -49,12 +49,13 @@ class RoundSmallView extends StatelessWidget {
               ],
             ),
             Column(
+              crossAxisAlignment : CrossAxisAlignment.start,
               children: [
                 Container(
                   child: Row(
                     children: [
                       Text(
-                        "Round Payment",
+                        "Round Cost",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                         ),

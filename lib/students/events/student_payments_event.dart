@@ -1,15 +1,19 @@
-
+import "../../libs.dart";
 
 class StudentPaymentsEvent {}
 
-class StudentPaymentsLoad extends StudentPaymentsEvent{
+class StudentPaymentsLoadEvent extends StudentPaymentsEvent{
   int studentID;
-
-  StudentPaymentsLoad(this.studentID);
+  StudentPaymentsLoadEvent(this.studentID);
 }
 
-class StudentPaymentsRemove extends StudentPaymentsEvent {
+class StudentPaymentsRemoveEvent extends StudentPaymentsEvent {
   int studentID;
+  StudentPaymentsRemoveEvent(this.studentID);
+}
 
-  StudentPaymentsRemove(this.studentID);
+
+class StudentPaymentAddEvent extends StudentPaymentsEvent {
+  PayIn payment ;
+  StudentPaymentAddEvent(this.payment);
 }

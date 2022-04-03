@@ -7,7 +7,6 @@ class AdminSmallView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("The Image Url is : \n\n\n\n  ${admin.imgurl}  \n\n\n\n ");
     return Card(
       child: Stack(
         children: [

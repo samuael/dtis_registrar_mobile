@@ -1,7 +1,10 @@
+import "../../libs.dart";
+
 class PendingPaymentsState {}
 
-class PendingPaymentsInitState extends PendingPaymentsState{}
+class PendingPaymentsInitState extends PendingPaymentsState {}
 
-class PendingPaymentsAddState extends PendingPaymentsState{}
-
-class PendingPaymentsRemoveState extends PendingPaymentsState{}
+class PendingPaymentsList extends PendingPaymentsState {
+  List<PayInInput> payments;
+  PendingPaymentsList(this.payments);
+}

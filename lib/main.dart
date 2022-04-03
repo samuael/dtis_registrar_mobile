@@ -42,6 +42,9 @@ void main() {
         BlocProvider(
           create: (context) => StudentPaymentsBloc(),
         ),
+        BlocProvider(
+          create: (context) => PendingPaymentsBloc(),
+        ),
       ],
       child: MyApp(),
     ),

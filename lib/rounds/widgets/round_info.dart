@@ -622,26 +622,26 @@ class _RoundInfoState extends State<RoundInfo> {
                                 ],
                               ),
                               // SizedBox(height: 70),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Text(
-                                    "Current Round Capital :",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: "Elegant TypeWriter",
-                                      fontSize: 18,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 50,
-                                  ),
-                                  Text(
-                                    "${widget.round.activeAmount}",
-                                  )
-                                ],
-                              ),
+                              // Row(
+                              //   mainAxisAlignment:
+                              //       MainAxisAlignment.spaceAround,
+                              //   children: [
+                              //     Text(
+                              //       "Current Round Capital :",
+                              //       style: TextStyle(
+                              //         fontWeight: FontWeight.bold,
+                              //         fontFamily: "Elegant TypeWriter",
+                              //         fontSize: 18,
+                              //       ),
+                              //     ),
+                              //     SizedBox(
+                              //       width: 50,
+                              //     ),
+                              //     Text(
+                              //       "${widget.round.activeAmount}",
+                              //     )
+                              //   ],
+                              // ),
                               ...(getDeviceType() == DeviceType.Phone
                                   ? roundInfoElements
                                   : [])

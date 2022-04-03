@@ -22,7 +22,7 @@ class PayIn {
       int.parse("${theMap["recieved_by"]}"),
       int.parse("${theMap["student_id"]}"),
       Date.fromJson(theMap["created_at"]),
-      int.parse("${theMap['round']}"),
+      int.parse("${theMap['round_id']}"),
       int.parse("${theMap['status']}"),
       "${theMap['uchars'] ?? ''}",
       // ------------------------
@@ -39,6 +39,32 @@ class PayIn {
       "round_id": this.roundID,
       "status": this.status,
       "uchars": this.uniqueChars,
+    };
+  }
+}
+
+
+
+
+
+
+class PayInInput {
+  PayInInput(this.amount , this.studentID , this.unixSeconds , this.roundID , this.uchars);
+
+  double amount;
+  int studentID;
+  int unixSeconds;
+  int roundID;
+  String uchars;
+
+
+  Map<String, dynamic> toJson() {
+    return {
+      "amount": this.amount,
+      "student_id": this.studentID,
+      "unix_timestamp": this.unixSeconds,
+      "round_id": this.roundID,
+      "uchars": this.uchars,
     };
   }
 }

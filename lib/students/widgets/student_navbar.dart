@@ -91,12 +91,42 @@ class _StudentDetailsNavigationState extends State<StudentDetailsNavigation> {
                           SizedBox(
                             width: 10,
                           ),
-                          Text(
-                            "Pending Payment",
-                            style: TextStyle(
-                              color: index == 2 ? Colors.white : Colors.white60,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          Row(
+                            children: [
+                              Text(
+                                "Pending Payment",
+                                style: TextStyle(
+                                  color: index == 2
+                                      ? Colors.white
+                                      : Colors.white60,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(width: 10,),
+                              (context.watch<PendingPaymentsBloc>().state
+                                              as PendingPaymentsList)
+                                          .payments
+                                          .where((element) =>
+                                              (element.studentID ==
+                                                  widget.student.id))
+                                          .length >
+                                      0
+                                  ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Container(
+                                        color: Colors.redAccent,
+                                        padding: EdgeInsets.all(5),
+                                        child: Text(
+                                          "${(context.watch<PendingPaymentsBloc>().state as PendingPaymentsList).payments.where((element) => (element.studentID == widget.student.id)).length}",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : SizedBox()
+                            ],
                           ),
                         ],
                       ),
@@ -156,7 +186,7 @@ class _StudentDetailsNavigationState extends State<StudentDetailsNavigation> {
                 child: index == 1
                     ? PaymentsOfStudent(widget.student)
                     : (index == 2
-                        ? Center(child: Text("HIUI"))
+                        ? StudentsPendingPayments(widget.student)
                         : Center(child: Text("HIUI")))),
           ),
           // ),

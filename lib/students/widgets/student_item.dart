@@ -13,15 +13,19 @@ class StudentItem extends StatefulWidget {
 
 class _StudentItemState extends State<StudentItem> {
   bool hovering = false;
+  bool select = false;
   @override
   Widget build(BuildContext context) {
-    print(widget.student.imgurl);
+    final round =
+        (context.watch<CategoriesBloc>().state as CategoriesListSuccess)
+            .getRoundByID(widget.student.roundID)!;
     return GestureDetector(
       onTap: () {
         widget.setStudentPreview(widget.student);
       },
-      onDoubleTap: (){
-        Navigator.of(context).pushNamed(StudentDetailScreen.RouteName, arguments : {"student":  widget.student});
+      onDoubleTap: () {
+        Navigator.of(context).pushNamed(StudentDetailScreen.RouteName,
+            arguments: {"student": widget.student});
       },
       child: MouseRegion(
         onEnter: (ptr) {
@@ -66,8 +70,100 @@ class _StudentItemState extends State<StudentItem> {
                         ),
                 ),
               ),
-              Text(widget.student.fullname),
-              Text("Registered At : ${widget.student.registeredAt.toString()}"),
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Row(
+                  children: [
+                    Text(
+                      "Name:",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text(
+                      widget.student.fullname,
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text(
+                      "Phone:",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text(
+                      widget.student.phone,
+                    ),
+                  ],
+                ),
+              ]),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        "Registered At:",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text(
+                        widget.student.registeredAt.toString(),
+                      ),
+                    ],
+                  ),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: Container(
+                      color: Colors.grey,
+                      child: Row(
+                        children: [
+                          Text(
+                            "Category: ${(context.read<CategoriesBloc>().state is CategoriesListSuccess) ? ((context.read<CategoriesBloc>().state as CategoriesListSuccess).getCategoryByID(round.categoryID) != null ? ((context.read<CategoriesBloc>().state as CategoriesListSuccess).getCategoryByID(round.categoryID)!.title) : ("Unknown")) : "Unknown"}",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            "Round: ${round.roundNumber}",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Checkbox(
+                      value: select,
+                      onChanged: (val) {
+                        setState(() {
+                          this.select = !this.select;
+                        });
+                      })
+                ],
+              ),
             ],
           ),
         ),

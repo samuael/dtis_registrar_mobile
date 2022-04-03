@@ -46,11 +46,12 @@ class _RoundStudentsState extends State<RoundStudents> {
                                 setStudentPreview: setStudentPreview);
                           }).toList(),
                           FlatButton.icon(
-                            icon: Icon(Icons.model_training_rounded),
+                            icon: Icon(Icons.model_training_rounded, color : Colors.blue),
                             label: Text(
                               "See More",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
+                                color : Colors.blue,
                               ),
                             ),
                             onPressed: () {

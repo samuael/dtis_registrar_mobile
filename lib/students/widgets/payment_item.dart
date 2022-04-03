@@ -10,12 +10,6 @@ class PayinItem extends StatefulWidget {
 
 class _PayinItemState extends State<PayinItem> {
   bool hovering = false;
-  /*  double amount;
-  int recievedBy;
-  int studentID;
-  Date createdAt;
-  int roundID;
-  int status; */
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
