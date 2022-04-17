@@ -331,7 +331,7 @@ class RoundsScreenState extends State<RoundsScreen> {
                                               if (getDeviceType() ==
                                                   DeviceType.Phone) {
                                                 Navigator.of(context).pushNamed(
-                                                  StudentRegistrationScreen
+                                                  StudentRegistrationFullScreen
                                                       .RouteName,
                                                   arguments: {
                                                     "round_id": widget.roundID

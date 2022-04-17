@@ -17,17 +17,9 @@ class _MobileNavigationsState extends State<MobileNavigations> {
         width: MediaQuery.of(context).size.width * 0.4,
         child: Column(
           children: [
-            Container(
-              margin: EdgeInsets.only(
-                top: 30,
-                bottom: 20,
-              ),
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.3,
-              child: Column(
-                children: [],
-              ),
-            ),
+            UserSideInformationView(
+                admin: (context.watch<AuthBloc>().state as AuthAdminLoggedIn)
+                    .admin),
             ListTile(
               tileColor: Theme.of(context).primaryColorLight,
               leading: Icon(

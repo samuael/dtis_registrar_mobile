@@ -23,7 +23,7 @@ class Admin {
       fullname: json["fullname"],
       email: json["email"],
       superadmin: json["superadmin"],
-      imgurl: json["imgurl"] ?? '',
+      imgurl: (json["imgurl"] ?? ''),
       createdAt: Date.fromJson(json["created_at"]),
     );
   }

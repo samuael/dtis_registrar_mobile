@@ -40,9 +40,17 @@ class _StudentDetailScreenState extends State<StudentDetailScreen> {
       body: Container(
         padding: EdgeInsets.all(3),
         child: getDeviceType() == DeviceType.Desktop
-            ? Row(children: content)
-            : Column(
-                children: content,
+            ? SingleChildScrollView(
+
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: content,
+                ),
+              )
+            : SingleChildScrollView(
+                child: Column(
+                  children: content,
+                ),
               ),
       ),
     );

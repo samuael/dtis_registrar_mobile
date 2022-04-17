@@ -1,20 +1,20 @@
 import 'package:flutter/services.dart';
 
-import "../../libs.dart";
+import '../../libs.dart';
 
-class StudentRegistrationScreen extends StatefulWidget {
+class StudentRegistrationPage extends StatefulWidget {
   final int roundID;
   static const String RouteName = "/students_registration";
 
-  const StudentRegistrationScreen({required this.roundID, Key? key})
+  const StudentRegistrationPage({required this.roundID, Key? key})
       : super(key: key);
 
   @override
-  State<StudentRegistrationScreen> createState() =>
+  State<StudentRegistrationPage> createState() =>
       _StudentRegistrationScreenState();
 }
 
-class _StudentRegistrationScreenState extends State<StudentRegistrationScreen> {
+class _StudentRegistrationScreenState extends State<StudentRegistrationPage> {
   String messageText = "Please Provide Student Information Correctly";
   Color messageColor = Colors.black87;
   FontStyle messageStyle = FontStyle.italic;

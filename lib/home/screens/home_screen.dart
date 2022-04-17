@@ -17,8 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
   @override
   Widget build(BuildContext context) {
-
-    if (!(context.watch<AdminsListBloc>().state is AdminsListLoadSuccess)){
+    if (!(context.watch<AdminsListBloc>().state is AdminsListLoadSuccess)) {
       context.read<AdminsListBloc>().add(AdminsListLoadEvent());
     }
 
@@ -60,31 +59,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         flex: 7,
                         child: DesktopNavigationBar(),
                       ),
-                Flexible(
-                  flex: 1,
-                  child: GestureDetector(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(30),
-                      child: Container(
-                        margin: EdgeInsets.only(
-                          // right: 20,
-                          top: 2,
-                        ),
-                        // width: 80,
-                        height: 60,
-                        decoration: BoxDecoration(
-                          color: Colors.black,
-                          border: Border.all(
-                            color: Colors.white,
-                          ),
-                        ),
-                        child: Image.asset(
-                          "assets/icon_images/car-middle.gif",
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
               ],
             ),
           ),

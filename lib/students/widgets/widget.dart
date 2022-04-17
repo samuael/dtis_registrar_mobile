@@ -9,3 +9,4 @@ export "student_navbar.dart";
 export "payments_of_student.dart";
 export "payment_item.dart";
 export "student_small_view.dart";
+// export 'students_registration.dart';

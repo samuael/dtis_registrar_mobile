@@ -14,6 +14,7 @@ class _LoginWidgetState extends State<LoginWidget> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool logging = false;
+  bool hidePassword = true;
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +63,12 @@ class _LoginWidgetState extends State<LoginWidget> {
                   ),
                 );
               } else if (state is AuthAdminLoginOnProgress) {
-                return CircularProgressIndicator();
+                return Container(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(
+                      color: Theme.of(context).primaryColor),
+                );
               }
               return Text(
                 "  ",
@@ -84,9 +90,10 @@ class _LoginWidgetState extends State<LoginWidget> {
             cursorColor: Theme.of(context).primaryColorLight,
             controller: emailController,
             decoration: InputDecoration(
-              labelText: "email",
+              labelText: "Email",
               fillColor: Colors.lightBlue,
               hoverColor: Colors.lightBlue,
+              suffixIcon: Icon(Icons.mail_outline),
               border: OutlineInputBorder(
                 borderSide: BorderSide(
                   color: Colors.lightBlue,
@@ -103,11 +110,29 @@ class _LoginWidgetState extends State<LoginWidget> {
           ),
           child: TextField(
             cursorColor: Theme.of(context).primaryColorLight,
-            obscureText: true,
+            obscureText: hidePassword,
             controller: passwordController,
             decoration: InputDecoration(
-              labelText: "password",
+              labelText: "Password",
               border: OutlineInputBorder(),
+              suffix: GestureDetector(
+                  child: hidePassword
+                      ? Image.asset(
+                          "assets/icon_images/icons8-eyelashes-3d-30.png",
+                          color : Theme.of(context).primaryColor , 
+                          width: 25,
+                          height: 25)
+                      : Image.asset(
+                          "assets/icon_images/icons8-eyebrow-30.png",
+                          color : Theme.of(context).primaryColor , 
+                          width: 25,
+                          height: 25,
+                        ),
+                  onTap: () {
+                    setState(() {
+                      hidePassword = !hidePassword;
+                    });
+                  }),
             ),
           ),
         ),
@@ -116,80 +141,73 @@ class _LoginWidgetState extends State<LoginWidget> {
             horizontal: 30,
             vertical: 5,
           ),
-          child: !(context.watch<AuthBloc>().state is AuthAdminLoginOnProgress)
-              ? ElevatedButton.icon(
-                  style: ButtonStyle(
-                    padding: MaterialStateProperty.all<EdgeInsets>(
-                      EdgeInsets.symmetric(
-                        vertical: StaticDataStore.DType == DeviceType.Tablet ||
-                                StaticDataStore.DType == DeviceType.Phone
-                            ? 10
-                            : 20,
-                        horizontal: 40,
-                      ),
-                    ),
+          child: Stack(children: [
+            ElevatedButton.icon(
+              style: ButtonStyle(
+                animationDuration: Duration(seconds: 1),
+                padding: MaterialStateProperty.all<EdgeInsets>(
+                  EdgeInsets.symmetric(
+                    vertical: StaticDataStore.DType == DeviceType.Tablet ||
+                            StaticDataStore.DType == DeviceType.Phone
+                        ? 10
+                        : 20,
+                    horizontal: 40,
                   ),
-                  onPressed: () async {
-                    // checking the validity of input values
-                    if (emailController.text == "" &&
-                        passwordController.text == "") {
-                      context.read<AuthBloc>().add(
-                          AuthAdminLoginNotSuccesfulEvent(
-                              "please fill your email and password"));
-                      return;
-                    } else if (emailController.text == "") {
-                      context.read<AuthBloc>().add(
-                          AuthAdminLoginNotSuccesfulEvent(
-                              "please fill the email entry"));
-                      return;
-                    } else if (passwordController.text == "") {
-                      context.read<AuthBloc>().add(
-                          AuthAdminLoginNotSuccesfulEvent(
-                              "Please fill the password"));
-                      return;
-                    } else if (!StaticDataStore.isEmail(emailController.text)) {
-                      context.read<AuthBloc>().add(
-                          AuthAdminLoginNotSuccesfulEvent(
-                              "Invalid email address "));
-                      return;
-                    }
-
-                    if (emailController.text != "" &&
-                        passwordController.text != "") {
-                      // Either the email controller or the password controller are empty string.
-                      final result = await context.read<AuthBloc>().login(
-                          AuthLoginEvent(
-                              emailController.text, passwordController.text));
-                      if (result is AuthAdminLoggedIn) {
-                        context
-                            .read<AuthBloc>()
-                            .add(AuthAdminLoggedInEvent(result.admin));
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                            HomeScreen.RouteName, (route) => false);
-                      } else if (result is AuthAdminLoginNotSuccesful) {
-                        context
-                            .read<AuthBloc>()
-                            .add(AuthAdminLoginNotSuccesfulEvent(result.Msg));
-                      } else if (result is AuthAdminLoginOnProgress) {
-                        context
-                            .read<AuthBloc>()
-                            .add(AdminLoginInProgressEvent());
-                      }
-                    }
-                  },
-                  icon: Icon(Icons.login),
-                  label: Text(
-                    " Login ",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                )
-              : FlatButton(
-                  onPressed: () {},
-                  child: CircularProgressIndicator(),
-                  color: Colors.white30,
                 ),
+              ),
+              onPressed: () async {
+                // checking the validity of input values
+                if (emailController.text == "" &&
+                    passwordController.text == "") {
+                  context.read<AuthBloc>().add(AuthAdminLoginNotSuccesfulEvent(
+                      "please fill your email and password"));
+                  return;
+                } else if (emailController.text == "") {
+                  context.read<AuthBloc>().add(AuthAdminLoginNotSuccesfulEvent(
+                      "please fill the email entry"));
+                  return;
+                } else if (passwordController.text == "") {
+                  context.read<AuthBloc>().add(AuthAdminLoginNotSuccesfulEvent(
+                      "Please fill the password"));
+                  return;
+                } else if (!StaticDataStore.isEmail(emailController.text)) {
+                  context.read<AuthBloc>().add(AuthAdminLoginNotSuccesfulEvent(
+                      "Invalid email address "));
+                  return;
+                }
+
+                if (emailController.text != "" &&
+                    passwordController.text != "") {
+                  // Either the email controller or the password controller are empty string.
+                  context.read<AuthBloc>().add(AdminLoginInProgressEvent());
+                  final result = await context.read<AuthBloc>().login(
+                      AuthLoginEvent(
+                          emailController.text, passwordController.text));
+                  if (result is AuthAdminLoggedIn) {
+                    context
+                        .read<AuthBloc>()
+                        .add(AuthAdminLoggedInEvent(result.admin));
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        HomeScreen.RouteName, (route) => false);
+                  } else if (result is AuthAdminLoginNotSuccesful) {
+                    context
+                        .read<AuthBloc>()
+                        .add(AuthAdminLoginNotSuccesfulEvent(result.Msg));
+                  } else if (result is AuthAdminLoginOnProgress) {
+                    context.read<AuthBloc>().add(AdminLoginInProgressEvent());
+                  }
+                }
+              },
+              icon: Icon(Icons.login),
+              label: Text(
+                " Login ",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            // !(context.watch<AuthBloc>().state is AuthAdminLoginOnProgress)
+          ]),
         ),
         GestureDetector(
           onTap: () {
